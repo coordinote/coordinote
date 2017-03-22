@@ -1,0 +1,99 @@
+<!DOCTYPE>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>coordinote</title>
+        <link rel="stylesheet" href="/semantic/semantic.min.css">
+        <style>
+        .tagu{
+            padding-top: 100px
+        }
+        </style>
+    </head>
+    <body>
+
+        <!-- サイドバー -->
+    <div class="ui right vertical inverted labeled sidebar menu">
+      <a class="item"><i class="setting icon large"></i>出力設定</a>
+      <a class="item"><i class="setting icon large"></i>印刷設定</a>
+      <a class="item"><i class="setting icon large"></i>展開領域設定</a>
+    </div>
+
+        <!-- 上部ナビゲーションメニュー -->
+        <div class="ui fixed menu">
+            <div class="menu">
+                <div id="return" class="item">
+                    <i class="chevron left icon"></i>
+                </div>
+            </div>
+            <div class="ui basic buttons">
+                <button class="ui toggle button">
+                    <i class="print icon"></i>
+                    Print
+                </button>
+                <button class="ui toggle button">
+                    <i class="download icon"></i>
+                    Export
+                </button>
+            </div>
+            <div class="right menu">
+                <div id="right_bar" class="item">
+                    <i class="setting icon large"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="tagu">
+            <div class="ui sub header">Selection Tags</div>
+            <div class="ui fluid search dropdown selection multiple">
+                <i id="hoge" class="dropdown icon"></i>
+                <input class="search" autocomplete="off" tabindex="0" style="">
+                <div class="default text">
+                    Tags
+                </div>
+                <div class="menu transition hidden" tabindex="-1">
+                    <div class="item selected" data-value="angular" style="">
+                        Angular
+                    </div>
+                    <div class="item" data-value="css">CSS</div>
+                    <div class="item" data-value="design">Graphic Design</div>
+                    <div class="item" data-value="ember">Ember</div>
+                    <div class="item" data-value="html">HTML</div>
+                    <div class="item" data-value="ia">Information Architecture</div>
+                    <div class="item" data-value="javascript">Javascript</div>
+                    <div class="item" data-value="python">Python</div>
+                </div>
+            </div>
+        </div>
+        
+
+        <!-- jQuery 読み込み -->
+        <script src="/jquery.min.js"></script>
+        <script>
+        var $ = require("jquery");
+        var jQuery = $;
+        </script>
+        <!-- semantic.js 読み込み --> 
+        <script src="/semantic/semantic.min.js"></script>
+
+        <script>
+            $('.ui.fluid.search.dropdown')
+                    .dropdown({
+                        allowAdditions: true
+                    });
+
+            $('#return').click(function(){
+                document.location.href = '/main_screen/main.html';
+            });
+
+            $('#right_bar').click(function() {
+                $('.ui.right.sidebar')
+                .sidebar({
+                dimPage: false
+            })
+                .sidebar('setting', 'transition', 'overlay')
+                .sidebar('toggle');
+            });
+        </script>
+    </body>
+</html>

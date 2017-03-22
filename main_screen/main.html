@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags always come first -->
+    <meta charset="utf-8">
+    <title>coordinote</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <style>
+      .pusher {
+          padding-top:15%;
+      }
+    </style>
+    <!-- semantic.css 読み込み --> 
+    <link rel="stylesheet" href="/semantic/semantic.min.css" />
+  </head>
+  <body>
+    <!-- サイドバーメニュー -->
+    <div class="ui bottom demo inverted ten item labeled icon sidebar menu">
+      <a class="item"><i class="align left icon"></i></a>
+      <a class="item"><i class="align center icon"></i></a>
+      <a class="item"><i class="align right icon"></i></a>
+      <a class="item"><i class="align justify icon"></i></a>
+      <a class="item"><i class="bold icon"></i></a>
+      <a class="item"><i class="underline icon"></i></a>
+      <a class="item"><i class="text width icon"></i></a>
+    </div>
+
+    <div class="ui left demo vertical inverted labeled icon sidebar menu">
+      <a class="item"><i class="file text outline icon"></i>Japanese</a>
+      <a class="item"><i class="file text outline icon"></i>Math</a>
+      <a class="item"><i class="file text outline icon"></i>Science</a>
+      <a class="item"><i class="file text outline icon"></i>History</a>
+      <a class="item"><i class="file text outline icon"></i>English</a>
+      <a class="item"><i class="file text outline icon"></i>Electronic</a>
+      <a class="item"><i class="file text outline icon"></i>Experiment</a>
+    </div>
+
+    <!-- 上部ナビゲーションメニュー -->
+    <div class="ui fixed menu">
+      <div class="menu">
+        <div id="left_bar" class="item"><i class="icon large grey content"></i></div>
+      </div>
+      <div class="ui basic buttons">
+        <button class="ui toggle button"><i class="file text outline icon"></i>Create note</button>
+        <button id="pdf" class="ui toggle button"><i class="file pdf outline icon"></i>PDF</button>
+        <button class="ui toggle button"><i class="settings icon"></i>Settings</button>
+      </div>
+      <div class="ui basic buttons">
+        <button id="bottom_bar" class="ui toggle button"><i class="configure icon"></i>tools</button>
+      </div>
+    </div>
+
+    <!-- コンテンツ本体 -->
+    <div class="pusher">
+      <div align="center">
+        <img src="/resource/img/icon.svg" alt="アイコン">
+        </div>
+    </div>
+
+    <!-- jquery -->
+    <script>
+      var $ = require("jquery");
+      var jQuery = $;
+    </script>
+    <!-- semantic ui -->
+    <script src="/semantic/semantic.min.js"></script>
+    <script type="text/javascript" src="/main_screen/main_motion.js"></script>
+  </body>
+</html>
