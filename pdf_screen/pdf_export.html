@@ -75,25 +75,6 @@
         </script>
         <!-- semantic.js 読み込み --> 
         <script src="/semantic/semantic.min.js"></script>
-
-        <script>
-            $('.ui.fluid.search.dropdown')
-                    .dropdown({
-                        allowAdditions: true
-                    });
-
-            $('#return').click(function(){
-                document.location.href = '/main_screen/main.html';
-            });
-
-            $('#right_bar').click(function() {
-                $('.ui.right.sidebar')
-                .sidebar({
-                dimPage: false
-            })
-                .sidebar('setting', 'transition', 'overlay')
-                .sidebar('toggle');
-            });
-        </script>
+        <script type="text/javascript" src="/pdf_screen/pdf_motion.js"></script>
     </body>
 </html>

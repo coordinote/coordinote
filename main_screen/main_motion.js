@@ -1,22 +1,27 @@
-      $('#bottom_bar').click(function() {
-        $('.ui.bottom.sidebar')
-        .sidebar({
-          dimPage: false,
-          closable: false
-        })
-        .sidebar('setting', 'transition', 'overlay')
-        .sidebar('toggle');
-      });
+const {ipcRenderer} = require('electron')
+const fs = require('fs')
 
-      $('#left_bar').click(function() {
-        $('.ui.left.sidebar')
-        .sidebar({
-          dimPage: false,
-          closable: false
-        })
-        .sidebar('toggle');
-      });
+$('#bottom_bar').click(() => {
+  $('.ui.bottom.sidebar')
+  .sidebar({
+    dimPage: false,
+    closable: false
+  })
+  .sidebar('setting', 'transition', 'overlay')
+  .sidebar('toggle')
+})
 
-      $('#pdf').click(function(){
-        document.location.href = '/pdf_screen/pdf_export.html';
-      });
+$('#left_bar').click(() => {
+  $('.ui.left.sidebar')
+  .sidebar({
+    dimPage: false,
+    closable: false
+  })
+  .sidebar('toggle')
+})
+
+var data = JSON.parse(fs.readFileSync('./screen_info.json', 'utf-8'))
+
+$('#pdf').click(() => {
+    ipcRenderer.send(data.event, data.pdf_path)
+})
