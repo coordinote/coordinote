@@ -1,23 +1,26 @@
-<!DOCTYPE>
-<html>
+<!DOCTYPE html>
+<html lang="ja">
     <head>
         <meta charset="utf-8">
         <title>coordinote</title>
-        <link rel="stylesheet" href="/semantic/semantic.min.css">
         <style>
-        .tagu{
+        .tag{
             padding-top: 100px
         }
         </style>
+        <!-- semantic.css semantic.js common.js 読み込み --> 
+        <link rel="stylesheet" href="/node_modules/semantic-ui/dist/semantic.min.css">
+        <script type="text/javascript" src="/require.js"></script>
+        <script type="text/javascript" src="/common.js"></script>
+        <script src="/node_modules/semantic-ui/dist/semantic.min.js"></script>
     </head>
     <body>
-
         <!-- サイドバー -->
-    <div class="ui right vertical inverted labeled sidebar menu">
-      <a class="item"><i class="setting icon large"></i>出力設定</a>
-      <a class="item"><i class="setting icon large"></i>印刷設定</a>
-      <a class="item"><i class="setting icon large"></i>展開領域設定</a>
-    </div>
+        <div class="ui right vertical inverted labeled sidebar menu">
+            <a class="item"><i class="setting icon large"></i>出力設定</a>
+            <a class="item"><i class="setting icon large"></i>印刷設定</a>
+            <a class="item"><i class="setting icon large"></i>展開領域設定</a>
+        </div>
 
         <!-- 上部ナビゲーションメニュー -->
         <div class="ui fixed menu">
@@ -43,7 +46,8 @@
             </div>
         </div>
 
-        <div class="tagu">
+        <!--pdfのtag検索-->
+        <div class="tag">
             <div class="ui sub header">Selection Tags</div>
             <div class="ui fluid search dropdown selection multiple">
                 <i id="hoge" class="dropdown icon"></i>
@@ -65,35 +69,8 @@
                 </div>
             </div>
         </div>
-        
 
-        <!-- jQuery 読み込み -->
-        <script src="/jquery.min.js"></script>
-        <script>
-        var $ = require("jquery");
-        var jQuery = $;
-        </script>
-        <!-- semantic.js 読み込み --> 
-        <script src="/semantic/semantic.min.js"></script>
-
-        <script>
-            $('.ui.fluid.search.dropdown')
-                    .dropdown({
-                        allowAdditions: true
-                    });
-
-            $('#return').click(function(){
-                document.location.href = '/main_screen/main.html';
-            });
-
-            $('#right_bar').click(function() {
-                $('.ui.right.sidebar')
-                .sidebar({
-                dimPage: false
-            })
-                .sidebar('setting', 'transition', 'overlay')
-                .sidebar('toggle');
-            });
-        </script>
+        <!--pdf_screenの画面遷移-->
+        <script type="text/javascript" src="/pdf_screen/pdf_motion.js"></script>
     </body>
 </html>
