@@ -1,15 +1,10 @@
-const {ipcRenderer} = require('electron')
-const fs = require('fs')
-
 $('.ui.fluid.search.dropdown')
         .dropdown({
             allowAdditions: true
         })
 
-var data = JSON.parse(fs.readFileSync('./screen_info.json', 'utf-8'))
-
 $('#return').click(() => {
-    ipcRenderer.send(data.event, data.main_path)
+    ipcRenderer.send(PATH_DATA.event, PATH_DATA.main_path)
 })
 
 $('#right_bar').click(() => {

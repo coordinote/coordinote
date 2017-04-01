@@ -1,6 +1,3 @@
-const {ipcRenderer} = require('electron')
-const fs = require('fs')
-
 $('#bottom_bar').click(() => {
   $('.ui.bottom.sidebar')
   .sidebar({
@@ -20,8 +17,6 @@ $('#left_bar').click(() => {
   .sidebar('toggle')
 })
 
-var data = JSON.parse(fs.readFileSync('./screen_info.json', 'utf-8'))
-
 $('#pdf').click(() => {
-    ipcRenderer.send(data.event, data.pdf_path)
+    ipcRenderer.send(PATH_DATA.event, PATH_DATA.pdf_path)
 })

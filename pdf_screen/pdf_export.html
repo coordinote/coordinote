@@ -3,12 +3,14 @@
     <head>
         <meta charset="utf-8">
         <title>coordinote</title>
-        <link rel="stylesheet" href="/semantic/semantic.min.css">
         <style>
         .tagu{
             padding-top: 100px
         }
         </style>
+        <link rel="stylesheet" href="/node_modules/semantic-ui/dist/semantic.min.css">
+        <script type="text/javascript" src="/require.js"></script>
+        <script type="text/javascript" src="/common.js"></script>
     </head>
     <body>
 
@@ -65,16 +67,8 @@
                 </div>
             </div>
         </div>
-        
 
-        <!-- jQuery 読み込み -->
-        <script src="/jquery.min.js"></script>
-        <script>
-        var $ = require("jquery");
-        var jQuery = $;
-        </script>
-        <!-- semantic.js 読み込み --> 
-        <script src="/semantic/semantic.min.js"></script>
+        <!--pdf_screenの画面遷移-->
         <script type="text/javascript" src="/pdf_screen/pdf_motion.js"></script>
     </body>
 </html>

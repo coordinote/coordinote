@@ -51,34 +51,34 @@ app.on('activate', () => {
     }
 })
 
-var data = JSON.parse(fs.readFileSync('./screen_info.json', 'utf-8'))
+const PATH_DATA = JSON.parse(fs.readFileSync('./screen_info.json', 'utf-8'))
 
-ipcMain.on(data.event, (event, req) => {
+ipcMain.on(PATH_DATA.event, (event, req) => {
     switch(req){
-        case data.edit_path:
+        case PATH_DATA.edit_path:
             win.loadURL(url.format({
-                pathname: data.edit_path,
+                pathname: PATH_DATA.edit_path,
                 protocol: 'file:',
                 slashes: true,
             }))
             break
-        case data.main_path:
+        case PATH_DATA.main_path:
             win.loadURL(url.format({
-                pathname: data.main_path,
+                pathname: PATH_DATA.main_path,
                 protocol: 'file:',
                 slashes: true,
             }))
             break
-        case data.pdf_path:
+        case PATH_DATA.pdf_path:
             win.loadURL(url.format({
-                pathname: data.pdf_path,
+                pathname: PATH_DATA.pdf_path,
                 protocol: 'file:',
                 slashes: true,
             }))
             break
-        case data.settings_path:
+        case PATH_DATA.settings_path:
             win.loadURL(url.format({
-                pathname: data.settings_path,
+                pathname: PATH_DATA.settings_path,
                 protocol: 'file:',
                 slashes: true,
             }))
