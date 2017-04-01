@@ -85,33 +85,3 @@ ipcMain.on(PATH_DATA.event, (event, req) => {
             break
     }
 })
-
-
-
-
-
-
-
-// function createWindow(){
-//     let win = new BrowserWindow({
-//         'width' : 1200,
-//         'height' : 800,
-//         'icon' : __dirname + '/img/icon.png',
-//     })
-//     win.loadURL(url.format({
-//         pathname: '/splash_screen/index.html',
-//         protocol: 'file:',
-//         slashes: true,
-//     }))
-//     //mainWindow.webContents.openDevTools()
-
-//     ipcMain.on('', (event, req) => {
-    
-//     })
-
-//     win.on('closed', function(){
-//         win = null
-//     })
-// }
-
-// app.on('ready', createWindow)
