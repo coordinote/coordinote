@@ -1,37 +1,95 @@
-'use strict';
+'use strict'
 
-const { app, BrowserWindow, protocol } = require('electron');
-const path = require('path');
-const url = require('url');
+const { app, BrowserWindow, protocol, ipcMain } = require('electron')
+const path = require('path')
+const url = require('url')
+const fs = require('fs')
+
+let win
 
 app.on('ready', () => {
     protocol.interceptFileProtocol('file', (req, callback) => {
-        const requestedUrl = req.url.substr(7);
+        const requestedUrl = req.url.substr(7)
 
         if (path.isAbsolute(requestedUrl)) {
-            callback(path.normalize(path.join(__dirname, requestedUrl)));
+            callback(path.normalize(path.join(__dirname, requestedUrl)))
         } else {
-            callback(requestedUrl);
+            callback(requestedUrl)
         }
-    });
-});
+    })
+})
 
 function createWindow(){
+<<<<<<< HEAD
     let win = new BrowserWindow({
         'width' : 1200,
         'height' : 800,
         'icon' : __dirname + '/resource/img/icon.png',
     });
+=======
+    win = new BrowserWindow({
+        'width': 1200,
+        'height': 800,
+        'icon': './resource/img/icon.png',
+    })
+
+>>>>>>> master
     win.loadURL(url.format({
         pathname: '/splash_screen/index.html',
         protocol: 'file:',
         slashes: true,
-    }));
-    //mainWindow.webContents.openDevTools();
+    }))
 
-    win.on('closed', function(){
-        win = null;
-    });
+    win.on('closed', () => {
+        win = null
+    })
 }
 
-app.on('ready', createWindow);
+app.on('ready', createWindow)
+
+app.on('window-all-closed', () => {
+    if(process.platform !== 'darwin'){
+        app.quit()
+    }
+})
+
+app.on('activate', () => {
+    if(win === null){
+        createWindow()
+    }
+})
+
+const PATH_DATA = JSON.parse(fs.readFileSync('./screen_info.json', 'utf-8'))
+
+ipcMain.on(PATH_DATA.event, (event, req) => {
+    switch(req){
+        case PATH_DATA.edit_path:
+            win.loadURL(url.format({
+                pathname: PATH_DATA.edit_path,
+                protocol: 'file:',
+                slashes: true,
+            }))
+            break
+        case PATH_DATA.main_path:
+            win.loadURL(url.format({
+                pathname: PATH_DATA.main_path,
+                protocol: 'file:',
+                slashes: true,
+            }))
+            break
+        case PATH_DATA.pdf_path:
+            win.loadURL(url.format({
+                pathname: PATH_DATA.pdf_path,
+                protocol: 'file:',
+                slashes: true,
+            }))
+            break
+        case PATH_DATA.settings_path:
+            win.loadURL(url.format({
+                pathname: PATH_DATA.settings_path,
+                protocol: 'file:',
+                slashes: true,
+            }))
+            break
+    }
+})

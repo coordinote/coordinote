@@ -1,22 +1,22 @@
-      $('#bottom_bar').click(function() {
-        $('.ui.bottom.sidebar')
-        .sidebar({
-          dimPage: false,
-          closable: false
-        })
-        .sidebar('setting', 'transition', 'overlay')
-        .sidebar('toggle');
-      });
+$('#bottom_bar').click(() => {
+  $('.ui.bottom.sidebar')
+  .sidebar({
+    dimPage: false,
+    closable: false
+  })
+  .sidebar('setting', 'transition', 'overlay')
+  .sidebar('toggle')
+})
 
-      $('#left_bar').click(function() {
-        $('.ui.left.sidebar')
-        .sidebar({
-          dimPage: false,
-          closable: false
-        })
-        .sidebar('toggle');
-      });
+$('#left_bar').click(() => {
+  $('.ui.left.sidebar')
+  .sidebar({
+    dimPage: false,
+    closable: false
+  })
+  .sidebar('toggle')
+})
 
-      $('#pdf').click(function(){
-        document.location.href = '/pdf_screen/pdf_export.html';
-      });
+$('#pdf').click(() => {
+    ipcRenderer.send(PATH_DATA.event, PATH_DATA.pdf_path)
+})
