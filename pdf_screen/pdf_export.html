@@ -1,16 +1,18 @@
-<!DOCTYPE>
-<html>
+<!DOCTYPE html>
+<html lang="en">
     <head>
         <meta charset="utf-8">
         <title>coordinote</title>
         <style>
-        .tagu{
+        .tag{
             padding-top: 100px
         }
         </style>
+        <!-- semantic.css semantic.js common.js 読み込み --> 
         <link rel="stylesheet" href="/node_modules/semantic-ui/dist/semantic.min.css">
         <script type="text/javascript" src="/require.js"></script>
         <script type="text/javascript" src="/common.js"></script>
+        <script src="/node_modules/semantic-ui/dist/semantic.min.js"></script>
     </head>
     <body>
         <!-- サイドバー -->
@@ -44,7 +46,8 @@
             </div>
         </div>
 
-        <div class="tagu">
+        <!--pdfのtag検索-->
+        <div class="tag">
             <div class="ui sub header">Selection Tags</div>
             <div class="ui fluid search dropdown selection multiple">
                 <i id="hoge" class="dropdown icon"></i>

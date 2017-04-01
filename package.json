@@ -1,20 +1,21 @@
 {
-  "name": "coordinote",
-  "version": "1.0.0",
-  "description": "",
-  "main": "main.js",
-  "scripts": {
-    "start": "electron main.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "electron": "^1.6.2",
-    "fs": "0.0.1-security"
-  },
-  "dependencies": {
-    "jquery": "^3.2.0"
-  }
+    "name": "coordinote",
+    "version": "1.0.0",
+    "description": "",
+    "main": "main.js",
+    "scripts": {
+        "start": "electron main.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+    },
+    "dependencies": {
+        "electron": "^1.6.2",
+        "fs": "0.0.1-security",
+        "jquery": "^3.2.0",
+        "semantic-ui": "^2.2.9"
+    }
 }
