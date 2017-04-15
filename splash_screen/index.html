@@ -1,10 +1,11 @@
-<!DOCTYPE>
+<!DOCTYPE html>
 <html>
     <head>
-        <meta charset="UTF-8">
+        <meta charset="utf-8">
         <title>coordinote</title>
+        <script src="/__dirname/require.js"></script>
+        <script src="/__dirname/common.js"></script>
         <link href="/__dirname/splash_screen/splash.css" rel="stylesheet">
-        <meta http-equiv="refresh" content="5; url=/__dirname/main_screen/main.html">
 
         <style>
         img{
@@ -16,5 +17,10 @@
         <div align="center">
         <img src="/__dirname/resource/img/logo.svg" alt="ロゴ">
         </div>
+
+        <!-- TODO: metaの処理をJSで再記述(ipcRendererを使用のこと) -->
+        <script>
+          ipcRenderer.send(PATH_DATA.event, PATH_DATA.main_path)
+        </script>
     </body>
 </html>

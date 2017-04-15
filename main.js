@@ -7,6 +7,7 @@ const fs = require('fs')
 
 // const
 const dirname = '__dirname'
+const PATH_DATA = JSON.parse(fs.readFileSync('./screen_info.json', 'utf-8'))
 
 // global
 let win
@@ -32,7 +33,7 @@ function createWindow(){
   })
 
   win.loadURL(url.format({
-    pathname: '/__dirname/splash_screen/index.html',
+    pathname: __dirname + PATH_DATA.splash_path,
     protocol: 'file:',
     slashes: true,
   }))
@@ -56,34 +57,32 @@ app.on('activate', () => {
   }
 })
 
-const PATH_DATA = JSON.parse(fs.readFileSync('./screen_info.json', 'utf-8'))
-
 ipcMain.on(PATH_DATA.event, (event, req) => {
   switch(req){
     case PATH_DATA.edit_path:
       win.loadURL(url.format({
-        pathname: PATH_DATA.edit_path,
+        pathname: __dirname + PATH_DATA.edit_path,
         protocol: 'file:',
         slashes: true,
       }))
       break
     case PATH_DATA.main_path:
       win.loadURL(url.format({
-        pathname: PATH_DATA.main_path,
+        pathname: __dirname + PATH_DATA.main_path,
         protocol: 'file:',
         slashes: true,
       }))
       break
     case PATH_DATA.pdf_path:
       win.loadURL(url.format({
-        pathname: PATH_DATA.pdf_path,
+        pathname: __dirname + PATH_DATA.pdf_path,
         protocol: 'file:',
         slashes: true,
       }))
       break
     case PATH_DATA.settings_path:
       win.loadURL(url.format({
-        pathname: PATH_DATA.settings_path,
+        pathname: __dirname + PATH_DATA.settings_path,
         protocol: 'file:',
         slashes: true,
     }))
