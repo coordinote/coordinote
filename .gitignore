@@ -6,5 +6,5 @@ semantic.json
 # エディタ
 .vscode/
 
-# ドキュメントリポジトリ
-docs/
+# 開発者用ドキュメントリポジトリ
+devdocs/
