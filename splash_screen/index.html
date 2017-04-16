@@ -20,7 +20,11 @@
 
         <!-- TODO: metaの処理をJSで再記述(ipcRendererを使用のこと) -->
         <script>
-          ipcRenderer.send(PATH_DATA.event, PATH_DATA.main_path)
+            $(() => {
+                setTimeout(() => {
+                    ipcRenderer.send(PATH_DATA.event, PATH_DATA.main_path)
+                }, 3000)
+            })
         </script>
     </body>
 </html>
