@@ -18,10 +18,11 @@ app.on('ready', () => {
 
     // ルート以下の1番目を抽出
     if(requrl.split('/')[1] === dirname) {
-      // __dirnameをパース
-      requrl = requrl.replace(/__dirname/, __dirname)
+      // /__dirnameをパース
+      requrl = requrl.replace(/\/__dirname/, __dirname)
     }
-    callback(requrl)
+    // ノーマライズして返す
+    callback(path.normalize(requrl))
   })
 })
 
