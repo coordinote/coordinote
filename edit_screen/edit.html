@@ -3,40 +3,42 @@
   <head>
     <title>edit_screen</title>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-widthm initial-scale=1">
-    <link rel="stylesheet" href="/__dirname/node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width initial-scale=1">
     <link rel="stylesheet" href="/__dirname/node_modules/semantic-ui/dist/semantic.min.css">
-    <link rel="stylesheet" href="/__dirname/edit_screen/tile.css">
+    <link rel="stylesheet" href="/__dirname/edit_screen/css/screen_view.css">
+    <script src="/__dirname/require.js"></script>
     <script src="/__dirname/node_modules/semantic-ui/dist/semantic.min.js"></script>
   </head>
   <body>
-    <!-- 上部(メニュー) -->
-    <nav class="ui fixed menu">
-      <div class="menu">
-        <div id="left_bar" class="item"><i class="icon large grey content"></i></div>
-      </div>
-      <div class="ui basic buttons">
-        <button id="edit" class="ui toggle button"><i class="file text outline icon"></i>Create note</button>
-        <button id="pdf" class="ui toggle button"><i class="file pdf outline icon"></i>PDF</button>
-        <button class="ui toggle button"><i class="settings icon"></i>Settings</button>
-      </div>
-      <div class="ui basic buttons">
-        <button id="bottom_bar" class="ui toggle button"><i class="configure icon"></i>tools</button>
-      </div>
-    </nav>
+    <div class="row">
+      <!-- ナビゲーションバー(メニュー) -->
+      <nav class="ui fixed menu">
+        <div class="menu">
+          <div id="clip_toggle" class="item"><i class="icon large grey content"></i></div>
+        </div>
+        <div class="ui basic buttons">
+          <button id="edit" class="ui toggle button"><i class="file text outline icon"></i>Create note</button>
+          <button id="pdf" class="ui toggle button"><i class="file pdf outline icon"></i>PDF</button>
+          <button class="ui toggle button"><i class="settings icon"></i>Settings</button>
+        </div>
+        <div class="ui basic buttons">
+          <button id="bottom_bar" class="ui toggle button"><i class="configure icon"></i>tools</button>
+        </div>
+      </nav>
 
-    <!-- 左部(クリップリスト) -->
-    <div class="ui bottom demo inverted ten item labeled icon sidebar menu">
-      <a class="item"><i class="align left icon"></i></a>
-      <a class="item"><i class="align center icon"></i></a>
-      <a class="item"><i class="align right icon"></i></a>
-      <a class="item"><i class="align justify icon"></i></a>
-      <a class="item"><i class="bold icon"></i></a>
-      <a class="item"><i class="underline icon"></i></a>
-      <a class="item"><i class="text width icon"></i></a>
+      <!-- サイドバー(クリップ) -->
+      <article class="clip">
+        <!-- ng selector tag -->
+        <clip-view></clip-view>
+      </article>
+
+      <!-- 中央(執筆) -->
+      <article class="write">
+        <!-- ng selector tag -->
+        <write-view></write-view>
+      </article>
     </div>
 
-    <!-- 中央部(執筆) -->
-
+    <script src="/__dirname/edit_screen/js/screen_view.js"></script>
   </body>
 </html>

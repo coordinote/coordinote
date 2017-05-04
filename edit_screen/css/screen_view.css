@@ -1,0 +1,33 @@
+body {
+  background-color: #eee;
+  margin: 0px;
+}
+body .row {
+  margin: 0px;
+  clear: both;
+  content: '';
+  display: inline;
+}
+body nav.menu {
+  width: 100vw;
+  height: 7vh;
+  background-color: #fff;
+}
+body article.clip {
+  width: 0vw;
+  height: 100vh;
+  margin: 0px;
+  background-color: #333;
+  transition-property: all;
+  transition-timing-function: ease-in;
+  transition-duration: 0.3s;
+}
+body article.clip.active {
+  width: 15vw;
+}
+body article.write {
+  background-color: #333;
+  position: relative;
+  width: 10vw;
+  height: 10vh;
+}
