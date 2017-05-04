@@ -6,8 +6,6 @@
   "scripts": {
     "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "serve": "lite-server -c=bs-config.json",
-    "service": "concurrently \"npm run build:watch\" \"npm run serve\"",
     "build": "tsc -p ./",
     "build:watch": "tsc -p ./ -w"
   },
@@ -17,7 +15,7 @@
   "devDependencies": {
     "gulp": "^3.9.1",
     "gulp-less": "^3.3.0",
-    "lite-server": "^2.3.0",
+    "gulp-webserver": "^0.9.1",
     "typescript": "^2.3.2"
   },
   "dependencies": {
