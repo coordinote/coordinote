@@ -20,3 +20,7 @@ $('#left_bar').click(() => {
 $('#pdf').click(() => {
     ipcRenderer.send(PATH_DATA.event, PATH_DATA.pdf_path)
 })
+
+$('#edit').click(() => {
+  ipcRenderer.send(PATH_DATA.event, PATH_DATA.edit_path)
+})
