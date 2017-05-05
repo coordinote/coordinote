@@ -4,40 +4,34 @@
     <title>edit_screen</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width initial-scale=1">
-    <link rel="stylesheet" href="/__dirname/node_modules/semantic-ui/dist/semantic.min.css">
+    <link rel="stylesheet" href="/__dirname/node_modules/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="/__dirname/edit_screen/css/screen_view.css">
     <script src="/__dirname/require.js"></script>
-    <script src="/__dirname/node_modules/semantic-ui/dist/semantic.min.js"></script>
   </head>
   <body>
-    <div class="row">
-      <!-- ナビゲーションバー(メニュー) -->
-      <nav class="ui fixed menu">
-        <div class="menu">
-          <div id="clip_toggle" class="item"><i class="icon large grey content"></i></div>
-        </div>
-        <div class="ui basic buttons">
-          <button id="edit" class="ui toggle button"><i class="file text outline icon"></i>Create note</button>
-          <button id="pdf" class="ui toggle button"><i class="file pdf outline icon"></i>PDF</button>
-          <button class="ui toggle button"><i class="settings icon"></i>Settings</button>
-        </div>
-        <div class="ui basic buttons">
-          <button id="bottom_bar" class="ui toggle button"><i class="configure icon"></i>tools</button>
-        </div>
-      </nav>
+    <!-- ナビゲーションバー(メニュー) -->
+    <nav class="menu-bar">
+      <article class="buttons">
+        <button class="button" id="clip_toggle"><i class="fa fa-bars fa-2x"></i></button>
 
-      <!-- サイドバー(クリップ) -->
-      <article class="clip">
-        <!-- ng selector tag -->
-        <clip-view></clip-view>
+        <button class="button" title="Create Note"><i class="fa fa-file-text-o fa-2x"></i></button>
+        <button class="button" title="PDF"><i class="fa fa-file-pdf-o fa-2x"></i></button>
+        <button class="button" title="Settings"><i class="fa fa-cogs fa-2x"></i></button>
+        <button class="button" title="Tools"><i class="fa fa-wrench fa-2x"></i></button>
       </article>
+    </nav>
 
-      <!-- 中央(執筆) -->
-      <article class="write">
-        <!-- ng selector tag -->
-        <write-view></write-view>
-      </article>
-    </div>
+    <!-- サイドバー(クリップ) -->
+    <article class="clip-bar">
+      <!-- ng selector tag -->
+      <clip-view></clip-view>
+    </article>
+
+    <!-- 中央(執筆) -->
+    <article class="write-field">
+      <!-- ng selector tag -->
+      <write-view></write-view>
+    </article>
 
     <script src="/__dirname/edit_screen/js/screen_view.js"></script>
   </body>
