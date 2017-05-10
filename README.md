@@ -1,3 +1,3 @@
 # coordinote
-## smart-phone-test
-- スマートフォンに関するテストアプリ
+## Canvas
+- coordinoteの手書き機能
