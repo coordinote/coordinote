@@ -40,12 +40,15 @@ body {
     background-color: #FFFFFF;
 }
 
-.login-button button {
+.login-button a {
+    display: inline-block;
     padding: 0;
     border: 0;
     margin-top: 35px;
     width: 250px;
     height: 42px;
     color: #FFFFFF;
+    line-height: 40px;
+    text-decoration: none;
     background-color: #8886EE;
 }
