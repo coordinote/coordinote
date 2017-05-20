@@ -2,9 +2,6 @@
 const nedb = require('nedb')
 const clip_schema = require('./clip_schema.js')
 
-// const
-const schema_err = "Schema Error"
-
 // constructor
 let DBMethod = function(){
   // db require
@@ -26,13 +23,15 @@ DBMethod.prototype.set_clip = function(tag, callback){
     "tag": tag
   }
 
-  clip_schema.clip_valid(instance, (valid) => {
-    if(valid){
+  clip_schema.clip_valid(instance, (result) => {
+    if(result.valid){
+      // insert data
       this.db.clips.insert(instance)
       callback()
     }
     else{
-      console.error(schema_err)
+      // output errors
+      console.error(result.errors)
     }
   })
 }

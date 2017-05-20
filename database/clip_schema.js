@@ -20,11 +20,11 @@ function clipSchema(){
 clipSchema.clip_valid = function(instance, callback_global){
   async.waterfall([
     function(callback){
-      let valid = validate(instance, clip_schema).valid
-      callback(null, valid)
+      let result = validate(instance, clip_schema)
+      callback(null, result)
     },
-    function(valid, callback){
-      callback_global(valid)
+    function(result, callback){
+      callback_global(result)
       callback(null)
     }
   ])
