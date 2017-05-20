@@ -22,7 +22,10 @@ body .button {
   transition-duration: 0.3s;
 }
 body .button:hover {
-  background-color: #eee;
+  background-color: rgba(136, 134, 238, 0.4);
+}
+body .button:active {
+  background-color: rgba(136, 134, 238, 0.6);
 }
 body .button:focus {
   outline: none;

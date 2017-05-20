@@ -1,6 +1,9 @@
 // var
+@theme-color: #8886EE;
 @menu-color: #fff;
 @background-color: #eee;
+@hover-color: rgba(136, 134, 238, 0.4);
+@active-color: rgba(136, 134, 238, 0.6);
 @clip-color: #333;
 @shadow-color: rgba(0, 0, 0, 0.3);
 @icon-color: #555;
@@ -36,7 +39,10 @@ body{
     -webkit-appearance: none;
     .all-transition();
     &:hover{
-      background-color: @background-color;
+      background-color: @hover-color;
+    }
+    &:active{
+      background-color: @active-color;
     }
     &:focus{
       outline: none; // overwrite user agent stylesheet
