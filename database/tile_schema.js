@@ -3,22 +3,23 @@ const async = require('async')
 const validate = require('jsonschema').validate
 
 // define schema
-const clip_schema = {
+const tile_schema = {
   "type": "object",
-  "required": ["date"],
+  "required": [],
   "properties": {
-    "date": {"type": "date-time"},
-    "tile": {"type": "array"},
-    "tag": {"type": "array"},
+    "index": {"type": "integer"},
+    "column": {"type": "integer"},
+    "style": {"type": {"enum": ["text", "canvas", "figure"]}},
+    "content": {"type": "string"}
   }
 }
 
 // constructor
-function clipSchema(){
+function tileSchema(){
 }
 
-// valid clip_schema
-clipSchema.clip_valid = function(instance, callback_global){
+// valid tile_schema
+tileSchema.tile_valid = function(instance, callback_global){
   async.waterfall([
     (callback) => {
       let result = validate(instance, clip_schema)
@@ -32,5 +33,5 @@ clipSchema.clip_valid = function(instance, callback_global){
 }
 
 // exports
-module.exports = clipSchema
+module.exports = tileSchema
 
