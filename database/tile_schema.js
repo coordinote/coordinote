@@ -22,7 +22,7 @@ function tileSchema(){
 tileSchema.tile_valid = function(instance, callback_global){
   async.waterfall([
     (callback) => {
-      let result = validate(instance, clip_schema)
+      let result = validate(instance, tile_schema)
       callback(null, result)
     },
     (result, callback) => {
