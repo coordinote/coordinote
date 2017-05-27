@@ -4,9 +4,9 @@
         <meta charset="utf-8">
         <title>coordinote</title>
         <style>
-        .pusher {
-                padding-top:15%;
-        }
+            .pusher {
+                padding-top:10%;
+            }
         </style>
         <!-- semantic.css semantic.js common.js 読み込み -->
         <link rel="stylesheet" href="/__dirname/node_modules/semantic-ui/dist/semantic.min.css" />
@@ -25,7 +25,6 @@
             <a class="item"><i class="underline icon"></i></a>
             <a class="item"><i class="text width icon"></i></a>
         </div>
-
         <div class="ui left demo vertical inverted labeled icon sidebar menu">
             <a class="item"><i class="file text outline icon"></i>Japanese</a>
             <a class="item"><i class="file text outline icon"></i>Math</a>
@@ -42,7 +41,7 @@
                 <div id="left_bar" class="item"><i class="icon large grey content"></i></div>
             </div>
             <div class="ui basic buttons">
-                <button class="ui toggle button"><i class="file text outline icon"></i>Create note</button>
+                <button id="edit" class="ui toggle button"><i class="file text outline icon"></i>Create note</button>
                 <button id="pdf" class="ui toggle button"><i class="file pdf outline icon"></i>PDF</button>
                 <button class="ui toggle button"><i class="settings icon"></i>Settings</button>
             </div>
@@ -54,7 +53,7 @@
         <!-- コンテンツ本体 -->
         <div class="pusher">
             <div align="center">
-                <img src="/__dirname/resource/img/icon.svg" alt="アイコン">
+                <img id="icon_grey" src="/__dirname/resource/img/icon_grey@512px.png" alt="アイコン">
             </div>
         </div>
 

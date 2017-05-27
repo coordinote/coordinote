@@ -30,7 +30,7 @@ function createWindow(){
   win = new BrowserWindow({
     'width': 1200,
     'height': 800,
-    'icon': __dirname + '/resource/img/icon.png',
+    'icon': __dirname + '/resource/img/icon@128px.png',
   })
 
   win.loadURL(url.format({
