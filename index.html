@@ -1,27 +1,23 @@
-<!DOCTYPE>
+<!DOCTYPE html>
 <html lang="ja">
     <head>
-        <meta charset="utf-8">
-        <link rel="stylesheet" href="css/canvas.css">
-        <link rel="stylesheet" href="css/speech.css">
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="css/login.css">
+        <link href="https://fonts.googleapis.com/css?family=Neuton" rel="stylesheet"> 
     </head>
     <body>
-        <!--canvas prototype-->
-        <h2>Canvas test</h2>
-        <canvas id="canvas" width="700" height="400"></canvas>
-        <script src="js/canvas.js"></script>
-
-        <!--speech test-->
-        <h2>Speech test</h2>
-        <div id="area">
-            <span id="final_span" class="final"></span>
-            <span class="interim" id="interim_span"></span>
-        </div>
-        <input id="btn" value="音声認識を継続的に行う" type="button">
-        <select id="select">
-            <option value="ja-JP">日本語</option>
-            <option value="en-US">English</option>
-        </select>
-        <script src="js/speech.js"></script>
+        <main>
+            <div class="app-info">
+                <h3>Canvas</h3>
+                <img src="img/logo.png" alt="">
+            </div>
+            <div class="login-field">
+                <p>Input share number</p>
+                <input type="text" value="">
+            </div>
+            <div class="login-button">
+                <a type="button" href="test.html">Log In</a>
+            </div>
+        </main>
     </body>
 </html>
