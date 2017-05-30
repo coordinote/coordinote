@@ -2,16 +2,6 @@
 const canvas = document.getElementById('canvas')
 const context = canvas.getContext('2d')
 
-// canvas size
-function canvas_resize(){
-    var w = window.innerWidth
-    var h = window.innerHeight
-    canvas.setAttribute('width',w)
-    canvas.setAttribute('height',h)
-}
-window.addEventListener('resize',canvas_resize,false)
-canvas_resize()
-
 //default line style
 var linesize = 7
 var linecolor = "#000000"
@@ -69,28 +59,4 @@ function draw(x, y) {
     //mouse(x, y)
     mouse_x = x
     mouse_y = y
-}
-
-//menu icon
-var menuIcon = document.getElementsByClassName('menuicon')
-for (i = 0; i < menuIcon.length; i++) {
-    menuIcon[i].addEventListener('click', canvasMenu, false)
-}
-
-// menu buttons
-function canvasMenu() {
-    //id
-    var thisId = this.id
-    //line size
-    if (thisId.indexOf('size') + 1) {
-        linesize = ~~this.id.slice(4, this.id.length)
-    }
-    //line color
-    if (thisId.indexOf("color") + 1) {
-            linecolor = "#" + this.id.slice(5, this.id.length);
-    }
-    //line alpha
-    if (thisId.indexOf("alpha") + 1) {
-        linealpha = (~~this.id.slice(5, this.id.length)) / 10;
-    }
 }
