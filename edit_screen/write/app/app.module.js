@@ -7,15 +7,15 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const core_1 = require("@angular/core");
-const plarform_browser_1 = require("@angular/plarform-browser");
-const app_component_1 = require("edit_screen/write/app/app.component");
+const platform_browser_1 = require("@angular/platform-browser");
+const app_component_js_1 = require("./app.component.js");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
     core_1.NgModule({
-        imports: [plarform_browser_1.BrowserModule],
-        declaratuins: [app_component_1.AppComponent],
-        bootstrap: [app_component_1.AppComponent]
+        imports: [platform_browser_1.BrowserModule],
+        declarations: [app_component_js_1.AppComponent],
+        bootstrap: [app_component_js_1.AppComponent]
     })
 ], AppModule);
 exports.AppModule = AppModule;

@@ -6,42 +6,43 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const core_1 = require("@angular/core");
 class Tile {
 }
 exports.Tile = Tile;
 const TILE_EG = [
     {
-        "id": 2,
+        "index": 2,
         "text": 'This tile number is 2',
         "col_size": 3,
         "row_index": 1
     },
     {
-        "id": 1,
+        "index": 1,
         "text": 'This tile number is 1',
         "col_size": 5,
         "row_index": 1
     },
     {
-        "id": 3,
+        "index": 3,
         "text": 'This tile number is 3',
         "col_size": 4,
         "row_index": 1
     },
     {
-        "id": 4,
+        "index": 4,
         "text": 'This tile number is 4',
         "col_size": 3,
         "row_index": 2
     },
     {
-        "id": 5,
+        "index": 5,
         "text": 'This tile number is 5',
         "col_size": 8,
         "row_index": 2
     },
     {
-        "id": 6,
+        "index": 6,
         "text": 'This tile number is 6',
         "col_size": 4,
         "row_index": 3
@@ -50,14 +51,19 @@ const TILE_EG = [
 let AppComponent = class AppComponent {
     constructor() {
         this.title = 'write';
-        this.tile = TILE_EG;
+        this.tiles = TILE_EG;
     }
 };
 AppComponent = __decorate([
-    Component({
+    core_1.Component({
         selector: 'write-view',
         template: `
-    <h1> {{title}}_view </h1>
+    <h1 class="col-sm-12">{{title}}</h1>
+    <span *ngFor="let tile of tiles">
+    <div class="col-sm-{{tile.col_size}} hoge">
+      {{tile.text}}
+    </div>
+    </span>
   `
     })
 ], AppComponent);

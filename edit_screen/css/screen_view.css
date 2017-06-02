@@ -1,0 +1,55 @@
+body {
+  background-color: #eee;
+  margin: 0px;
+}
+body nav.menu-bar {
+  width: 100vw;
+  height: 5vh;
+  background-color: #fff;
+  box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.3);
+}
+body .buttons {
+  height: 100%;
+}
+body .button {
+  color: #555;
+  background-color: #fff;
+  border-style: none;
+  height: 100%;
+  -webkit-appearance: none;
+  transition-property: all;
+  transition-timing-function: ease-in;
+  transition-duration: 0.3s;
+}
+body .button:hover {
+  background-color: rgba(136, 134, 238, 0.4);
+}
+body .button:active {
+  background-color: rgba(136, 134, 238, 0.6);
+}
+body .button:focus {
+  outline: none;
+}
+body article {
+  display: inline-block;
+}
+body article.clip-bar {
+  width: 0vw;
+  height: 94vh;
+  background-color: #333;
+  transition-property: all;
+  transition-timing-function: ease-in;
+  transition-duration: 0.3s;
+}
+body article.clip-bar.active {
+  width: 15vw;
+  box-shadow: 3px 0px 1px rgba(0, 0, 0, 0.3);
+}
+body article.write-field {
+  background-color: #fff;
+  position: absolute;
+  width: 40vw;
+  height: 56.56vw;
+  left: 38vw;
+  top: 10vh;
+}

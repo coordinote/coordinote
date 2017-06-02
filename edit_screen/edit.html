@@ -3,49 +3,45 @@
   <head>
     <title>edit_screen</title>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-widthm initial-scale=1">
-    <link rel="stylesheet" href="/__dirname/node_modules/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/__dirname/node_modules/semantic-ui/dist/semantic.min.css">
-    <link rel="stylesheet" href="/__dirname/edit_screen/tile.css">
-    <script src="/__dirname/node_modules/semantic-ui/dist/semantic.min.js"></script>
+    <meta name="viewport" content="width=device-width initial-scale=1">
+    <link rel="stylesheet" href="/__dirname/node_modules/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/__dirname/edit_screen/css/screen_view.css">
+    <script src="/__dirname/require.js"></script>
   </head>
   <body>
-    <!-- 上部(メニュー) -->
-    <nav class="ui fixed menu">
-      <div class="menu">
-        <div id="left_bar" class="item"><i class="icon large grey content"></i></div>
-      </div>
-      <div class="ui basic buttons">
-        <button id="edit" class="ui toggle button"><i class="file text outline icon"></i>Create note</button>
-        <button id="pdf" class="ui toggle button"><i class="file pdf outline icon"></i>PDF</button>
-        <button class="ui toggle button"><i class="settings icon"></i>Settings</button>
-      </div>
-      <div class="ui basic buttons">
-        <button id="bottom_bar" class="ui toggle button"><i class="configure icon"></i>tools</button>
-      </div>
+    <!-- ナビゲーションバー(メニュー) -->
+    <nav class="menu-bar">
+      <article class="buttons">
+        <button class="button" id="clip_toggle"><i class="fa fa-bars fa-2x"></i></button>
+
+        <button class="button" title="Create Note"><i class="fa fa-file-text-o fa-2x"></i></button>
+        <button class="button" title="PDF"><i class="fa fa-file-pdf-o fa-2x"></i></button>
+        <button class="button" title="Settings"><i class="fa fa-cogs fa-2x"></i></button>
+        <button class="button" title="Tools"><i class="fa fa-wrench fa-2x"></i></button>
+
+        <button class="button" id="debug_button" title="Debug"><i class="fa fa-bug fa-2x"></i></button>
+      </article>
     </nav>
 
-    <!-- 左部(クリップリスト) -->
-    <div class="ui bottom demo inverted ten item labeled icon sidebar menu">
-      <a class="item"><i class="align left icon"></i></a>
-      <a class="item"><i class="align center icon"></i></a>
-      <a class="item"><i class="align right icon"></i></a>
-      <a class="item"><i class="align justify icon"></i></a>
-      <a class="item"><i class="bold icon"></i></a>
-      <a class="item"><i class="underline icon"></i></a>
-      <a class="item"><i class="text width icon"></i></a>
-    </div>
+    <!-- サイドバー(クリップ) -->
+    <article class="clip-bar">
+      <!-- ng selector tag -->
+      <clip-view></clip-view>
+    </article>
 
-    <!-- 中央部(執筆) -->
-    <write-view>loading</write-view>
-    <!--Angular用 push時削除-->
-    <script src="../node_modules/core-js/client/shim.min.js"></script>
-    <script src="../node_modules/zone.js/dist/zone.js"></script>
-    <script src="../node_modules/systemjs/dist/system.src.js"></script>
-    <script src="../systemjs.config.js"></script>
+    <!-- 中央(執筆) -->
+    <article class="write-field">
+      <!-- ng selector tag -->
+      <write-view></write-view>
+    </article>
+
+    <script src="/__dirname/edit_screen/js/screen_view.js"></script>
+    <script src="/__dirname/node_modules/core-js/client/shim.js"></script>
+    <script src="/__dirname/node_modules/zone.js/dist/zone.js"></script>
+    <script src="/__dirname/node_modules/systemjs/dist/system.src.js"></script>
+    <script src="/__dirname/edit_screen/systemjs.config.js"></script>
     <script>
-      System.import('edit.js').catch(function(err){ console.error(err); });
+      System.import('./edit.js').catch(function(err){console.error(err);});
     </script>
-
   </body>
 </html>

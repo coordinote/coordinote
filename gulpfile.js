@@ -18,12 +18,13 @@ gulp.task('less_edit_screen', () => {
 
 // angular2 server
 gulp.task('webserver', () => {
-  gulp.src('edit_screen')
+  gulp.src('./')
       .pipe(webserver({
         host: 'localhost',
         port: 8000,
         livereload: true,
-        fallback: 'edit.html'
+        fallback: './edit_screen/edit.html',
+        open: true
       }))
 })
 

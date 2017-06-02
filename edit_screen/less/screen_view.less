@@ -1,0 +1,77 @@
+// var
+@theme-color: #8886EE;
+@menu-color: #fff;
+@background-color: #eee;
+@hover-color: rgba(136, 134, 238, 0.4);
+@active-color: rgba(136, 134, 238, 0.6);
+@clip-color: #333;
+@shadow-color: rgba(0, 0, 0, 0.3);
+@icon-color: #555;
+@write-field-width: 40vw;
+
+// mixin
+.all-transition(@time: 0.3s){ // transition for all property
+  transition-property: all;
+  transition-timing-function: ease-in;
+  transition-duration: @time;
+}
+
+body{
+  background-color: @background-color;
+  margin: 0px;
+
+  nav.menu-bar{
+    width: 100vw;
+    height: 5vh;
+    background-color: @menu-color;
+    box-shadow: 0px 3px 3px @shadow-color;
+  }
+
+  .buttons{
+    height: 100%;
+  }
+
+  .button{
+    color: @icon-color;
+    background-color: @menu-color;
+    border-style: none;
+    height: 100%;
+    -webkit-appearance: none;
+    .all-transition();
+    &:hover{
+      background-color: @hover-color;
+    }
+    &:active{
+      background-color: @active-color;
+    }
+    &:focus{
+      outline: none; // overwrite user agent stylesheet
+    }
+  }
+
+  article{
+    display: inline-block;
+  }
+
+  article.clip-bar{
+    width: 0vw;
+    height: 94vh;
+    background-color: @clip-color;
+    .all-transition();
+    &.active{
+      width: 15vw;
+      box-shadow: 3px 0px 1px @shadow-color;
+    }
+  }
+
+  article.write-field{
+    background-color: @menu-color;
+    position: absolute;
+    width: @write-field-width;
+    height: @write-field-width * 1.414;
+    left: 38vw;
+    top: 10vh;
+  }
+}
+
+
