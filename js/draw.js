@@ -35,7 +35,7 @@ container.addEventListener('mousemove', function(e) {
             container.removeChild(drawingPath)
         }
         //create path
-        drawingPath = createPath(drawingPoints)
+        drawingPath = createPath(drawingPoints, parseFloat(1.5), true)
         //path style setting
         Object.assign(drawingPath.style, defaultPathStyle)
         //add svg path to canvas
@@ -50,13 +50,7 @@ container.addEventListener('mouseup', function(e) {
     if (!drawingPath) {
         return
     }
-    //rebuilding
-    container.removeChild(drawingPath)
     drawingPath = null
-    var path
-    path = createPath(drawingPoints, parseFloat(7), true)
-    Object.assign(path.style, defaultPathStyle)
-    container.appendChild(path)
 })
 
 //create path
