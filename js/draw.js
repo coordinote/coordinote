@@ -54,22 +54,15 @@ container.addEventListener('mouseup', function(e) {
     container.removeChild(drawingPath)
     drawingPath = null
     var path
-    path = createPath(drawingPoints)
+    path = createPath(drawingPoints, parseFloat(7), true)
     Object.assign(path.style, defaultPathStyle)
     container.appendChild(path)
 })
 
 //create path
-function createPath(points) {
-    var path = document.createElementNS('http://www.w3.org/2000/svg', 'path')
-    var attribute = ''
-    points.forEach((point, index) => {
-        if (index === 0) {
-            attribute += `M${point.x}, ${point.y}`
-        } else {
-            attribute += `L${point.x}, ${point.y}`
-        }
-    })
-    path.setAttributeNS(null, 'd', attribute)
-    return path
+function createPath(points, tolerance, highestQuality) {
+    var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    var attribute = SVGCatmullRomSpline.toPath(points.map(point => [point.x, point.y]), tolerance, highestQuality);
+    path.setAttributeNS(null, 'd', attribute);
+    return path;
 }
