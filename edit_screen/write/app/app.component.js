@@ -7,64 +7,35 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const core_1 = require("@angular/core");
+const nedb_module_js_1 = require("nedb_module.js");
 class Tile {
 }
 exports.Tile = Tile;
-const TILE_EG = [
-    {
-        "index": 2,
-        "text": 'This tile number is 2',
-        "col_size": 3,
-        "row_index": 1
-    },
-    {
-        "index": 1,
-        "text": 'This tile number is 1',
-        "col_size": 5,
-        "row_index": 1
-    },
-    {
-        "index": 3,
-        "text": 'This tile number is 3',
-        "col_size": 4,
-        "row_index": 1
-    },
-    {
-        "index": 4,
-        "text": 'This tile number is 4',
-        "col_size": 3,
-        "row_index": 2
-    },
-    {
-        "index": 5,
-        "text": 'This tile number is 5',
-        "col_size": 8,
-        "row_index": 2
-    },
-    {
-        "index": 6,
-        "text": 'This tile number is 6',
-        "col_size": 4,
-        "row_index": 3
-    }
-];
+var TILE = [];
 let AppComponent = class AppComponent {
     constructor() {
-        this.title = 'write';
-        this.tiles = TILE_EG;
+        this.title = "write";
+        this.tiles = TILE;
+    }
+    add_Tile() {
+        TILE.push({
+            "index": 0,
+            "text": '',
+            "col_size": 3,
+            "row_index": 1
+        });
+    }
+    save() {
+        nedb_module_js_1.nedb.db.clips.insert({
+            "tile": Tile[],
+            "tag": "hoge"
+        });
     }
 };
 AppComponent = __decorate([
     core_1.Component({
         selector: 'write-view',
-        template: `
-    <h1 class="col-sm-12">{{title}}</h1>
-    <span *ngFor="let tile of tiles">
-    <div class="col-sm-{{tile.col_size}} hoge">
-      {{tile.text}}
-    </div>
-    </span>
-  `
+        templateUrl: 'write/template/write.html'
     })
 ], AppComponent);
 exports.AppComponent = AppComponent;

@@ -29,7 +29,7 @@ gulp.task('webserver', () => {
 })
 
 // default
-gulp.task('default', ['webserver'], () => {
+gulp.task('default', () => {
   gulp.watch(edit_screen.less + '/*.less', ['less_edit_screen'])
 })
 

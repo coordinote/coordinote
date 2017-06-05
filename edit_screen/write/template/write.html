@@ -1,6 +1,14 @@
-<h1 class="col-sm-12">{{title}}</h1>
-<span *ngFor="let tile of tiles">
-  <div class="col-sm-{{tile.col_size}} hoge">
-    {{tile.text}}
-  </div>
+<span class="container tile-input">
+  <span *ngFor="let tile of tiles">
+    <textarea [(ngModel)]="tile.text" class="col-sm-{{tile.col_size}}" wrap=hard></textarea>
+  </span>
+  <input type=button (click)="add_Tile()" value="タイル追加">
+  <input type=button (click)="save()" value="保存">
+</span>
+<span class="container tile-text">
+  <span *ngFor="let tile of tiles">
+    <div class="col-sm-{{tile.col_size}} tile">
+      {{tile.text}}
+    </div>
+  </span>
 </span>
