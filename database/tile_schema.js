@@ -9,7 +9,7 @@ const tile_schema = {
   "properties": {
     "index": {"type": "integer"},
     "column": {"type": "integer"},
-    "tag": {"type": "array"}
+    "tag": {"type": "array"},
     "style": {"type": {"enum": ["text", "canvas", "figure"]}},
     "content": {"type": "string"}
   }
