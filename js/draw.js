@@ -1,5 +1,5 @@
 //get canvas id 
-var container = document.getElementById('canvas')
+var container = $('#canvas')
 
 //judge draw
 var isDrawing = false
@@ -15,14 +15,14 @@ var defaultPathStyle = {
 }
 
 //mouse click
-container.addEventListener('mousedown', function(e) {
+container.mousedown((e) => {
     //judge true
     isDrawing = true
     //point array definition
     drawingPoints = []
 })
 //mouse move
-container.addEventListener('mousemove', function(e) {
+container.mousemove((e) => {
     //draw true
     if (isDrawing) {
         //add mouse point
@@ -32,18 +32,18 @@ container.addEventListener('mousemove', function(e) {
         })
         //drawingPath check existence
         if (drawingPath) {
-            container.removeChild(drawingPath)
+            drawingPath.remove()
         }
         //create path
         drawingPath = createPath(drawingPoints, parseFloat(1.5), true)
         //path style setting
         Object.assign(drawingPath.style, defaultPathStyle)
         //add svg path to canvas
-        container.appendChild(drawingPath)
+        container.append(drawingPath)
     }
 })
 //mouse up
-container.addEventListener('mouseup', function(e) {
+container.mouseup((e) => {
     //judge false
     isDrawing = false
     //drawingPath null or undefined
@@ -51,6 +51,10 @@ container.addEventListener('mouseup', function(e) {
         return
     }
     drawingPath = null
+    //svg data
+    $('#data').empty()
+    var svg_data = $('#canvas').html().length
+    $('#data').append(svg_data*3 + "Byte")
 })
 
 //create path
