@@ -7,12 +7,14 @@
     "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc -p ./",
-    "build:watch": "tsc -p ./ -w"
+    "build:watch": "tsc -p ./ -w",
+    "build:watch:allowJs": "tsc -p ./ -w -allowJs"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "devDependencies": {
+    "@types/nedb": "^1.8.3",
     "gulp": "^3.9.1",
     "gulp-less": "^3.3.0",
     "gulp-webserver": "^0.9.1",
@@ -38,6 +40,7 @@
     "jquery": "^3.2.0",
     "jsonschema": "^1.1.1",
     "nedb": "^1.8.0",
+    "path": "^0.12.7",
     "reflect-metadata": "^0.1.2",
     "rxjs": "^5.0.1",
     "semantic-ui": "^2.2.9",

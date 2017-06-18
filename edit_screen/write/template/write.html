@@ -1,14 +1,16 @@
 <span class="container tile-input">
   <span *ngFor="let tile of tiles">
-    <textarea [(ngModel)]="tile.text" class="col-sm-{{tile.col_size}}" wrap=hard></textarea>
+    <textarea [(ngModel)]="tile.content" class="col-sm-{{tile.column}}" wrap=hard></textarea>
   </span>
-  <input type=button (click)="add_Tile()" value="タイル追加">
-  <input type=button (click)="save()" value="保存">
+  <input type=button (click)="add_Tile()" value="add tile">
+  <input type=button (click)="log()" value="log">
+  <input type=button (click)="load()" value="clip_load">
+  <input type=button (click)="save_clip()" value="save_clip">
 </span>
 <span class="container tile-text">
   <span *ngFor="let tile of tiles">
-    <div class="col-sm-{{tile.col_size}} tile">
-      {{tile.text}}
+    <div class="col-sm-{{tile.column}} tile">
+      {{tile.content}}
     </div>
   </span>
 </span>

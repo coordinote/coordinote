@@ -6,12 +6,15 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const core_1 = require("@angular/core");
-const platform_browser_1 = require("@angular/platform-browser");
-const forms_1 = require("@angular/forms");
-const app_component_js_1 = require("./app.component.js");
-let AppModule = class AppModule {
-};
+var core_1 = require("@angular/core");
+var platform_browser_1 = require("@angular/platform-browser");
+var forms_1 = require("@angular/forms");
+var app_component_js_1 = require("./app.component.js");
+var AppModule = (function () {
+    function AppModule() {
+    }
+    return AppModule;
+}());
 AppModule = __decorate([
     core_1.NgModule({
         imports: [

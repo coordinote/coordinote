@@ -6,32 +6,43 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const core_1 = require("@angular/core");
-const nedb_module_js_1 = require("nedb_module.js");
-class Tile {
-}
+var core_1 = require("@angular/core");
+var Tile = (function () {
+    function Tile() {
+    }
+    return Tile;
+}());
 exports.Tile = Tile;
 var TILE = [];
-let AppComponent = class AppComponent {
-    constructor() {
+var AppComponent = (function () {
+    function AppComponent() {
         this.title = "write";
         this.tiles = TILE;
     }
-    add_Tile() {
+    AppComponent.prototype.add_Tile = function () {
         TILE.push({
-            "index": 0,
-            "text": '',
-            "col_size": 3,
-            "row_index": 1
+            "index": TILE.length,
+            "column": 3,
+            "style": "text",
+            "content": ''
         });
-    }
-    save() {
-        nedb_module_js_1.nedb.db.clips.insert({
-            "tile": Tile[],
-            "tag": "hoge"
-        });
-    }
-};
+    };
+    AppComponent.prototype.log = function () {
+        console.log(TILE);
+        ipcRenderer.send('save_tile', TILE);
+    };
+    AppComponent.prototype.load = function () {
+        ipcRenderer.send('load_clip', 'hoge');
+    };
+    AppComponent.prototype.save_clip = function () {
+        ipcRenderer.send('save_clip', ['clip_test', 'test']);
+    };
+    AppComponent.prototype.newDB = function () {
+        ipcRenderer.send('newDB', 'hoge');
+    };
+    AppComponent.prototype.on = function () { };
+    return AppComponent;
+}());
 AppComponent = __decorate([
     core_1.Component({
         selector: 'write-view',
@@ -39,4 +50,7 @@ AppComponent = __decorate([
     })
 ], AppComponent);
 exports.AppComponent = AppComponent;
+(function (event, message) {
+    console.log(message);
+});
 //# sourceMappingURL=app.component.js.map

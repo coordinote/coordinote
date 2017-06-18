@@ -2,9 +2,9 @@ import { Component }  from '@angular/core';
 
 export class Tile {
   index: number;
-  text: string;
-  col_size: number;
-  row_index: number;
+  column: number;
+  style: string;
+  content: string;
 }
 
 var TILE: Tile[] = [];
@@ -20,10 +20,27 @@ export class AppComponent {
 
   add_Tile(): void{
     TILE.push({
-      "index": 0,
-      "text": '',
-      "col_size": 3,
-      "row_index": 1
+      "index": TILE.length,
+      "column": 3,
+      "style": "text",
+      "content": ''
     });
   }
+
+  log(): void{
+    console.log(TILE);
+    ipcRenderer.send('save_tile', TILE);
+  }
+
+  load(): void{
+    ipcRenderer.send('load_clip', 'hoge');
+  }
+
+  save_clip(): void{
+    ipcRenderer.send('save_clip', ['clip_test', 'test']);
+  }
+
+  ipcRenderer.on('load_clip', (event, message) => {
+    console.log(message);
+  })
 }
