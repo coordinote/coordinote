@@ -5,10 +5,10 @@ const validate = require('jsonschema').validate
 // define schema
 const clip_schema = {
   "type": "object",
-  "required": ["date", "tile", "tag"],
+  "required": ["date", "tile_file", "tag"],
   "properties": {
     "date": {"type": "date-time"},
-    "tile": {"type": "array"},
+    "tile_file": {"type": "string"},
     "tag": {"type": "array"}
   }
 }
