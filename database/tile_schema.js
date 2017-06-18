@@ -5,12 +5,14 @@ const validate = require('jsonschema').validate
 // define schema
 const tile_schema = {
   "type": "object",
-  "required": [],
+  "required": ["cid", "idx", "col", "tag", "sty", "con"],
   "properties": {
-    "index": {"type": "integer"},
-    "column": {"type": "integer"},
-    "style": {"type": {"enum": ["text", "canvas", "figure"]}},
-    "content": {"type": "string"}
+    "cid": {"type": "string"},
+    "idx": {"type": "integer"},
+    "col": {"type": "integer"},
+    "tag": {"type": "array"},
+    "sty": {"type": {"enum": ["txt", "svg", "fig"]}},
+    "con": {"type": "string"}
   }
 }
 
