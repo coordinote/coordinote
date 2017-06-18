@@ -1,10 +1,14 @@
 'use strict'
 
-let NeDB_Modules = require('../nedb_module.js')
+// require
+const NeDB_Modules = require('../nedb_module.js')
 let dbmethod = new NeDB_Modules()
 
+// var
+let target_cid = "aW2hG7kwoOPfhzkX"
+
 //*
-dbmethod.get_tiles_cid("aW2hG7kwoOPfhzkX", (docs) => {
+dbmethod.get_tiles_cid(, (docs) => {
   console.log(docs)
 })
 //*/
@@ -17,7 +21,7 @@ dbmethod.set_clip(['helloworld', 'coordinote'], (newdocs) => {
 
 /*
 let instance = {
-  "cid": "aW2hG7kwoOPfhzkX",
+  "cid": target_cid,
   "idx": 0,
   "col": 321,
   "tag": ["公式", "よくわかった"],
