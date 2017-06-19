@@ -7,8 +7,8 @@ let dbmethod = new NeDB_Modules()
 // var
 let target_cid = "aW2hG7kwoOPfhzkX"
 
-//*
-dbmethod.get_tiles_cid(, (docs) => {
+/*
+dbmethod.get_tiles_cid(target_cid, (docs) => {
   console.log(docs)
 })
 //*/
