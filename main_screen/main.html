@@ -5,7 +5,15 @@
         <title>coordinote</title>
         <style>
             .pusher {
-                padding-top:10%;
+                padding-top:10vh;
+            }
+            #logo_image{
+                position: absolute;
+                width: 100vw;
+                height: 90vh;
+                background-image: url("/__dirname/resource/img/icon_grey@512px.png");
+                background-repeat: no-repeat;
+                background-position: center center;
             }
         </style>
         <!-- semantic.css semantic.js common.js 読み込み -->
@@ -51,10 +59,8 @@
         </div>
 
         <!-- コンテンツ本体 -->
-        <div class="pusher">
-            <div align="center">
-                <img id="icon_grey" src="/__dirname/resource/img/icon_grey@512px.png" alt="アイコン">
-            </div>
+        <div class="pusher" align="center">
+            <div id="logo_image"></div>
         </div>
 
         <!--main_screenの画面遷移-->
