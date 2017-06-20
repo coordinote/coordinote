@@ -6,6 +6,7 @@ const validate = require('jsonschema').validate
 const tile_schema = {
   "type": "object",
   "required": ["cid", "idx", "col", "tag", "sty", "con"],
+  "additionalProperties": false,
   "properties": {
     "cid": {"type": "string"},
     "idx": {"type": "integer"},
