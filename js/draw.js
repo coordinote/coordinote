@@ -52,6 +52,8 @@ $('#after').click(() => {
 $('#canvas').mousedown((e) => {
     //judge true
     isdraw = true
+    //history array delete
+    history_array.length = 0
     //point array definition
     drawpoints = []
 })
