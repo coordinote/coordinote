@@ -14,7 +14,8 @@ let instance = {
   "col": 321,
   "tag": ["公式", "よくわかった"],
   "sty": "txt",
-  "con": '$y = ax => x = \frac{y}{a}$'
+  "con": '$y = ax => x = \frac{y}{a}$',
+   "hoge", "hoge"
 }
 
 dbmethod.set_tile(instance, (newdocs) => {
