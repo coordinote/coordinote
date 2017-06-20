@@ -2,13 +2,14 @@ body {
     margin: 0;
     background: #dddddd;
     width: 100%;
-    height: 1000px;
     overflow: hidden;
 }
 
-.tool {
+.tools {
     display: flex;
     position: absolute;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 #data {
     position: absolute;

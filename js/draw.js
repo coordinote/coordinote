@@ -1,6 +1,6 @@
 //get canvas id 
 var container = $('#canvas')
-
+//tools tolerance
 $('#omit').change(() => {
     $('#omit-label').html($('#omit').val())
 })
@@ -15,9 +15,40 @@ var drawingPath
 //svg path style
 var defaultPathStyle = {
     strokeWidth: "3px",
-    stroke: "#000",
-    fill: "none",
+    stroke: "#000000",
+    fill: "none"
 }
+
+//before and after stack
+var array = []
+
+//path style color
+$('#red').click(() => {
+    defaultPathStyle.stroke = "#ff0000"
+})
+$('#black').click(() => {
+    defaultPathStyle.stroke = "#000000"
+})
+
+//path before
+$('#before').click(() => {
+    //path delete and save
+    var save_path = $('path:last').detach()
+    //array include savepath and not undefined 
+    if(array.indexOf(save_path.get()[0]) != 0){
+        if(save_path.get()[0] != undefined){
+            //add path in stack array
+            array.push(save_path.get()[0])
+        }
+    }
+})
+//path after
+$('#after').click(() => {
+    //path restoration
+    container.append(array.getLastVal())
+    //delete path in stack array
+    array.pop()
+})
 
 //mouse click
 container.mousedown((e) => {
@@ -73,4 +104,8 @@ function createPath(points, tolerance, highestQuality) {
 //svg-data size function
 String.prototype.size = function() {
   return (new Blob([this], {type: "text/plain"})).size
+}
+
+Array.prototype.getLastVal = function (){ 
+    return this[this.length -1]
 }
