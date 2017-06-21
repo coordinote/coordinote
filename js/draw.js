@@ -1,5 +1,5 @@
-//tools tolerance
-$('#omit').change(() => {
+
+mit').change(() => {
     $('#omit-label').html($('#omit').val())
 })
 $('#omit-label').html($('#omit').val())
@@ -43,7 +43,7 @@ $('#before').click(() => {
 //path after
 $('#after').click(() => {
     //path restoration
-    $('#canvas').append(history_array.getLastVal())
+    $('#canvas').append(history_array[history_array.length - 1])
     //delete path in stack array
     history_array.pop()
 })
@@ -89,7 +89,7 @@ $('#canvas').mouseup((e) => {
     drawpath = null
     //svg data
     $('#datasize').empty()
-    var svg_data = $('#canvas').html().size()
+    var svg_data = size($('#canvas').html())
     $('#datasize').append(svg_data + "Byte")
 })
 
@@ -102,10 +102,7 @@ function createPath(points, tolerance, highestQuality) {
 }
 
 //svg-data size function
-String.prototype.size = function() {
-  return (new Blob([this], {type: "text/plain"})).size
+function size(str){
+    return(encodeURIComponent(str).replace(/%../g,"x").length)
 }
 
-Array.prototype.getLastVal = function() {
-    return this[this.length -1]
-}
