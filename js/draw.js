@@ -1,5 +1,4 @@
-
-mit').change(() => {
+$('omit').change(() => {
     $('#omit-label').html($('#omit').val())
 })
 $('#omit-label').html($('#omit').val())
