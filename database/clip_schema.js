@@ -6,6 +6,7 @@ const validate = require('jsonschema').validate
 const clip_schema = {
   "type": "object",
   "required": ["date", "tile_file", "tag"],
+  "additionalProperties": false,
   "properties": {
     "date": {"type": "date-time"},
     "tile_file": {"type": "string"},
