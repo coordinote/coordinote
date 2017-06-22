@@ -110,3 +110,4 @@ function displaypathdata() {
     var svg_data = size($('#canvas').html())
     $('#datasize').append(svg_data + "Byte")
 }
+
