@@ -36,6 +36,7 @@ $('#before').click(() => {
         if(save_path.get()[0] !== undefined){
             //add path in stack array
             history_array.push(save_path.get()[0])
+            displaypathdata()
         }
     }
 })
@@ -45,6 +46,7 @@ $('#after').click(() => {
     $('#canvas').append(history_array[history_array.length - 1])
     //delete path in stack array
     history_array.pop()
+    displaypathdata()
 })
 
 //mouse click
@@ -86,10 +88,7 @@ $('#canvas').mouseup((e) => {
         return
     }
     drawpath = null
-    //svg data
-    $('#datasize').empty()
-    var svg_data = size($('#canvas').html())
-    $('#datasize').append(svg_data + "Byte")
+    displaypathdata()
 })
 
 //create path
@@ -105,3 +104,9 @@ function size(str){
     return(encodeURIComponent(str).replace(/%../g,"x").length)
 }
 
+//all svg path data
+function displaypathdata() {
+    $('#datasize').empty()
+    var svg_data = size($('#canvas').html())
+    $('#datasize').append(svg_data + "Byte")
+}
