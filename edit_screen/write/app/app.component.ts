@@ -1,13 +1,17 @@
 import { Component }  from '@angular/core';
 
 export class Tile {
-  index: number;
-  column: number;
-  style: string;
-  content: string;
+  cid: string;
+  idx: number;
+  col: number;
+  tag: string;
+  sty: string;
+  con: string;
 }
 
 var TILE: Tile[] = [];
+
+var clip_id = null
 
 @Component({
   selector: 'write-view',
@@ -18,29 +22,30 @@ export class AppComponent {
   title = "write";
   tiles = TILE;
 
-  add_Tile(): void{
+  add_tile(): void{
     TILE.push({
-      "index": TILE.length,
-      "column": 3,
-      "style": "text",
-      "content": ''
+      "cid": clip_id,
+      "idx": TILE.length,
+      "col": 3,
+      "tag": ["test", "やったあ"],
+      "sty": "txt",
+      "con": ''
     });
   }
 
-  log(): void{
+  save_tile(): void{
     console.log(TILE);
-    ipcRenderer.send('save_tile', TILE);
+    if(clip_id !== null){
+      ipcRenderer.send('save_tile', TILE);
+    }
   }
 
-  load(): void{
-    ipcRenderer.send('load_clip', 'hoge');
+  load_clip(): void{
+    console.log(ipcRenderer.sendSync('load_clip', clip_id));
   }
 
   save_clip(): void{
-    ipcRenderer.send('save_clip', ['clip_test', 'test']);
+    clip_id = ipcRenderer.sendSync('save_clip', ['clip_test', 'test']);
   }
 
-  ipcRenderer.on('load_clip', (event, message) => {
-    console.log(message);
-  })
 }

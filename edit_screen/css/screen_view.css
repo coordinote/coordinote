@@ -53,20 +53,19 @@ body article.write-field {
   left: 38vw;
   top: 10vh;
 }
-.text-div {
+.tile-text {
   z-index: 10;
   padding: 0;
   margin: 0;
 }
-.text-div .tile {
-  border: solid 1px #000000;
+.tile-text .tile {
   overflow: hidden;
 }
-.text-input {
+.tile-input {
   padding: 0;
   margin: 0;
   z-index: 20;
 }
-.text-input textarea {
-  resize: none;
+.tile-input textarea {
+  overflow: hidden;
 }

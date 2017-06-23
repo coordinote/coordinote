@@ -14,33 +14,34 @@ var Tile = (function () {
 }());
 exports.Tile = Tile;
 var TILE = [];
+var clip_id = null;
 var AppComponent = (function () {
     function AppComponent() {
         this.title = "write";
         this.tiles = TILE;
     }
-    AppComponent.prototype.add_Tile = function () {
+    AppComponent.prototype.add_tile = function () {
         TILE.push({
-            "index": TILE.length,
-            "column": 3,
-            "style": "text",
-            "content": ''
+            "cid": clip_id,
+            "idx": TILE.length,
+            "col": 3,
+            "tag": ["test", "やったあ"],
+            "sty": "txt",
+            "con": ''
         });
     };
-    AppComponent.prototype.log = function () {
+    AppComponent.prototype.save_tile = function () {
         console.log(TILE);
-        ipcRenderer.send('save_tile', TILE);
+        if (clip_id !== null) {
+            ipcRenderer.send('save_tile', TILE);
+        }
     };
-    AppComponent.prototype.load = function () {
-        ipcRenderer.send('load_clip', 'hoge');
+    AppComponent.prototype.load_clip = function () {
+        console.log(ipcRenderer.sendSync('load_clip', clip_id));
     };
     AppComponent.prototype.save_clip = function () {
-        ipcRenderer.send('save_clip', ['clip_test', 'test']);
+        clip_id = ipcRenderer.sendSync('save_clip', ['clip_test', 'test']);
     };
-    AppComponent.prototype.newDB = function () {
-        ipcRenderer.send('newDB', 'hoge');
-    };
-    AppComponent.prototype.on = function () { };
     return AppComponent;
 }());
 AppComponent = __decorate([
@@ -50,7 +51,4 @@ AppComponent = __decorate([
     })
 ], AppComponent);
 exports.AppComponent = AppComponent;
-(function (event, message) {
-    console.log(message);
-});
 //# sourceMappingURL=app.component.js.map
