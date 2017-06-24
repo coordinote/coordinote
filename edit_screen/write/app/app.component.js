@@ -6,21 +6,18 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = require("@angular/core");
-var Tile = (function () {
-    function Tile() {
-    }
-    return Tile;
-}());
+const core_1 = require("@angular/core");
+class Tile {
+}
 exports.Tile = Tile;
 var TILE = [];
 var clip_id = null;
-var AppComponent = (function () {
-    function AppComponent() {
+let AppComponent = class AppComponent {
+    constructor() {
         this.title = "write";
         this.tiles = TILE;
     }
-    AppComponent.prototype.add_tile = function () {
+    add_tile() {
         TILE.push({
             "cid": clip_id,
             "idx": TILE.length,
@@ -29,21 +26,24 @@ var AppComponent = (function () {
             "sty": "txt",
             "con": ''
         });
-    };
-    AppComponent.prototype.save_tile = function () {
+    }
+    save_tile() {
         console.log(TILE);
-        if (clip_id !== null) {
+        if (clip_id === null) {
+            clip_id = ipcRenderer.sendSync('save_clip', ['clip_test', 'test']);
+            for (let i = 0; i < TILE.length; i++) {
+                TILE[i].cid = clip_id;
+            }
             ipcRenderer.send('save_tile', TILE);
         }
-    };
-    AppComponent.prototype.load_clip = function () {
+    }
+    load_clip() {
         console.log(ipcRenderer.sendSync('load_clip', clip_id));
-    };
-    AppComponent.prototype.save_clip = function () {
+    }
+    save_clip() {
         clip_id = ipcRenderer.sendSync('save_clip', ['clip_test', 'test']);
-    };
-    return AppComponent;
-}());
+    }
+};
 AppComponent = __decorate([
     core_1.Component({
         selector: 'write-view',

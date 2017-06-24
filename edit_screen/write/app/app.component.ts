@@ -11,7 +11,7 @@ export class Tile {
 
 var TILE: Tile[] = [];
 
-var clip_id = null
+var clip_id = null;
 
 @Component({
   selector: 'write-view',
@@ -34,8 +34,11 @@ export class AppComponent {
   }
 
   save_tile(): void{
-    console.log(TILE);
-    if(clip_id !== null){
+    if(clip_id === null){
+      clip_id = ipcRenderer.sendSync('save_clip', ['clip_test', 'test']);
+      for(let i=0; i<TILE.length; i++){
+        TILE[i].cid = clip_id;
+      }
       ipcRenderer.send('save_tile', TILE);
     }
   }
