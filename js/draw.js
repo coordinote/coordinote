@@ -15,6 +15,8 @@ var pathstyle = {
     stroke: "#000000",
     fill: "none"
 }
+//socket.io
+var socket = io.connect();
 
 //before and after stack
 var history_array = []
@@ -31,7 +33,7 @@ $('#black').click(() => {
 $('#before').click(() => {
     //path delete and save
     var save_path = $('path:last').detach()
-    //array include savepath and not undefined 
+    //array include savepath and not undefined
     if(history_array.indexOf(save_path.get()[0]) != 0){
         if(save_path.get()[0] !== undefined){
             //add path in stack array
@@ -89,7 +91,10 @@ $('#canvas').mouseup((e) => {
     }
     drawpath = null
     displaypathdata()
+    datasend()
 })
+
+datareceive()
 
 //create path
 function createPath(points, tolerance, highestQuality) {
@@ -110,4 +115,23 @@ function displaypathdata() {
     var svg_data = size($('#canvas').html())
     $('#datasize').append(svg_data + "Byte")
 }
+//data send
+function datasend(){
+  //send pointdata
+  socket.emit('send_pointdata_from_canvas',drawpoints)
+  //send stroke style
+  socket.emit('send_pathdata_pathFloat_from_canvas',parseFloat($('#omit').val()))
+}
 
+//data receive
+function datareceive(){
+  //receive pointdata
+  socket.on('send_pointdata_from_server',function(pointdata){
+    //receive stroke style
+    socket.on('send_pathdata_PathFloat_from_server',function(Floatdata){
+      datadraw = createPath(pointdata,Floatdata,true)
+      Object.assign(datadraw.style, pathstyle)
+      $('#canvas').append(datadraw)
+    })
+  })
+}
