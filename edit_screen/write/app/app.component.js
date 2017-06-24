@@ -28,7 +28,6 @@ let AppComponent = class AppComponent {
         });
     }
     save_tile() {
-        console.log(TILE);
         if (clip_id === null) {
             clip_id = ipcRenderer.sendSync('save_clip', ['clip_test', 'test']);
             for (let i = 0; i < TILE.length; i++) {
