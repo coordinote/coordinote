@@ -50,18 +50,14 @@ let AppComponent = class AppComponent {
     resize(textarea) {
         let scrollHeight = this.el.querySelector("#" + textarea.id).scrollHeight;
         let height = this.el.querySelector("#" + textarea.id).offsetHeight;
-        console.log("scrollHeight: " + scrollHeight + "  height: " + height);
         let lineHeight = this.el.querySelector("#" + textarea.id).style.lineHeight;
         lineHeight = parseInt(lineHeight.replace(/px/g, ""));
         if (scrollHeight > height) {
-            console.log("true");
             this.el.querySelector("#" + textarea.id).style.height = scrollHeight + "px";
         }
         else if (scrollHeight < height) {
-            console.log("false");
             this.el.querySelector("#" + textarea.id).style.height = height - lineHeight + "px";
         }
-        //this.el.querySelector("#" + textarea.id).style.height = this.el.querySelector("#" + textarea.id).scrollHeight + "px";
     }
 };
 AppComponent = __decorate([
