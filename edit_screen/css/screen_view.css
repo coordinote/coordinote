@@ -60,6 +60,8 @@ body article.write-field {
 }
 .tile-text .tile {
   overflow: hidden;
+  word-wrap: break-word;
+  white-space: pre-wrap;
 }
 .tile-input {
   padding: 0;
@@ -68,4 +70,5 @@ body article.write-field {
 }
 .tile-input textarea {
   overflow: hidden;
+  resize: none;
 }
