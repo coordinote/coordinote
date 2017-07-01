@@ -44,6 +44,7 @@ DBMethod.prototype.get_clips_tags = function(callback_arg){
       })
     },
     (tagConcat, callback) => {
+      // remove duplication
       let tagSet = new Set(tagConcat)
       callback(null, tagSet)
     },
@@ -83,6 +84,7 @@ DBMethod.prototype.get_tiles_cid_tags = function(clip_id, callback_arg){
       })
     },
     (tagConcat, callback) => {
+      // remove duplication
       let tagSet = new Set(tagConcat)
       callback(null, tagSet)
     },
