@@ -14,7 +14,7 @@ class Tile {
 }
 exports.Tile = Tile;
 var TILE = [];
-var clip_id = null;
+var clip_id = "null";
 let AppComponent = class AppComponent {
     constructor(elementRef) {
         this.elementRef = elementRef;
@@ -24,16 +24,21 @@ let AppComponent = class AppComponent {
     }
     add_tile() {
         TILE.push({
-            "cid": clip_id,
-            "idx": TILE.length,
-            "col": 3,
-            "tag": ["test", "やったあ"],
-            "sty": "txt",
-            "con": ''
+            cid: clip_id,
+            idx: TILE.length,
+            col: 3,
+            tag: ["test", "やったあ"],
+            sty: "txt",
+            con: '',
+            edited: true
         });
     }
     save_tile() {
-        if (clip_id === null) {
+        for (let i = 0; i < TILE.length; i++) {
+            delete TILE[i].edited;
+            console.log(TILE[i]);
+        }
+        if (clip_id === "null") {
             clip_id = ipcRenderer.sendSync('save_clip', ['clip_test', 'test']);
             for (let i = 0; i < TILE.length; i++) {
                 TILE[i].cid = clip_id;
@@ -58,6 +63,15 @@ let AppComponent = class AppComponent {
         else if (scrollHeight < height) {
             this.el.querySelector("#" + textarea.id).style.height = height - lineHeight + "px";
         }
+    }
+    visibleTextarea(tile) {
+        TILE[tile.idx].edited = true;
+    }
+    unvisibleTextarea(tile) {
+        TILE[tile.idx].edited = false;
+        let input = this.el.querySelector("#textarea" + tile.idx);
+        this.el.querySelector("#tile" + tile.idx).style.top = input.offsetTop + "px";
+        this.el.querySelector("#tile" + tile.idx).style.left = input.offsetLeft + "px";
     }
 };
 AppComponent = __decorate([

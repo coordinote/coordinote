@@ -1,14 +1,16 @@
+<!--tileのdivタグ-->
+<span class="container tile-contents">
+  <span *ngFor="let tile of tiles" class="tile-for">
+    <div [style.visibility]="tile.edited ? 'hidden' : 'visible'" id='tile{{tile.idx}}' class="col-sm-{{tile.col}} tile" (click)="visibleTextarea(tile)">{{tile.con}}</div>
+  </span>
+</span>
+<!--tileのtextarea-->
 <span class="container tile-input">
-  <span *ngFor="let tile of tiles">
-    <textarea #textarea id='textarea{{tile.idx}}' (input)="resize(textarea)" [(ngModel)]="tile.con" class="col-sm-{{tile.col}} tile_textarea" wrap=hard style="line-height: 20px; height: 24px;"></textarea>
+  <span id="inputspan{{tile.idx}}" *ngFor="let tile of tiles">
+    <textarea #textarea [style.visibility]="tile.edited ? 'visible' : 'hidden'" id='textarea{{tile.idx}}' (input)="resize(textarea)" (blur)="unvisibleTextarea(tile)" [(ngModel)]="tile.con" class="col-sm-{{tile.col}}" wrap=hard style="line-height: 20px; height: 24px;"></textarea>
   </span>
   <input type=button (click)="add_tile()" value="add tile">
   <input type=button (click)="save_tile()" value="save_tile">
   <input type=button (click)="load_clip()" value="load_clip">
   <input type=button (click)="save_clip()" value="save_clip">
-</span>
-<span class="container tile-text">
-  <span *ngFor="let tile of tiles">
-    <div id='tile{{idx}}' class="col-sm-{{tile.col}} tile">{{tile.con}}</div>
-  </span>
 </span>

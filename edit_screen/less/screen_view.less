@@ -71,34 +71,30 @@ body{
     height: @write-field-width * 1.414;
     left: 38vw;
     top: 10vh;
+
+    .tile-contents{
+      padding: 0;
+      margin: 0;
+      z-index: 10;
+
+      .tile{
+        position: absolute;
+        overflow: hidden;
+        word-wrap: break-word;
+        white-space: pre-wrap;
+      }
+    }
+
+    .tile-input{
+      padding: 0;
+      margin: 0;
+      z-index: 20;
+
+      textarea{
+        overflow: hidden;
+        resize: none;
+      }
+    }
   }
 }
 
-.tile-text{
-  //display: none;
-  //position: absolute;
-  //top: 0;
-  z-index: 10;
-  padding: 0;
-  margin: 0;
-
-  .tile{
-    overflow: hidden;
-    word-wrap: break-word;
-    white-space: pre-wrap;
-  }
-}
-
-.tile-input{
-  //position: absolute;
-  //left: 0px;
-  //top: 0px;
-  padding: 0;
-  margin: 0;
-  z-index: 20;
-
-  textarea{
-    overflow: hidden;
-    resize: none;
-  }
-}

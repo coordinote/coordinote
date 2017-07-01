@@ -7,11 +7,12 @@ export class Tile {
   tag: string;
   sty: string;
   con: string;
+  edited: boolean;
 }
 
 var TILE: Tile[] = [];
 
-var clip_id = null;
+var clip_id = "null";
 
 @Component({
   selector: 'write-view',
@@ -27,17 +28,22 @@ export class AppComponent {
 
   add_tile(): void{
     TILE.push({
-      "cid": clip_id,
-      "idx": TILE.length,
-      "col": 3,
-      "tag": ["test", "やったあ"],
-      "sty": "txt",
-      "con": ''
+      cid: clip_id,
+      idx: TILE.length,
+      col: 3,
+      tag: ["test", "やったあ"],
+      sty: "txt",
+      con: '',
+      edited: true
     });
   }
 
   save_tile(): void{
-    if(clip_id === null){
+    for(let i=0; i<TILE.length; i++){
+      delete TILE[i].edited;
+      console.log(TILE[i]);
+    }
+    if(clip_id === "null"){
       clip_id = ipcRenderer.sendSync('save_clip', ['clip_test', 'test']);
       for(let i=0; i<TILE.length; i++){
         TILE[i].cid = clip_id;
@@ -51,7 +57,7 @@ export class AppComponent {
   }
 
   save_clip(): void{
-    clip_id = ipcRenderer.sendSync('save_clip', ['clip_test', 'test'])
+    clip_id = ipcRenderer.sendSync('save_clip', ['clip_test', 'test']);
   }
 
   resize(textarea): void{
@@ -66,4 +72,14 @@ export class AppComponent {
     }
   }
 
+  visibleTextarea(tile): void{
+    TILE[tile.idx].edited = true;
+  }
+
+  unvisibleTextarea(tile): void{
+    TILE[tile.idx].edited = false;
+    let input = this.el.querySelector("#textarea" + tile.idx);
+    this.el.querySelector("#tile" + tile.idx).style.top = input.offsetTop + "px";
+    this.el.querySelector("#tile" + tile.idx).style.left = input.offsetLeft + "px";
+  }
 }

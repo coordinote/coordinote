@@ -53,22 +53,23 @@ body article.write-field {
   left: 38vw;
   top: 10vh;
 }
-.tile-text {
-  z-index: 10;
+body article.write-field .tile-contents {
   padding: 0;
   margin: 0;
+  z-index: 10;
 }
-.tile-text .tile {
+body article.write-field .tile-contents .tile {
+  position: absolute;
   overflow: hidden;
   word-wrap: break-word;
   white-space: pre-wrap;
 }
-.tile-input {
+body article.write-field .tile-input {
   padding: 0;
   margin: 0;
   z-index: 20;
 }
-.tile-input textarea {
+body article.write-field .tile-input textarea {
   overflow: hidden;
   resize: none;
 }
