@@ -8,6 +8,18 @@ let dbmethod = new NeDB_Modules()
 let target_cid = "aW2hG7kwoOPfhzkX"
 
 /*
+dbmethod.get_tiles_cid_tags(target_cid, (tags) => {
+  console.log(tags)
+})
+//*/
+
+/*
+dbmethod.get_clips_tags((tags) => {
+  console.log(tags)
+})
+//*/
+
+/*
 let instance = {
   "cid": target_cid,
   "idx": 0,

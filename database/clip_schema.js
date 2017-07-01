@@ -1,3 +1,5 @@
+'use strict'
+
 // require
 const async = require('async')
 const validate = require('jsonschema').validate
