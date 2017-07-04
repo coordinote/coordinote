@@ -1,16 +1,24 @@
 <!DOCTYPE html>
 <html lang="ja">
-    <head>
-        <meta charset="utf-8">
-    </head>
-    <body>
-        <my-app>Loading…</my-app>
-        <script src="/__dirname/node_modules/core-js/client/shim.min.js"></script>
-        <script src="/__dirname/node_modules/zone.js/dist/zone.js"></script>
-        <script src="/__dirname/node_modules/systemjs/dist/system.src.js"></script>
-        <script src="/__dirname/systemjs.config.js"></script>
-        <script>
-            System.import('export.js').catch(function(err){ console.error(err); });
-        </script>
-    </body>
+  <head>
+    <title>export_screen</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1">
+    <link rel="stylesheet" href="/__dirname/node_modules/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/__dirname/node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/__dirname/node_modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.css" />
+    <script src="/__dirname/require.js"></script>
+    <script type="text/javascript" src="/__dirname/node_modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js"></script>
+  </head>
+  <body>
+    <input type="text" placeholder="Clip Tags" data-role="tagsinput" />
+    <my-app></my-app>
+    <script src="/__dirname/node_modules/core-js/client/shim.min.js"></script>
+    <script src="/__dirname/node_modules/zone.js/dist/zone.js"></script>
+    <script src="/__dirname/node_modules/systemjs/dist/system.src.js"></script>
+    <script src="/__dirname/systemjs.config.js"></script>
+    <script>
+      System.import('export.js').catch(function(err){ console.error(err); });
+    </script>
+  </body>
 </html>
