@@ -63,6 +63,8 @@ body article.write-field .tile-contents .tile {
   overflow: hidden;
   word-wrap: break-word;
   white-space: pre-wrap;
+  user-select: none;
+  cursor: pointer;
 }
 body article.write-field .tile-input {
   padding: 0;

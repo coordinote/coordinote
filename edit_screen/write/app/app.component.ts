@@ -1,4 +1,4 @@
-import { Component, ElementRef }  from '@angular/core';
+import { Component, ElementRef, Renderer }  from '@angular/core';
 
 export class Tile {
   cid: string;
@@ -23,8 +23,9 @@ export class AppComponent {
   title = "write";
   tiles = TILE;
 
-  constructor(private elementRef: ElementRef){}
+  constructor(private elementRef: ElementRef, private Renderer: Renderer){}
   el = this.elementRef.nativeElement;
+  renderer = this.Renderer;
 
   add_tile(): void{
     TILE.push({
@@ -73,11 +74,14 @@ export class AppComponent {
   }
 
   visibleTextarea(tile): void{
-    TILE[tile.idx].edited = true;
+    tile.edited = true;
+    this.el.querySelector("#textarea" + tile.idx).style.visibility = "visible";
+    this.renderer.invokeElementMethod(this.el.querySelector("#textarea" + tile.idx), 'focus');
   }
 
   unvisibleTextarea(tile): void{
-    TILE[tile.idx].edited = false;
+    tile.edited = false;
+    this.el.querySelector("#textarea" + tile.idx).style.visibility = "hidden";
     let input = this.el.querySelector("#textarea" + tile.idx);
     this.el.querySelector("#tile" + tile.idx).style.top = input.offsetTop + "px";
     this.el.querySelector("#tile" + tile.idx).style.left = input.offsetLeft + "px";

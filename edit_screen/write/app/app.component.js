@@ -16,11 +16,13 @@ exports.Tile = Tile;
 var TILE = [];
 var clip_id = "null";
 let AppComponent = class AppComponent {
-    constructor(elementRef) {
+    constructor(elementRef, Renderer) {
         this.elementRef = elementRef;
+        this.Renderer = Renderer;
         this.title = "write";
         this.tiles = TILE;
         this.el = this.elementRef.nativeElement;
+        this.renderer = this.Renderer;
     }
     add_tile() {
         TILE.push({
@@ -65,10 +67,13 @@ let AppComponent = class AppComponent {
         }
     }
     visibleTextarea(tile) {
-        TILE[tile.idx].edited = true;
+        tile.edited = true;
+        this.el.querySelector("#textarea" + tile.idx).style.visibility = "visible";
+        this.renderer.invokeElementMethod(this.el.querySelector("#textarea" + tile.idx), 'focus');
     }
     unvisibleTextarea(tile) {
-        TILE[tile.idx].edited = false;
+        tile.edited = false;
+        this.el.querySelector("#textarea" + tile.idx).style.visibility = "hidden";
         let input = this.el.querySelector("#textarea" + tile.idx);
         this.el.querySelector("#tile" + tile.idx).style.top = input.offsetTop + "px";
         this.el.querySelector("#tile" + tile.idx).style.left = input.offsetLeft + "px";
@@ -79,7 +84,7 @@ AppComponent = __decorate([
         selector: 'write-view',
         templateUrl: 'write/template/write.html'
     }),
-    __metadata("design:paramtypes", [core_1.ElementRef])
+    __metadata("design:paramtypes", [core_1.ElementRef, core_1.Renderer])
 ], AppComponent);
 exports.AppComponent = AppComponent;
 //# sourceMappingURL=app.component.js.map
