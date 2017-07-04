@@ -72,11 +72,16 @@ let AppComponent = class AppComponent {
         this.renderer.invokeElementMethod(this.el.querySelector("#textarea" + tile.idx), 'focus');
     }
     unvisibleTextarea(tile) {
-        tile.edited = false;
-        this.el.querySelector("#textarea" + tile.idx).style.visibility = "hidden";
-        let input = this.el.querySelector("#textarea" + tile.idx);
-        this.el.querySelector("#tile" + tile.idx).style.top = input.offsetTop + "px";
-        this.el.querySelector("#tile" + tile.idx).style.left = input.offsetLeft + "px";
+        if (tile.con.match(/^[ 　\r\n\t]*$/)) {
+            TILE.splice(tile.idx, 1);
+        }
+        else {
+            tile.edited = false;
+            this.el.querySelector("#textarea" + tile.idx).style.visibility = "hidden";
+            let input = this.el.querySelector("#textarea" + tile.idx);
+            this.el.querySelector("#tile" + tile.idx).style.top = input.offsetTop + "px";
+            this.el.querySelector("#tile" + tile.idx).style.left = input.offsetLeft + "px";
+        }
     }
 };
 AppComponent = __decorate([

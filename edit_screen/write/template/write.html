@@ -1,7 +1,7 @@
 <!--tileのdivタグ-->
 <span class="container tile-contents">
   <span *ngFor="let tile of tiles" class="tile-for">
-    <div id='tile{{tile.idx}}' class="col-sm-{{tile.col}} tile" (click)="visibleTextarea(tile)">{{tile.con}}</div>
+    <div [style.visibility]="tile.edited ? 'hidden' : 'visible'" id='tile{{tile.idx}}' class="col-sm-{{tile.col}} tile" (click)="visibleTextarea(tile)">{{tile.con}}</div>
   </span>
 </span>
 <!--tileのtextarea-->
