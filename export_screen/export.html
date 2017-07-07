@@ -12,10 +12,14 @@
     <script type="text/javascript" src="/__dirname/node_modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js"></script>
   </head>
   <body>
-    <input type=button id="tags-data" value="tags">
     <div class="tags-form">
       <p>clip tags</p>
       <input id="clip-tags" type="text" data-role="tagsinput" />
+    </div>
+    
+    <div class="tags-form">
+      <p>tile tags</p>
+      <input id="tile-tags" type="text" data-role="tagsinput" />
     </div>
 
     <export-view></export-view>
@@ -25,9 +29,6 @@
     <script src="/__dirname/node_modules/systemjs/dist/system.src.js"></script>
     <script src="/__dirname/systemjs.config.js"></script>
     <script>
-      $('#tags-data').click(() => {
-          console.log($('#clip-tags').tagsinput('items'))
-      })
       System.import('export.js').catch(function(err){ console.error(err); });
     </script>
   </body>

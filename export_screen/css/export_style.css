@@ -14,7 +14,6 @@ p {
 }
 
 .tags-form {
-  display: inline-flex;
   align-items: center;
 }
 
@@ -27,11 +26,26 @@ p {
   left: 50%;
   transform: translateX(-50%);
 }
-
 .clip-field {
   background-color: #fff;
   width: 40vw;
   height: 56.56vw;
+  margin-bottom: 20px;
+}
+
+.tile-form {
+  overflow: scroll;
+  max-width: 200px;
+  max-height: 80vh;
+  margin: 20px;
+  position: absolute;
+  left: 80vw;
+}
+.tile-field {
+  word-wrap: break-word;
+  background-color: #fff;
+  min-width: 200px;
+  min-height: 100px;
   margin-bottom: 20px;
 }
 

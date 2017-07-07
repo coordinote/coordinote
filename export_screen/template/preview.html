@@ -1,5 +1,5 @@
 <input type=button (click)="append_clip()" value="add clip">
-<input type=button (click)="append_tile()" value="add clip">
+<input type=button (click)="append_tile()" value="add tile">
 
 <div class="clip-form">
   <div *ngFor="let clip of clips">
@@ -7,6 +7,8 @@
   </div>
 </div>
 
-<div class="">
-  <div class="tile-field"></div>
+<div class="tile-form">
+  <div *ngFor="let tile of tiles">
+    <div class="tile-field"><p>{{tile.con}}</p></div>
+  </div>
 </div>
