@@ -7,17 +7,27 @@
     <link rel="stylesheet" href="/__dirname/node_modules/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="/__dirname/node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="/__dirname/node_modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.css" />
+    <link rel="stylesheet" href="/__dirname/export_screen/css/export_style.css">
     <script src="/__dirname/require.js"></script>
     <script type="text/javascript" src="/__dirname/node_modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js"></script>
   </head>
   <body>
-    <input type="text" placeholder="Clip Tags" data-role="tagsinput" />
-    <my-app></my-app>
+    <input type=button id="tags-data" value="tags">
+    <div class="tags-form">
+      <p>clip tags</p>
+      <input id="clip-tags" type="text" data-role="tagsinput" />
+    </div>
+
+    <export-view></export-view>
+
     <script src="/__dirname/node_modules/core-js/client/shim.min.js"></script>
     <script src="/__dirname/node_modules/zone.js/dist/zone.js"></script>
     <script src="/__dirname/node_modules/systemjs/dist/system.src.js"></script>
     <script src="/__dirname/systemjs.config.js"></script>
     <script>
+      $('#tags-data').click(() => {
+          console.log($('#clip-tags').tagsinput('items'))
+      })
       System.import('export.js').catch(function(err){ console.error(err); });
     </script>
   </body>

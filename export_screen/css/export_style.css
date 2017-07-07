@@ -1,0 +1,37 @@
+body {
+  text-align: center;
+  background-color: #eee;
+  margin: 10px;
+  overflow: hidden;
+}
+
+input {
+  min-width: 500px;
+}
+
+p {
+  margin: 0;
+}
+
+.tags-form {
+  display: inline-flex;
+  align-items: center;
+}
+
+.clip-form {
+  max-width: 40vw;
+  max-height: 56.56vw;
+  overflow: scroll;
+  margin: 20px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.clip-field {
+  background-color: #fff;
+  width: 40vw;
+  height: 56.56vw;
+  margin-bottom: 20px;
+}
+

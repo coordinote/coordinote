@@ -7,15 +7,28 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const core_1 = require("@angular/core");
+var CLIP = [];
+var TILE = [];
 let AppComponent = class AppComponent {
     constructor() {
-        this.name = 'Angular';
+        this.clips = CLIP;
+        this.tiles = TILE;
+    }
+    append_clip() {
+        CLIP.push({
+            "con": 'test'
+        });
+    }
+    append_tile() {
+        TILE.push({
+            "con": 'test'
+        });
     }
 };
 AppComponent = __decorate([
     core_1.Component({
-        selector: 'my-app',
-        template: `<h1>Hello {{name}}</h1>`,
+        selector: 'export-view',
+        templateUrl: 'template/preview.html'
     })
 ], AppComponent);
 exports.AppComponent = AppComponent;
