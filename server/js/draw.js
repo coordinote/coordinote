@@ -16,7 +16,7 @@ var pathstyle = {
     fill: "none"
 }
 //socket.io
-var socket = io.connect()
+const socket = io.connect()
 
 //before and after stack
 var history_array = []
@@ -126,9 +126,9 @@ function datasend(){
 //data receive
 function datareceive(){
   //receive pointdata
-  socket.on('pointdata_from_server',function(pointdata){
+  socket.on('pointdata_from_server',(pointdata) => {
     //receive stroke style
-    socket.on('pathdata_PathFloat_from_server',function(Floatdata){
+    socket.on('pathdata_PathFloat_from_server',(Floatdata) => {
       datadraw = createPath(pointdata,Floatdata,true)
       Object.assign(datadraw.style, pathstyle)
       $('#canvas').append(datadraw)
