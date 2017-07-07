@@ -31,6 +31,47 @@ DBMethod.prototype.get_clip_id = function(id, callback){
   })
 }
 
+DBMethod.prototype.get_allclipstags = function(callback_arg){
+  async.waterfall([
+    (callback) => {
+      // projection by tag elem
+      this.db.clips.find({}, {tag: 1}, (err, docs) => {
+        let tagConcat = []
+        for(let doc of docs){
+          tagConcat = tagConcat.concat(doc.tag)
+        }
+        callback(null, tagConcat)
+      })
+    },
+    (tagConcat, callback) => {
+      // remove duplication
+      let tagSet = new Set(tagConcat)
+      callback(null, tagSet)
+    },
+    (tagSet, callback) => {
+      callback_arg(Array.from(tagSet.values()))
+      callback(null)
+    }
+  ])
+}
+
+DBMethod.prototype.get_clips_tags = function(clip_tags, callback_arg){
+  async.waterfall([
+    (callback) => {
+      for(let i = 0; i < clip_tags.length; i++){
+        clip_tags[i] = {tag: clip_tags[i]}
+      }
+      callback(null, clip_tags)
+    },
+    (clip_tags, callback) => {
+      this.db.clips.find({$and: clip_tags}, (err, docs) => {
+        callback_arg(docs)
+      })
+      callback(null)
+    }
+  ])
+}
+
 DBMethod.prototype.get_tiles_cid = function(clip_id, callback){
   this.db.clips.findOne({_id: clip_id}, (err, doc) => {
     if(this.db[doc.tile_file] === undefined){
@@ -40,6 +81,60 @@ DBMethod.prototype.get_tiles_cid = function(clip_id, callback){
       callback(tiledocs)
     })
   })
+}
+
+DBMethod.prototype.get_alltilestags_cid = function(clip_id, callback_arg){
+  async.waterfall([
+    (callback) => {
+      this.db.clips.findOne({_id: clip_id}, (err, doc) => {
+        if(this.db[doc.tile_file] === undefined){
+          this.db[doc.tile_file] = new nedb({filename: DB_DIR + doc.tile_file + '.db', autoload: true})
+        }
+        // projection by tag elem
+        this.db[doc.tile_file].find({cid: doc._id}, {tag: 1}, (err, tiledocs) => {
+          let tagConcat = []
+          for(let doc of tiledocs){
+            tagConcat = tagConcat.concat(doc.tag)
+          }
+          callback(null, tagConcat)
+        })
+      })
+    },
+    (tagConcat, callback) => {
+      // remove duplication
+      let tagSet = new Set(tagConcat)
+      callback(null, tagSet)
+    },
+    (tagSet, callback) => {
+      callback_arg(Array.from(tagSet.values()))
+      callback(null)
+    }
+  ])
+}
+
+DBMethod.prototype.get_tiles_cidtags = function(clip_id, tile_tags, callback_arg){
+  async.waterfall([
+    (callback) => {
+      for(let i = 0; i < tile_tags.length; i++){
+        tile_tags[i] = {tag: tile_tags[i]}
+      }
+      callback(null, tile_tags)
+    },
+    (tile_tags, callback) => {
+      this.db.clips.findOne({_id: clip_id}, (err, doc) => {
+        if(this.db[doc.tile_file] === undefined){
+          this.db[doc.tile_file] = new nedb({filename: DB_DIR + doc.tile_file + '.db', autoload: true})
+        }
+        callback(null, tile_tags, doc.tile_file)
+      })
+    },
+    (tile_tags, tile_file, callback) => {
+      this.db[tile_file].find({$and: tile_tags}, (err, docs) => {
+        callback_arg(docs)
+      })
+      callback(null)
+    }
+  ])
 }
 
 

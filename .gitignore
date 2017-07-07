@@ -8,3 +8,6 @@ semantic.json
 
 # 開発者用ドキュメントリポジトリ
 devdocs/
+
+# OS
+.DS_Store

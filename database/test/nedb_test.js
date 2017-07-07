@@ -8,6 +8,30 @@ let dbmethod = new NeDB_Modules()
 let target_cid = "aW2hG7kwoOPfhzkX"
 
 /*
+dbmethod.get_tiles_cidtags(target_cid, ['よくわからなかった'], (clips) => {
+  console.log(clips)
+})
+//*/
+
+/*
+dbmethod.get_clips_tags(['helloworld', 'test'], (clips) => {
+  console.log(clips)
+})
+//*/
+
+/*
+dbmethod.get_alltilestags_cid(target_cid, (tags) => {
+  console.log(tags)
+})
+//*/
+
+/*
+dbmethod.get_allclipstags((tags) => {
+  console.log(tags)
+})
+//*/
+
+/*
 let instance = {
   "cid": target_cid,
   "idx": 0,
@@ -28,6 +52,12 @@ dbmethod.set_tile(instance, (newdocs) => {
    console.log(docs)
    })
    //*/
+
+/*
+dbmethod.get_clip_id(target_cid, (doc) => {
+  console.log(doc)
+})
+//*/
 
 /*
    dbmethod.set_clip(['helloworld', 'coordinote'], (newdocs) => {
