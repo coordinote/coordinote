@@ -118,17 +118,17 @@ function displaypathdata() {
 //data send
 function datasend(){
   //send pointdata
-  socket.emit('send_pointdata_from_canvas',drawpoints)
+  socket.emit('pointdata_from_canvas',drawpoints)
   //send stroke style
-  socket.emit('send_pathdata_pathFloat_from_canvas',parseFloat($('#omit').val()))
+  socket.emit('pathdata_pathFloat_from_canvas',parseFloat($('#omit').val()))
 }
 
 //data receive
 function datareceive(){
   //receive pointdata
-  socket.on('send_pointdata_from_server',function(pointdata){
+  socket.on('pointdata_from_server',function(pointdata){
     //receive stroke style
-    socket.on('send_pathdata_PathFloat_from_server',function(Floatdata){
+    socket.on('pathdata_PathFloat_from_server',function(Floatdata){
       datadraw = createPath(pointdata,Floatdata,true)
       Object.assign(datadraw.style, pathstyle)
       $('#canvas').append(datadraw)

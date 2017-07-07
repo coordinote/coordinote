@@ -3,7 +3,7 @@ var http = require('http').Server(app)
 var io = require('socket.io').listen(http)
 
 app.get('/',function(req,res){
-  res.sendfile('index.html')
+  res.sendfile(__dirname +'/index.html')
 })
 
 http.listen(3000,function(){
@@ -38,7 +38,7 @@ app.get('/js/resize.js',function(req,res){
   res.sendfile(__dirname + '/js/resize.js')
 })
 
-io.on('connection',function(socket){
+io.sockets.on('connection',function(socket){
   //server receive stroke style
   socket.on('pathdata_pathFloat_from_canvas',function(Floatdata){
     //server send stroke style
@@ -60,8 +60,9 @@ io.on('connection',function(socket){
       socket.emit('return_cid',newclip._id)
     })
   })
-  socket.on('req_all_tags',fuction(){
+  socket.on('req_all_tags',function(){
     nedb.get_clips_tags(function(alltags){
       socket.emit('return_all_tags',alltags)
     })
+  })
 })
