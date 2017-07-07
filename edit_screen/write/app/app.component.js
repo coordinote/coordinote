@@ -13,23 +13,25 @@ const core_1 = require("@angular/core");
 class Tile {
 }
 exports.Tile = Tile;
-var TILE = [];
-var clip_id = "null";
-let WriteAside = WriteAside_1 = class WriteAside {
+let TILE = [];
+let clip_id = "null";
+let WriteNav = WriteNav_1 = class WriteNav {
     constructor() {
         this.foo = "foo";
     }
 };
-WriteAside = WriteAside_1 = __decorate([
+WriteNav = WriteNav_1 = __decorate([
     core_1.Component({
-        selector: 'write-aside',
+        selector: 'write-nav',
         template: `
-    <div>test</div>
+    <nav>
+      <input type="text" value="hoge">
+    </nav>
   `,
-        directive: WriteAside_1
+        directive: WriteNav_1
     })
-], WriteAside);
-exports.WriteAside = WriteAside;
+], WriteNav);
+exports.WriteNav = WriteNav;
 let WriteClip = class WriteClip {
     constructor(elementRef, Renderer) {
         this.elementRef = elementRef;
@@ -90,7 +92,7 @@ let WriteClip = class WriteClip {
         }
         else {
             tile.edited = false;
-            let input = this.el.querySelector("#input-span" + tile.idx);
+            let input = this.el.querySelector("#textarea" + tile.idx);
             this.el.querySelector("#tile" + tile.idx).style.top = input.offsetTop + "px";
             this.el.querySelector("#tile" + tile.idx).style.left = input.offsetLeft + "px";
         }
@@ -119,14 +121,14 @@ AppComponent = __decorate([
     core_1.Component({
         selector: 'write-view',
         template: `
-    <write-aside class="write-aside"></write-aside>
+    <write-nav class="write-nav"></write-nav>
     <article class="write-field">
       <write-clip [tiles]=tiles></write-clip>
     </article>
     `,
-        directive: [WriteClip, WriteAside]
+        directive: [WriteClip, WriteNav]
     })
 ], AppComponent);
 exports.AppComponent = AppComponent;
-var WriteAside_1;
+var WriteNav_1;
 //# sourceMappingURL=app.component.js.map

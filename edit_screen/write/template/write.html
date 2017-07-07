@@ -6,12 +6,8 @@
 </span>
 <!--tileのtextarea-->
 <span class="container tile-input">
-  <span *ngFor="let tile of tiles">
-    <span id="input-span{{tile.idx}}" class="col-sm-{{tile.col}}" [style.visibility]="tile.edited ? 'visible' : 'hidden'">
-      <input type="text" class="col-sm-7" [(ngModel)]="tile.tag" data-role="tagsinput">
-      <input type=button class="col-sm-5" (click)="unvisibleTextarea(tile)" value="完了">
-      <textarea #textarea [style.visibility]="tile.edited ? 'visible' : 'hidden'" id='textarea{{tile.idx}}' (input)="resize(textarea)" [(ngModel)]="tile.con" class="col-sm-12" wrap=hard style="line-height: 20px; height: 24px;"></textarea>
-    </span>
+  <span id="inputspan{{tile.idx}}" *ngFor="let tile of tiles">
+    <textarea #textarea [style.visibility]="tile.edited ? 'visible' : 'hidden'" id='textarea{{tile.idx}}' (input)="resize(textarea)" [(ngModel)]="tile.con" (blur)="unvisibleTextarea(tile)"class="col-sm-{{tile.col}}" wrap=hard style="line-height: 20px; height: 24px;"></textarea>
   </span>
   <input type=button (click)="add_tile()" value="add tile">
   <input type=button (click)="save_tile()" value="save_tile">

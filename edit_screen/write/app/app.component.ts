@@ -10,19 +10,21 @@ export class Tile {
   edited: boolean;
 }
 
-var TILE: Tile[] = [];
+let TILE: Tile[] = [];
 
-var clip_id = "null";
+let clip_id = "null";
 
 @Component({
-  selector: 'write-aside',
+  selector: 'write-nav',
   template: `
-    <div>test</div>
+    <nav>
+      <input type="text" value="hoge">
+    </nav>
   `,
-  directive: WriteAside
+  directive: WriteNav
 })
 
-export class WriteAside{
+export class WriteNav{
   foo = "foo"
 }
 
@@ -95,7 +97,7 @@ export class WriteClip{
       TILE.splice(tile.idx, 1);
     }else{
       tile.edited = false;
-      let input = this.el.querySelector("#input-span" + tile.idx);
+      let input = this.el.querySelector("#textarea" + tile.idx);
       this.el.querySelector("#tile" + tile.idx).style.top = input.offsetTop + "px";
       this.el.querySelector("#tile" + tile.idx).style.left = input.offsetLeft + "px";
     }
@@ -109,12 +111,12 @@ export class WriteClip{
 @Component({
   selector: 'write-view',
   template: `
-    <write-aside class="write-aside"></write-aside>
+    <write-nav class="write-nav"></write-nav>
     <article class="write-field">
       <write-clip [tiles]=tiles></write-clip>
     </article>
     `,
-    directive: [WriteClip, WriteAside]
+    directive: [WriteClip, WriteNav]
 })
 
 export class AppComponent{
