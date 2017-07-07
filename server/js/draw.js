@@ -16,7 +16,7 @@ var pathstyle = {
     fill: "none"
 }
 //socket.io
-var socket = io.connect();
+var socket = io.connect()
 
 //before and after stack
 var history_array = []

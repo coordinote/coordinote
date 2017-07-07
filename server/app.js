@@ -1,42 +1,42 @@
-var app = require('express')();
-var http = require('http').Server(app);
-var io = require('socket.io').listen(http);
+var app = require('express')()
+var http = require('http').Server(app)
+var io = require('socket.io').listen(http)
 
 app.get('/',function(req,res){
-  res.sendfile('index.html');
-});
+  res.sendfile('index.html')
+})
 
 http.listen(3000,function(){
-  console.log('Open 3000');
-});
+  console.log('Open 3000')
+})
 
 app.get('/css/login.css', function(req, res){
-  res.sendfile(__dirname + '/css/login.css');
-});
+  res.sendfile(__dirname + '/css/login.css')
+})
 
 app.get('/img/logo.png', function(req, res) {
-  res.sendfile(__dirname + '/img/logo.png');
-});
+  res.sendfile(__dirname + '/img/logo.png')
+})
 
 app.get('/css/style.css', function(req, res) {
-  res.sendfile(__dirname + '/css/style.css');
-});
+  res.sendfile(__dirname + '/css/style.css')
+})
 
 app.get('/img/bg-img.jpg', function(req, res) {
-  res.sendfile(__dirname + '/img/bg-img.jpg');
-});
+  res.sendfile(__dirname + '/img/bg-img.jpg')
+})
 
 app.get('/svg-canvas.html',function(req,res){
-  res.sendfile(__dirname + '/svg-canvas.html');
-});
+  res.sendfile(__dirname + '/svg-canvas.html')
+})
 
 app.get('/js/draw.js',function(req,res){
-  res.sendfile(__dirname + '/js/draw.js');
-});
+  res.sendfile(__dirname + '/js/draw.js')
+})
 
 app.get('/js/resize.js',function(req,res){
-  res.sendfile(__dirname + '/js/resize.js');
-});
+  res.sendfile(__dirname + '/js/resize.js')
+})
 
 io.on('connection',function(socket){
   //server receive stroke style
@@ -64,4 +64,4 @@ io.on('connection',function(socket){
     nedb.get_clips_tags(function(alltags){
       socket.emit('return_all_tags',alltags)
     })
-});
+})
