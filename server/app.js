@@ -40,12 +40,28 @@ app.get('/js/resize.js',function(req,res){
 
 io.on('connection',function(socket){
   //server receive stroke style
-  socket.on('send_pathdata_pathFloat_from_canvas',function(Floatdata){
+  socket.on('pathdata_pathFloat_from_canvas',function(Floatdata){
     //server send stroke style
-    socket.broadcast.emit('send_pathdata_PathFloat_from_server',Floatdata);
-  });
+    socket.broadcast.emit('pathdata_PathFloat_from_server',Floatdata)
+  })
   //server send pointdata
-  socket.on('send_pointdata_from_canvas',function(pointdata){
-    socket.broadcast.emit('send_pointdata_from_server',pointdata)
-  });
+  socket.on('pointdata_from_canvas',function(pointdata){
+    socket.broadcast.emit('pointdata_from_server',pointdata)
+  })
+  //save tile data
+  socket.on('save_tile',function(TILE){
+    //tile data send database
+    nedb.set_tile(TILE,(save_doc) => {
+      console.log(save_doc)
+    })
+  })
+  socket.on('save_clip',function(tag){
+    nedb.set_clip(tag,(newclip) => {
+      socket.emit('return_cid',newclip._id)
+    })
+  })
+  socket.on('req_all_tags',fuction(){
+    nedb.get_clips_tags(function(alltags){
+      socket.emit('return_all_tags',alltags)
+    })
 });
