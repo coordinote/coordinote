@@ -64,13 +64,19 @@ body{
     }
   }
 
+  .write-aside{
+    position: absolute;
+    left: 38vw;
+    top: 10vh;
+  }
+
   article.write-field{
     background-color: @menu-color;
     position: absolute;
     width: @write-field-width;
     height: @write-field-width * 1.414;
     left: 38vw;
-    top: 10vh;
+    top: 15vh;
 
     .tile-contents{
       padding: 0;
@@ -92,10 +98,21 @@ body{
       margin: 0;
       z-index: 20;
 
-      textarea{
-        overflow: hidden;
-        resize: none;
+      span{
+        padding: 0;
+        margin: 0;
+
+        label{
+          padding: 0;
+          margin: 0;
+        }
+
+        textarea{
+          overflow: hidden;
+          resize: none;
+        }
       }
+
     }
   }
 }

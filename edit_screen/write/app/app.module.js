@@ -18,7 +18,11 @@ AppModule = __decorate([
             platform_browser_1.BrowserModule,
             forms_1.FormsModule
         ],
-        declarations: [app_component_js_1.AppComponent],
+        declarations: [
+            app_component_js_1.AppComponent,
+            app_component_js_1.WriteClip,
+            app_component_js_1.WriteAside
+        ],
         bootstrap: [app_component_js_1.AppComponent]
     })
 ], AppModule);

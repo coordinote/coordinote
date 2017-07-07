@@ -1,4 +1,4 @@
-import { Component, ElementRef, Renderer }  from '@angular/core';
+import { Component, ElementRef, Renderer, Input }  from '@angular/core';
 
 export class Tile {
   cid: string;
@@ -15,13 +15,24 @@ var TILE: Tile[] = [];
 var clip_id = "null";
 
 @Component({
-  selector: 'write-view',
+  selector: 'write-aside',
+  template: `
+    <div>test</div>
+  `,
+  directive: WriteAside
+})
+
+export class WriteAside{
+  foo = "foo"
+}
+
+@Component({
+  selector: 'write-clip',
   templateUrl: 'write/template/write.html'
 })
 
-export class AppComponent {
-  title = "write";
-  tiles = TILE;
+export class WriteClip{
+  @Input() tiles: TILE;
 
   constructor(private elementRef: ElementRef, private Renderer: Renderer){}
   el = this.elementRef.nativeElement;
@@ -84,10 +95,28 @@ export class AppComponent {
       TILE.splice(tile.idx, 1);
     }else{
       tile.edited = false;
-      this.el.querySelector("#textarea" + tile.idx).style.visibility = "hidden";
-      let input = this.el.querySelector("#textarea" + tile.idx);
+      let input = this.el.querySelector("#input-span" + tile.idx);
       this.el.querySelector("#tile" + tile.idx).style.top = input.offsetTop + "px";
       this.el.querySelector("#tile" + tile.idx).style.left = input.offsetLeft + "px";
     }
   }
+
+
+  hoge(): void{
+  }
+}
+
+@Component({
+  selector: 'write-view',
+  template: `
+    <write-aside class="write-aside"></write-aside>
+    <article class="write-field">
+      <write-clip [tiles]=tiles></write-clip>
+    </article>
+    `,
+    directive: [WriteClip, WriteAside]
+})
+
+export class AppComponent{
+  public tiles = TILE;
 }

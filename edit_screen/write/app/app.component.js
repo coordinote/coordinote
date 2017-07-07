@@ -15,12 +15,25 @@ class Tile {
 exports.Tile = Tile;
 var TILE = [];
 var clip_id = "null";
-let AppComponent = class AppComponent {
+let WriteAside = WriteAside_1 = class WriteAside {
+    constructor() {
+        this.foo = "foo";
+    }
+};
+WriteAside = WriteAside_1 = __decorate([
+    core_1.Component({
+        selector: 'write-aside',
+        template: `
+    <div>test</div>
+  `,
+        directive: WriteAside_1
+    })
+], WriteAside);
+exports.WriteAside = WriteAside;
+let WriteClip = class WriteClip {
     constructor(elementRef, Renderer) {
         this.elementRef = elementRef;
         this.Renderer = Renderer;
-        this.title = "write";
-        this.tiles = TILE;
         this.el = this.elementRef.nativeElement;
         this.renderer = this.Renderer;
     }
@@ -77,19 +90,43 @@ let AppComponent = class AppComponent {
         }
         else {
             tile.edited = false;
-            this.el.querySelector("#textarea" + tile.idx).style.visibility = "hidden";
-            let input = this.el.querySelector("#textarea" + tile.idx);
+            let input = this.el.querySelector("#input-span" + tile.idx);
             this.el.querySelector("#tile" + tile.idx).style.top = input.offsetTop + "px";
             this.el.querySelector("#tile" + tile.idx).style.left = input.offsetLeft + "px";
         }
+    }
+    hoge() {
+    }
+};
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Object)
+], WriteClip.prototype, "tiles", void 0);
+WriteClip = __decorate([
+    core_1.Component({
+        selector: 'write-clip',
+        templateUrl: 'write/template/write.html'
+    }),
+    __metadata("design:paramtypes", [core_1.ElementRef, core_1.Renderer])
+], WriteClip);
+exports.WriteClip = WriteClip;
+let AppComponent = class AppComponent {
+    constructor() {
+        this.tiles = TILE;
     }
 };
 AppComponent = __decorate([
     core_1.Component({
         selector: 'write-view',
-        templateUrl: 'write/template/write.html'
-    }),
-    __metadata("design:paramtypes", [core_1.ElementRef, core_1.Renderer])
+        template: `
+    <write-aside class="write-aside"></write-aside>
+    <article class="write-field">
+      <write-clip [tiles]=tiles></write-clip>
+    </article>
+    `,
+        directive: [WriteClip, WriteAside]
+    })
 ], AppComponent);
 exports.AppComponent = AppComponent;
+var WriteAside_1;
 //# sourceMappingURL=app.component.js.map

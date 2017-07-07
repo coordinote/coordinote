@@ -45,13 +45,18 @@ body article.clip-bar.active {
   width: 15vw;
   box-shadow: 3px 0px 1px rgba(0, 0, 0, 0.3);
 }
+body .write-aside {
+  position: absolute;
+  left: 38vw;
+  top: 10vh;
+}
 body article.write-field {
   background-color: #fff;
   position: absolute;
   width: 40vw;
   height: 56.56vw;
   left: 38vw;
-  top: 10vh;
+  top: 15vh;
 }
 body article.write-field .tile-contents {
   padding: 0;
@@ -71,7 +76,15 @@ body article.write-field .tile-input {
   margin: 0;
   z-index: 20;
 }
-body article.write-field .tile-input textarea {
+body article.write-field .tile-input span {
+  padding: 0;
+  margin: 0;
+}
+body article.write-field .tile-input span label {
+  padding: 0;
+  margin: 0;
+}
+body article.write-field .tile-input span textarea {
   overflow: hidden;
   resize: none;
 }
