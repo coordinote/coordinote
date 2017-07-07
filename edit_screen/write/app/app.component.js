@@ -100,7 +100,7 @@ let WriteClip = class WriteClip {
 };
 __decorate([
     core_1.Input(),
-    __metadata("design:type", Object)
+    __metadata("design:type", Tile)
 ], WriteClip.prototype, "tiles", void 0);
 WriteClip = __decorate([
     core_1.Component({

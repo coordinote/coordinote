@@ -32,7 +32,7 @@ export class WriteAside{
 })
 
 export class WriteClip{
-  @Input() tiles: TILE;
+  @Input() tiles: Tile;
 
   constructor(private elementRef: ElementRef, private Renderer: Renderer){}
   el = this.elementRef.nativeElement;
