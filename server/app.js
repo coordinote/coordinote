@@ -2,41 +2,26 @@ const app = require('express')()
 const http = require('http').Server(app)
 const io = require('socket.io').listen(http)
 
-app.get('/',(req,res) => {
-  res.sendfile(__dirname +'/index.html')
-})
-
 http.listen(3000,() => {
   console.log('Open 3000')
 })
 
-app.get('/css/login.css',(req, res) => {
-  res.sendfile(__dirname + '/css/login.css')
+app.get(/\/html\/*/,(req,res) => {
+  res.sendfile(__dirname + req.url)
 })
 
-app.get('/img/logo.png', (req, res) => {
-  res.sendfile(__dirname + '/img/logo.png')
+app.get(/\/css\/*/,(req, res) => {
+  res.sendfile(__dirname + req.url)
 })
 
-app.get('/css/style.css',(req, res) => {
-  res.sendfile(__dirname + '/css/style.css')
+app.get(/\/img\/*/, (req, res) => {
+  res.sendfile(__dirname + req.url)
 })
 
-app.get('/img/bg-img.jpg',(req, res) => {
-  res.sendfile(__dirname + '/img/bg-img.jpg')
+app.get(/\/js\/*/,(req,res) => {
+  res.sendfile(__dirname + req.url)
 })
 
-app.get('/svg-canvas.html',(req,res) => {
-  res.sendfile(__dirname + '/svg-canvas.html')
-})
-
-app.get('/js/draw.js',(req,res) => {
-  res.sendfile(__dirname + '/js/draw.js')
-})
-
-app.get('/js/resize.js',(req,res) => {
-  res.sendfile(__dirname + '/js/resize.js')
-})
 
 io.sockets.on('connection',(socket) => {
   //server receive stroke style
