@@ -1,0 +1,8 @@
+{
+  "name": "nedb_module",
+  "version": "0.0.1",
+  "description": "query method for coordinote project.",
+  "author": "coordinote",
+  "main": "index.js",
+  "license": "MIT"
+}

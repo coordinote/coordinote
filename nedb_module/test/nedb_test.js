@@ -1,7 +1,7 @@
 'use strict'
 
 // require
-const NeDB_Modules = require('../nedb_module.js')
+const NeDB_Modules = require('../../nedb_module')
 let dbmethod = new NeDB_Modules()
 
 // var
