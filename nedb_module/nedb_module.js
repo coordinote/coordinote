@@ -291,6 +291,27 @@ DBMethod.prototype.update_tilecon_cidid = function(con, clip_id, tile_id, callba
   })
 }
 
+// delete
+DBMethod.prototype.delete_clip_id = function(clip_id, callback){
+  // delete clip and tiles
+  this.dbLoad(clip_id, (tile_file) => {
+    this.db[tile_file].remove({cid: clip_id}, {multi: true}, (numRemoved) => {
+      console.log(numRemoved)
+      this.db.clips.remove({_id: clip_id}, {}, () => {
+        callback()
+      })
+    })
+  })
+}
+
+DBMethod.prototype.delete_tile_cidid = function(clip_id, tile_id, callback){
+  this.dbLoad(clip_id, (tile_file) => {
+    this.db[tile_file].remove({_id: tile_id}, {}, (numRemoved) => {
+      console.log(numRemoved)
+      callback()
+    })
+  })
+}
 
 // exports
 module.exports = DBMethod

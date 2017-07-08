@@ -8,7 +8,11 @@ let dbmethod = new NeDB_Modules()
 let target_cid = "aW2hG7kwoOPfhzkX"
 let target_id = "9SOzR0peDyDw9e80"
 
-
+//*
+dbmethod.delete_clip_id(target_cid, () => {
+  console.log('deleted')
+})
+//*/
 
 /*
 let idx = 5
