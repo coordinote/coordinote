@@ -8,22 +8,27 @@
     <link rel="stylesheet" href="/__dirname/node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="/__dirname/node_modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.css" />
     <link rel="stylesheet" href="/__dirname/export_screen/css/export_style.css">
+    <link rel="stylesheet" href="/__dirname/node_modules/bootstrap-tagsinput/examples/assets/app.css" />
     <script src="/__dirname/require.js"></script>
-    <script type="text/javascript" src="/__dirname/node_modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js"></script>
   </head>
   <body>
-    <div class="tags-form">
+    <div class="clip-tags-form">
       <p>clip tags</p>
-      <input id="clip-tags" type="text" data-role="tagsinput" />
+      <input type="text"  data-role="tagsinput" />
     </div>
     
-    <div class="tags-form">
+    <div class="tile-tags-form">
       <p>tile tags</p>
-      <input id="tile-tags" type="text" data-role="tagsinput" />
+      <input type="text" data-role="tagsinput" />
     </div>
 
     <export-view></export-view>
 
+    <script type="text/javascript" src="/__dirname/node_modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js"></script>
+    <script type="text/javascript" src="/__dirname/node_modules/typeahead.js/dist/typeahead.bundle.min.js"></script>
+    <script src="/__dirname/export_screen/js/tagform.js"></script>
+
+    <!-- system.js to angular -->
     <script src="/__dirname/node_modules/core-js/client/shim.min.js"></script>
     <script src="/__dirname/node_modules/zone.js/dist/zone.js"></script>
     <script src="/__dirname/node_modules/systemjs/dist/system.src.js"></script>

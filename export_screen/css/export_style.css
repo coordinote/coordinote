@@ -1,5 +1,4 @@
 body {
-  text-align: center;
   background-color: #eee;
   margin: 10px;
   overflow: hidden;
@@ -11,6 +10,10 @@ input {
 
 p {
   margin: 0;
+}
+
+.bootstrap-tagsinput {
+  width: 100%;
 }
 
 .tags-form {
