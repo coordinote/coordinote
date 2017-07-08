@@ -18,7 +18,17 @@ let DBMethod = function(){
   this.db.clips = new nedb({filename: DB_DIR + 'clips.db', autoload: true})
 }
 
-// getter
+// loader
+DBMethod.prototype.dbLoad = function(cid, callback){
+  this.db.clips.findOne({_id: cid}, (err, doc) => {
+    if(this.db[doc.tile_file] === undefined){
+      this.db[doc.tile_file] = new nedb({filename: DB_DIR + doc.tile_file + '.db', autoload: true})
+      callback(doc.tile_file)
+    }
+  })
+}
+
+// get
 DBMethod.prototype.get_clip_id = function(id, callback){
   this.db.clips.findOne({_id: id}, (err, doc) => {
     if(this.db[doc.tile_file] === undefined){
@@ -138,7 +148,7 @@ DBMethod.prototype.get_tiles_cidtags = function(clip_id, tile_tags, callback_arg
 }
 
 
-// setter
+// set
 DBMethod.prototype.set_clip = function(tag, callback_arg){
   async.waterfall([
     (callback) => {
@@ -201,6 +211,86 @@ DBMethod.prototype.set_tile = function(instance, callback){
     }
   })
 }
+
+// update
+DBMethod.prototype.update_cliptags_id = function(tags, clip_id, callback){
+  clip_schema.tag_valid(tags, (result) => {
+    if(result.valid){
+      this.db.clips.update({_id: clip_id}, {$set: {tag: tags}}, {returnUpdatedDocs: true}, (err, numReplaced, affectedDocuments) => {
+        callback(affectedDocuments)
+      })
+    }
+    else{
+      // output errors
+      console.error(result.errors)
+    }
+  })
+}
+
+DBMethod.prototype.update_tileidx_cidid = function(idx, clip_id, tile_id, callback){
+  tile_schema.idx_valid(idx, (result) => {
+    if(result.valid){
+      this.dbLoad(clip_id, (tile_file) => {
+        this.db[tile_file].update({_id: tile_id}, {$set: {idx: idx}}, {returnUpdatedDocs: true}, (err, numReplaced, affectedDocuments) => {
+          callback(affectedDocuments)
+        })
+      })
+    }
+    else{
+      // output
+      console.error(result.errors)
+    }
+  })
+}
+
+DBMethod.prototype.update_tilecol_cidid = function(col, clip_id, tile_id, callback){
+  tile_schema.col_valid(col, (result) => {
+    if(result.valid){
+      this.dbLoad(clip_id, (tile_file) => {
+        this.db[tile_file].update({_id: tile_id}, {$set: {col: col}}, {returnUpdatedDocs: true}, (err, numReplaced, affectedDocuments) => {
+          callback(affectedDocuments)
+        })
+      })
+    }
+    else{
+      // output
+      console.error(result.errors)
+    }
+  })
+}
+
+DBMethod.prototype.update_tiletags_cidid = function(tags, clip_id, tile_id, callback){
+  tile_schema.tag_valid(tags, (result) => {
+    if(result.valid){
+      this.dbLoad(clip_id, (tile_file) => {
+        this.db[tile_file].update({_id: tile_id}, {$set: {tag: tags}}, {returnUpdatedDocs: true}, (err, numReplaced, affectedDocuments) => {
+          callback(affectedDocuments)
+        })
+      })
+    }
+    else{
+      // output
+      console.error(result.errors)
+    }
+  })
+}
+
+DBMethod.prototype.update_tilecon_cidid = function(con, clip_id, tile_id, callback){
+  tile_schema.con_valid(con, (result) => {
+    if(result.valid){
+      this.dbLoad(clip_id, (tile_file) => {
+        this.db[tile_file].update({_id: tile_id}, {$set: {con: con}}, {returnUpdatedDocs: true}, (err, numReplaced, affectedDocuments) => {
+          callback(affectedDocuments)
+        })
+      })
+    }
+    else{
+      // output
+      console.error(result.errors)
+    }
+  })
+}
+
 
 // exports
 module.exports = DBMethod

@@ -3,6 +3,6 @@
   "version": "0.0.1",
   "description": "query method for coordinote project.",
   "author": "coordinote",
-  "main": "index.js",
+  "main": "nedb_module.js",
   "license": "MIT"
 }
