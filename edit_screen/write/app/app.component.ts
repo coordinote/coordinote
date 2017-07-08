@@ -1,4 +1,4 @@
-import { Component, ElementRef, Renderer, Input }  from '@angular/core';
+import { Component, ElementRef, Renderer, Input, Output, EventEmitter }  from '@angular/core';
 
 export class Tile {
   cid: string;
@@ -14,27 +14,18 @@ let TILE: Tile[] = [];
 
 let clip_id = "null";
 
-@Component({
-  selector: 'write-nav',
-  template: `
-    <nav>
-      <input type="text" value="hoge">
-    </nav>
-  `,
-  directive: WriteNav
-})
-
-export class WriteNav{
-  foo = "foo"
-}
+let Select_Tile: TIle = {};
 
 @Component({
   selector: 'write-clip',
-  templateUrl: 'write/template/write.html'
+  templateUrl: 'write/template/write.html',
+  directives: WriteClip
 })
 
 export class WriteClip{
-  @Input() tiles: Tile;
+  @Input() tiles: tiles;
+  @Input() select_tile: tile_clip;
+  @Output() output = new EventEmitter<select_tile>();
 
   constructor(private elementRef: ElementRef, private Renderer: Renderer){}
   el = this.elementRef.nativeElement;
@@ -90,6 +81,7 @@ export class WriteClip{
     tile.edited = true;
     this.el.querySelector("#textarea" + tile.idx).style.visibility = "visible";
     this.renderer.invokeElementMethod(this.el.querySelector("#textarea" + tile.idx), 'focus');
+    this.output.emit(tile)
   }
 
   unvisibleTextarea(tile): void{
@@ -102,23 +94,39 @@ export class WriteClip{
       this.el.querySelector("#tile" + tile.idx).style.left = input.offsetLeft + "px";
     }
   }
+}
 
+@Component({
+  selector: 'write-nav',
+  template: `
+    <nav class="col-sm-12">
+      <input type="text" id="tile-tag-input" class="col-sm-9" [(ngModel)]="select_tile.tag">
+      <select id="col-select" class="col-sm-3" [(ngModel)]="select_tile.col">
+        <option *ngFor="let number of [1,2,3,4,5,6,7,8,9,10,11,12]">{{number}}</option>
+      </select>
+    </nav>
+  `,
+  directives: WriteNav
+})
 
-  hoge(): void{
-  }
+export class WriteNav{
+  @Input() tiles: Tile
+  @Input() select_tile
 }
 
 @Component({
   selector: 'write-view',
   template: `
-    <write-nav class="write-nav"></write-nav>
+    <write-nav class="write-nav" [tiles]="tiles" [select_tile]="select_tile"></write-nav>
     <article class="write-field">
-      <write-clip [tiles]=tiles></write-clip>
+      <write-clip [tiles]="tiles" [select_tile]="select_tile" (output)="select_tile=$event"></write-clip>
     </article>
     `,
-    directive: [WriteClip, WriteNav]
+    directives: [WriteClip, WriteNav],
+    inputs: ['tiles', 'select_tile']
 })
 
 export class AppComponent{
   public tiles = TILE;
+  public select_tile = Select_Tile;
 }

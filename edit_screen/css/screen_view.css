@@ -51,8 +51,14 @@ body .write-nav {
   left: 38vw;
   top: 10vh;
 }
+body .write-nav nav {
+  padding: 0;
+  margin: 0;
+}
 body .write-nav input {
-  position: absolute;
+  height: 5vh;
+}
+body .write-nav select {
   height: 5vh;
 }
 body article.write-field {
