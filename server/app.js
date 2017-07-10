@@ -2,8 +2,10 @@ const app = require('express')()
 const http = require('http').Server(app)
 const io = require('socket.io').listen(http)
 
-http.listen(3000,() => {
-  console.log('Open 3000')
+const PORTNUMBER=6277
+
+http.listen(PORTNUMBER,() => {
+  console.log('Open 6277')
 })
 
 app.get(/\/html\/*/,(req,res) => {
@@ -22,12 +24,18 @@ app.get(/\/js\/*/,(req,res) => {
   res.sendfile(__dirname + req.url)
 })
 
+app.get(/\/node_modules\/*/,(req,res) => {
+  let redir = __dirname
+  redir = redir.replace(/\/server$/,"")
+  res.sendfile(redir + req.url)
+})
+
 
 io.sockets.on('connection',(socket) => {
   //server receive stroke style
-  socket.on('pathdata_pathFloat_from_canvas',(Floatdata) => {
+  socket.on('pathdata_Floatdata_from_canvas',(Floatdata) => {
     //server send stroke style
-    socket.broadcast.emit('pathdata_PathFloat_from_server',Floatdata)
+    socket.broadcast.emit('pathdata_Floatdata_from_server',Floatdata)
   })
   //server send pointdata
   socket.on('pointdata_from_canvas',(pointdata) => {

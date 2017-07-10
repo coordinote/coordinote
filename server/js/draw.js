@@ -4,13 +4,13 @@ $('#omit').change(() => {
 $('#omit-label').html($('#omit').val())
 
 //judge draw
-var isdraw = false
+let isdraw = false
 //mouse point
-var drawpoints
+let drawpoints
 //svg path
-var drawpath
+let drawpath
 //svg path style
-var pathstyle = {
+let pathstyle = {
     strokeWidth: "3px",
     stroke: "#000000",
     fill: "none"
@@ -19,7 +19,7 @@ var pathstyle = {
 const socket = io.connect()
 
 //before and after stack
-var history_array = []
+let history_array = []
 
 //path style color
 $('#red').click(() => {
@@ -32,7 +32,7 @@ $('#black').click(() => {
 //path before
 $('#before').click(() => {
     //path delete and save
-    var save_path = $('path:last').detach()
+    let save_path = $('path:last').detach()
     //array include savepath and not undefined
     if(history_array.indexOf(save_path.get()[0]) != 0){
         if(save_path.get()[0] !== undefined){
@@ -98,8 +98,8 @@ datareceive()
 
 //create path
 function createPath(points, tolerance, highestQuality) {
-    var path = document.createElementNS('http://www.w3.org/2000/svg', 'path')
-    var attribute = SVGCatmullRomSpline.toPath(points.map(point => [point.x, point.y]), tolerance, highestQuality)
+    let path = document.createElementNS('http://www.w3.org/2000/svg', 'path')
+    let attribute = SVGCatmullRomSpline.toPath(points.map(point => [point.x, point.y]), tolerance, highestQuality)
     path.setAttributeNS(null, 'd', attribute)
     return path
 }
@@ -112,7 +112,7 @@ function size(str){
 //all svg path data
 function displaypathdata() {
     $('#datasize').empty()
-    var svg_data = size($('#canvas').html())
+    let svg_data = size($('#canvas').html())
     $('#datasize').append(svg_data + "Byte")
 }
 //data send
@@ -120,7 +120,7 @@ function datasend(){
   //send pointdata
   socket.emit('pointdata_from_canvas',drawpoints)
   //send stroke style
-  socket.emit('pathdata_pathFloat_from_canvas',parseFloat($('#omit').val()))
+  socket.emit('pathdata_Floatdata_from_canvas',parseFloat($('#omit').val()))
 }
 
 //data receive
@@ -128,7 +128,7 @@ function datareceive(){
   //receive pointdata
   socket.on('pointdata_from_server',(pointdata) => {
     //receive stroke style
-    socket.on('pathdata_PathFloat_from_server',(Floatdata) => {
+    socket.on('pathdata_Floatdata_from_server',(Floatdata) => {
       datadraw = createPath(pointdata,Floatdata,true)
       Object.assign(datadraw.style, pathstyle)
       $('#canvas').append(datadraw)
