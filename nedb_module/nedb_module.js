@@ -19,7 +19,7 @@ let DBMethod = function(){
 }
 
 // loader
-/* load tile database instance fron cid */
+/* load tile database instance by cid */
 DBMethod.prototype.dbLoad = function(cid, callback){
   this.db.clips.findOne({_id: cid}, (err, doc) => {
     if(err){
