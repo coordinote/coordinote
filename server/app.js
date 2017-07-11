@@ -5,6 +5,7 @@ const nedb_module = require ("../nedb_module")
 
 let nedb = new nedb_module()
 
+//set portnumber
 const PORTNUMBER=6277
 
 http.listen(PORTNUMBER,() => {
@@ -35,30 +36,38 @@ app.get(/\/node_modules\/*/,(req,res) => {
 
 
 io.sockets.on('connection',(socket) => {
+
   //server receive stroke style
   socket.on('pathdata_Floatdata_from_canvas',(Floatdata) => {
     //server send stroke style
     socket.broadcast.emit('pathdata_Floatdata_from_server',Floatdata)
   })
+
   //server send pointdata
   socket.on('pointdata_from_canvas',(pointdata) => {
     socket.broadcast.emit('pointdata_from_server',pointdata)
   })
-  //save tile data
-  socket.on('save_tile',(tile) => {
-    //tile data send database
-    nedb.set_tile(tile,(save_doc) => {
-    })
-  })
+
+  //save clip data
   socket.on('save_clip',(tag) => {
     //clip data send DB
-    nedb.set_clip(tag,(newclip) => {
+    nedb.insert_clip(tag,(newclip) => {
       //send newcilp.id send electron
       socket.emit('return_cid',newclip._id)
     })
   })
+
+  //save tile data
+  socket.on('save_tile',(tile) => {
+    //tile data send database
+    nedb.insert_tile(tile,(save_doc) => {
+    })
+  })
+
+  //return all tag
   socket.on('req_all_tags',() => {
-    nedb.get_allclipstags((alltags) => {
+    nedb.find_allclipstags((alltags) => {
+      //send all tag
       socket.emit('return_all_tags',alltags)
     })
   })

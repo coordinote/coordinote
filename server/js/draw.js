@@ -42,6 +42,7 @@ $('#before').click(() => {
         }
     }
 })
+
 //path after
 $('#after').click(() => {
     //path restoration
@@ -60,6 +61,7 @@ $('#canvas').mousedown((e) => {
     //point array definition
     drawpoints = []
 })
+
 //mouse move
 $('#canvas').mousemove((e) => {
     //draw true
@@ -81,6 +83,7 @@ $('#canvas').mousemove((e) => {
         $('#canvas').append(drawpath)
     }
 })
+
 //mouse up
 $('#canvas').mouseup((e) => {
     //judge false
@@ -115,6 +118,7 @@ function displaypathdata() {
     let svg_data = size($('#canvas').html())
     $('#datasize').append(svg_data + "Byte")
 }
+
 //data send
 function datasend(){
   //send pointdata
