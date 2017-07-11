@@ -88,7 +88,7 @@ DBMethod.prototype.find_clips_tags = function(clip_tags, callback_arg){
     (clip_tags, callback) => {
       this.db.clips.find({$and: clip_tags}, (err, clipdocs) => {
         let clipdocs_edited = []
-        async.eachSeries(clipdocs, (doc, callback) => {
+        async.each(clipdocs, (doc, callback) => {
           this.find_tiles_cid(doc._id, (tiledocs) => {
             clipdocs_edited.push(Object.assign(doc, {tile: tiledocs}))
             callback()
