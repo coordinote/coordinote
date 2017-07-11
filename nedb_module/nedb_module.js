@@ -19,6 +19,7 @@ let DBMethod = function(){
 }
 
 // loader
+/* load tile database instance fron cid */
 DBMethod.prototype.dbLoad = function(cid, callback){
   this.db.clips.findOne({_id: cid}, (err, doc) => {
     if(err){
@@ -34,6 +35,7 @@ DBMethod.prototype.dbLoad = function(cid, callback){
 }
 
 // find
+/* find clip by _id */
 DBMethod.prototype.find_clip_id = function(id, callback){
   this.db.clips.findOne({_id: id}, (err, doc) => {
     if(this.db[doc.tile_file] === undefined){
@@ -46,6 +48,7 @@ DBMethod.prototype.find_clip_id = function(id, callback){
   })
 }
 
+/* find all type of tag in clips */
 DBMethod.prototype.find_allclipstags = function(callback_arg){
   async.waterfall([
     (callback) => {
@@ -73,6 +76,7 @@ DBMethod.prototype.find_allclipstags = function(callback_arg){
   ])
 }
 
+/* find clips by selected tags(about clip) */
 DBMethod.prototype.find_clips_tags = function(clip_tags, callback_arg){
   async.waterfall([
     (callback) => {
@@ -102,6 +106,7 @@ DBMethod.prototype.find_clips_tags = function(clip_tags, callback_arg){
   ])
 }
 
+/* find tiles by cid */
 DBMethod.prototype.find_tiles_cid = function(clip_id, callback){
   this.dbLoad(clip_id, (tile_file) => {
     this.db[tile_file].find({cid: clip_id}, (err, tiledocs) => {
@@ -113,6 +118,7 @@ DBMethod.prototype.find_tiles_cid = function(clip_id, callback){
   })
 }
 
+/* find all type of tag in tiles by cid */
 DBMethod.prototype.find_alltilestags_cid = function(clip_id, callback_arg){
   async.waterfall([
     (callback) => {
@@ -142,6 +148,7 @@ DBMethod.prototype.find_alltilestags_cid = function(clip_id, callback_arg){
   ])
 }
 
+/* find tiles from selected tags(about tile) */
 DBMethod.prototype.find_tiles_cidtags = function(clip_id, tile_tags, callback_arg){
   async.waterfall([
     (callback) => {
@@ -150,7 +157,8 @@ DBMethod.prototype.find_tiles_cidtags = function(clip_id, tile_tags, callback_ar
       async.each(tile_tags, (tile_tag, callback) => {
         tile_tags_edited.push({tag: tile_tag})
         callback()
-      },(err) => {
+      },
+      (err) => {
         callback(null, tile_tags_edited)
       })
     },
@@ -172,6 +180,7 @@ DBMethod.prototype.find_tiles_cidtags = function(clip_id, tile_tags, callback_ar
 
 
 // insert
+/* insert clip by tag */
 DBMethod.prototype.insert_clip = function(tag, callback_arg){
   async.waterfall([
     (callback) => {
@@ -215,6 +224,7 @@ DBMethod.prototype.insert_clip = function(tag, callback_arg){
   ])
 }
 
+/* insert clip by document(shemed) */
 DBMethod.prototype.insert_tile = function(instance, callback){
   tile_schema.tile_valid(instance, (result) => {
     if(result.valid){
@@ -233,6 +243,7 @@ DBMethod.prototype.insert_tile = function(instance, callback){
 }
 
 // update
+/* update tag about clip by _id */
 DBMethod.prototype.update_cliptags_id = function(tags, clip_id, callback){
   clip_schema.tag_valid(tags, (result) => {
     if(result.valid){
@@ -247,6 +258,7 @@ DBMethod.prototype.update_cliptags_id = function(tags, clip_id, callback){
   })
 }
 
+/* update idx about tile by cid and _id */
 DBMethod.prototype.update_tileidx_cidid = function(idx, clip_id, tile_id, callback){
   tile_schema.idx_valid(idx, (result) => {
     if(result.valid){
@@ -263,6 +275,7 @@ DBMethod.prototype.update_tileidx_cidid = function(idx, clip_id, tile_id, callba
   })
 }
 
+/* update col about tile by cid and _id */
 DBMethod.prototype.update_tilecol_cidid = function(col, clip_id, tile_id, callback){
   tile_schema.col_valid(col, (result) => {
     if(result.valid){
@@ -279,6 +292,7 @@ DBMethod.prototype.update_tilecol_cidid = function(col, clip_id, tile_id, callba
   })
 }
 
+/* update tag about tile by cid and _id */
 DBMethod.prototype.update_tiletags_cidid = function(tags, clip_id, tile_id, callback){
   tile_schema.tag_valid(tags, (result) => {
     if(result.valid){
@@ -295,6 +309,7 @@ DBMethod.prototype.update_tiletags_cidid = function(tags, clip_id, tile_id, call
   })
 }
 
+/* update con about tile by cid and _id */
 DBMethod.prototype.update_tilecon_cidid = function(con, clip_id, tile_id, callback){
   tile_schema.con_valid(con, (result) => {
     if(result.valid){
@@ -312,6 +327,7 @@ DBMethod.prototype.update_tilecon_cidid = function(con, clip_id, tile_id, callba
 }
 
 // delete
+/* delete clip by _id */
 DBMethod.prototype.delete_clip_id = function(clip_id, callback){
   // delete clip and tiles
   this.dbLoad(clip_id, (tile_file) => {
@@ -323,6 +339,7 @@ DBMethod.prototype.delete_clip_id = function(clip_id, callback){
   })
 }
 
+/* delete tile by cid and _id */
 DBMethod.prototype.delete_tile_cidid = function(clip_id, tile_id, callback){
   this.dbLoad(clip_id, (tile_file) => {
     this.db[tile_file].remove({_id: tile_id}, {}, (numRemoved) => {
