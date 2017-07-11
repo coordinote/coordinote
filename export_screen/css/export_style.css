@@ -4,20 +4,12 @@ body {
   overflow: hidden;
 }
 
-input {
-  min-width: 500px;
-}
-
 p {
   margin: 0;
 }
 
 .bootstrap-tagsinput {
   width: 100%;
-}
-
-.tags-form {
-  align-items: center;
 }
 
 .clip-form {

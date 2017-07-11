@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="/__dirname/node_modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.css" />
     <link rel="stylesheet" href="/__dirname/export_screen/css/export_style.css">
     <link rel="stylesheet" href="/__dirname/node_modules/bootstrap-tagsinput/examples/assets/app.css" />
+    <link rel="stylesheet" href="/__dirname/node_modules/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css" />
     <script src="/__dirname/require.js"></script>
   </head>
   <body>
@@ -22,11 +23,18 @@
       <input type="text" data-role="tagsinput" />
     </div>
 
+    <div>
+      <button class="designate">Designate</button>
+      <input type="text" class="form-inline start" placeholder="指定日" />
+      <input type="text" class="form-inline end" placeholder="指定日" />
+    </div>
     <export-view></export-view>
 
+    <script type="text/javascript" src="/__dirname/node_modules/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
     <script type="text/javascript" src="/__dirname/node_modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js"></script>
     <script type="text/javascript" src="/__dirname/node_modules/typeahead.js/dist/typeahead.bundle.min.js"></script>
     <script src="/__dirname/export_screen/js/tagform.js"></script>
+    <script src="/__dirname/export_screen/js/dateform.js"></script>
 
     <!-- system.js to angular -->
     <script src="/__dirname/node_modules/core-js/client/shim.min.js"></script>

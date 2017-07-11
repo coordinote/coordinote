@@ -16,16 +16,16 @@ var data = ["Amsterdam",
     "Cape Town",
     "Kinshasa",
     "maturu"
-  ];
+  ]
 var cliptags = new Bloodhound({
     datumTokenizer: Bloodhound.tokenizers.obj.whitespace('clip'),
     queryTokenizer: Bloodhound.tokenizers.whitespace,
-    local: $.map(data, function (tag) {
+    local: $.map(data, (tag) => {
         return {
             clip: tag
-        };
+        }
     })
-});
+})
 cliptags.initialize();
 
 $('.clip-tags-form input').tagsinput({
@@ -40,4 +40,4 @@ $('.clip-tags-form input').tagsinput({
         source: cliptags.ttAdapter()
     }],
     freeInput: true
-});
+})
