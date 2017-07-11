@@ -5,6 +5,9 @@ const path = require('path')
 const url = require('url')
 const fs = require('fs')
 
+//open server
+require('./server/app.js')
+
 // const
 const dirname = '__dirname'
 const PATH_DATA = JSON.parse(fs.readFileSync('./screen_info.json', 'utf-8'))
