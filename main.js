@@ -8,6 +8,9 @@ const db = require('./database/nedb_module.js')
 
 let nedb = new db()
 
+//open server
+require('./server/app.js')
+
 // const
 const dirname = '__dirname'
 const PATH_DATA = JSON.parse(fs.readFileSync('./screen_info.json', 'utf-8'))
