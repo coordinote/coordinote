@@ -1,8 +1,9 @@
 body {
     margin: 0;
-    background: #dddddd;
-    width: 100%;
+    background-color: #ddd;
+    width: 100vw;
     overflow: hidden;
+    height: 100vh;
 }
 
 .tools {

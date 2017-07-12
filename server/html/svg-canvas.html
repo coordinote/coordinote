@@ -2,10 +2,11 @@
 <html lang="ja">
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
         <title>coordinote Canvas</title>
-        <script src="https://satoshikawabata.github.io/SVGCatmullRomSpline/bundle.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-        <link rel="stylesheet" href="css/style.css">
+        <script src="/node_modules/svg-catmull-rom-spline/bundle.js"></script>
+        <script src="/node_modules/jquery/dist/jquery.min.js"></script>
+        <link rel="stylesheet" href="../css/style.css">
     </head>
     <body>
         <div class="tools">
@@ -19,9 +20,7 @@
             <button id="after">after</button>
         </div>
         <svg id="canvas" />
-        <script src="/socket.io/socket.io.js"></script>
-        <script src="js/draw.js"></script>
-        <script src="js/resize.js"></script>
+        <script src="/node_modules/socket.io-client/dist/socket.io.js"></script>
+        <script src="../js/draw.js"></script>
     </body>
 </html>
-
