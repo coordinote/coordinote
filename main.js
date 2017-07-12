@@ -4,9 +4,6 @@ const { app, BrowserWindow, protocol, ipcMain } = require('electron')
 const path = require('path')
 const url = require('url')
 const fs = require('fs')
-const db = require('./database/nedb_module.js')
-
-let nedb = new db()
 
 //open server
 require('./server/app.js')

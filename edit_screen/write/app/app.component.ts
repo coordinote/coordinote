@@ -39,7 +39,7 @@ export class WriteClip{
       tag: ["test", "やったあ"],
       sty: "txt",
       con: '',
-      edited: true
+      edited: false
     });
   }
 
@@ -78,10 +78,13 @@ export class WriteClip{
   }
 
   visibleTextarea(tile): void{
+    let div = this.el.querySelector("#tile" + tile.idx)
     tile.edited = true;
     this.el.querySelector("#textarea" + tile.idx).style.visibility = "visible";
     this.renderer.invokeElementMethod(this.el.querySelector("#textarea" + tile.idx), 'focus');
     this.output.emit(tile)
+    this.el.querySelector("#textarea" + tile.idx).style.top = div.offsetTop + "px";
+    this.el.querySelector("#textarea" + tile.idx).style.left = div.offsetLeft + "px";
   }
 
   unvisibleTextarea(tile): void{
@@ -89,9 +92,6 @@ export class WriteClip{
       TILE.splice(tile.idx, 1);
     }else{
       tile.edited = false;
-      let input = this.el.querySelector("#textarea" + tile.idx);
-      this.el.querySelector("#tile" + tile.idx).style.top = input.offsetTop + "px";
-      this.el.querySelector("#tile" + tile.idx).style.left = input.offsetLeft + "px";
     }
   }
 }

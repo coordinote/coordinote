@@ -93,17 +93,18 @@ body{
     top: 15vh;
 
     .tile-contents{
+      position: relative;
       padding: 0;
       margin: 0;
       z-index: 10;
 
       .tile{
-        position: absolute;
         overflow: hidden;
         word-wrap: break-word;
         white-space: pre-wrap;
         user-select: none;
         cursor: pointer;
+        min-height: 24px;
       }
     }
 
@@ -122,11 +123,12 @@ body{
         }
 
         textarea{
+          position: absolute;
+          //position: relative;
           overflow: hidden;
           resize: none;
         }
       }
-
     }
   }
 }

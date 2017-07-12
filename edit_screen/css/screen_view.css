@@ -70,17 +70,18 @@ body article.write-field {
   top: 15vh;
 }
 body article.write-field .tile-contents {
+  position: relative;
   padding: 0;
   margin: 0;
   z-index: 10;
 }
 body article.write-field .tile-contents .tile {
-  position: absolute;
   overflow: hidden;
   word-wrap: break-word;
   white-space: pre-wrap;
   user-select: none;
   cursor: pointer;
+  min-height: 24px;
 }
 body article.write-field .tile-input {
   padding: 0;
@@ -96,6 +97,7 @@ body article.write-field .tile-input span label {
   margin: 0;
 }
 body article.write-field .tile-input span textarea {
+  position: absolute;
   overflow: hidden;
   resize: none;
 }

@@ -32,7 +32,7 @@ let WriteClip = WriteClip_1 = class WriteClip {
             tag: ["test", "やったあ"],
             sty: "txt",
             con: '',
-            edited: true
+            edited: false
         });
     }
     save_tile() {
@@ -67,10 +67,13 @@ let WriteClip = WriteClip_1 = class WriteClip {
         }
     }
     visibleTextarea(tile) {
+        let div = this.el.querySelector("#tile" + tile.idx);
         tile.edited = true;
         this.el.querySelector("#textarea" + tile.idx).style.visibility = "visible";
         this.renderer.invokeElementMethod(this.el.querySelector("#textarea" + tile.idx), 'focus');
         this.output.emit(tile);
+        this.el.querySelector("#textarea" + tile.idx).style.top = div.offsetTop + "px";
+        this.el.querySelector("#textarea" + tile.idx).style.left = div.offsetLeft + "px";
     }
     unvisibleTextarea(tile) {
         if (tile.con.match(/^[ 　\r\n\t]*$/)) {
@@ -78,9 +81,6 @@ let WriteClip = WriteClip_1 = class WriteClip {
         }
         else {
             tile.edited = false;
-            let input = this.el.querySelector("#textarea" + tile.idx);
-            this.el.querySelector("#tile" + tile.idx).style.top = input.offsetTop + "px";
-            this.el.querySelector("#tile" + tile.idx).style.left = input.offsetLeft + "px";
         }
     }
 };
