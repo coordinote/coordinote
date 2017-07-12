@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule }  from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 
-import { AppComponent, WriteClip, WriteNav }   from './app.component.js';
+import { AppComponent, WriteClip, WriteNav, MathJaxDirective }   from './app.component.js';
 
 @NgModule({
   imports:      [
@@ -12,7 +12,8 @@ import { AppComponent, WriteClip, WriteNav }   from './app.component.js';
   declarations: [
     AppComponent,
     WriteClip,
-    WriteNav
+    WriteNav,
+    MathJaxDirective
   ],
   bootstrap:    [ AppComponent ]
 })

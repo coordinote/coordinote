@@ -8,6 +8,15 @@
     <link rel="stylesheet" href="/__dirname/node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="/__dirname/edit_screen/css/screen_view.css">
     <script src="/__dirname/require.js"></script>
+    <script type="text/javascript" async src="/__dirname/node_modules/mathjax/MathJax.js?config=TeX-AMS_CHTML"></script>
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+          displayMath: [ ['$$','$$'], ["\\[","\\]"] ]
+        }
+      })
+    </script>
   </head>
   <body>
     <!-- ナビゲーションバー(メニュー) -->

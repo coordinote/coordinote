@@ -1,4 +1,4 @@
-import { Component, ElementRef, Renderer, Input, Output, EventEmitter }  from '@angular/core';
+import { Component, Directive, ElementRef, EventEmitter, Input, Output, Renderer }  from '@angular/core';
 
 export class Tile {
   cid: string;
@@ -16,6 +16,22 @@ let clip_id = "null";
 
 let Select_Tile: TIle = {};
 
+@Directive({
+  selector: '[MathJax]'
+})
+
+export class MathJaxDirective {
+  @Input('MathJax') texExpression: string;
+
+  constructor(private el: ElementRef) {
+  }
+
+  ngOnChanges() {
+   this.el.nativeElement.innerHTML = this.texExpression;
+   MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.el.nativeElement]);
+  }
+}
+
 @Component({
   selector: 'write-clip',
   templateUrl: 'write/template/write.html',
@@ -23,7 +39,7 @@ let Select_Tile: TIle = {};
 })
 
 export class WriteClip{
-  @Input() tiles: tiles;
+  @Input() tiles: Tile;
   @Input() select_tile: tile_clip;
   @Output() output = new EventEmitter<select_tile>();
 

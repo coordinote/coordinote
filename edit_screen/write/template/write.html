@@ -1,7 +1,7 @@
 <!--tileのdivタグ-->
 <span class="container tile-contents">
   <span *ngFor="let tile of tiles">
-    <div [style.visibility]="tile.edited ? 'hidden' : 'visible'" id='tile{{tile.idx}}' class="col-sm-{{tile.col}} tile" (click)="visibleTextarea(tile)">{{tile.con}}</div>
+    <div [MathJax]="tile.con" [style.visibility]="tile.edited ? 'hidden' : 'visible'" id='tile{{tile.idx}}' class="col-sm-{{tile.col}} tile" (click)="visibleTextarea(tile)"></div>
   </span>
   <input type=button (click)="add_tile()" value="add tile">
   <input type=button (click)="save_tile()" value="save_tile">

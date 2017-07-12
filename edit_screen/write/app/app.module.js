@@ -21,7 +21,8 @@ AppModule = __decorate([
         declarations: [
             app_component_js_1.AppComponent,
             app_component_js_1.WriteClip,
-            app_component_js_1.WriteNav
+            app_component_js_1.WriteNav,
+            app_component_js_1.MathJaxDirective
         ],
         bootstrap: [app_component_js_1.AppComponent]
     })

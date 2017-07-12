@@ -76,12 +76,12 @@ body article.write-field .tile-contents {
   z-index: 10;
 }
 body article.write-field .tile-contents .tile {
+  min-height: 24px;
   overflow: hidden;
   word-wrap: break-word;
   white-space: pre-wrap;
   user-select: none;
   cursor: pointer;
-  min-height: 24px;
 }
 body article.write-field .tile-input {
   padding: 0;

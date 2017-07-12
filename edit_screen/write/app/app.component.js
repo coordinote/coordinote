@@ -16,6 +16,26 @@ exports.Tile = Tile;
 let TILE = [];
 let clip_id = "null";
 let Select_Tile = {};
+let MathJaxDirective = class MathJaxDirective {
+    constructor(el) {
+        this.el = el;
+    }
+    ngOnChanges() {
+        this.el.nativeElement.innerHTML = this.texExpression;
+        MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.el.nativeElement]);
+    }
+};
+__decorate([
+    core_1.Input('MathJax'),
+    __metadata("design:type", String)
+], MathJaxDirective.prototype, "texExpression", void 0);
+MathJaxDirective = __decorate([
+    core_1.Directive({
+        selector: '[MathJax]'
+    }),
+    __metadata("design:paramtypes", [core_1.ElementRef])
+], MathJaxDirective);
+exports.MathJaxDirective = MathJaxDirective;
 let WriteClip = WriteClip_1 = class WriteClip {
     constructor(elementRef, Renderer) {
         this.elementRef = elementRef;
@@ -86,7 +106,7 @@ let WriteClip = WriteClip_1 = class WriteClip {
 };
 __decorate([
     core_1.Input(),
-    __metadata("design:type", Object)
+    __metadata("design:type", Tile)
 ], WriteClip.prototype, "tiles", void 0);
 __decorate([
     core_1.Input(),
