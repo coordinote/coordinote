@@ -15,8 +15,12 @@ let pathstyle = {
     stroke: "#000000",
     fill: "none"
 }
+//svg path data size
+let pathsize
+
 //socket.io
 const socket = io.connect()
+let pathinfo
 
 //before and after stack
 let history_array = []
@@ -38,7 +42,7 @@ $('#before').click(() => {
         if(save_path.get()[0] !== undefined){
             //add path in stack array
             history_array.push(save_path.get()[0])
-            displaypathdata()
+            svgdataSize()
         }
     }
 })
@@ -49,7 +53,7 @@ $('#after').click(() => {
     $('#canvas').append(history_array[history_array.length - 1])
     //delete path in stack array
     history_array.pop()
-    displaypathdata()
+    svgdataSize()
 })
 
 //mouse click
@@ -60,6 +64,8 @@ $('#canvas').mousedown((e) => {
     history_array.length = 0
     //point array definition
     drawpoints = []
+    //socket send data array
+    pathinfo = []
 })
 
 //mouse move
@@ -86,6 +92,13 @@ $('#canvas').mousemove((e) => {
 
 //mouse up
 $('#canvas').mouseup((e) => {
+    svgdataSize()
+    pathinfo.push({
+      style: pathstyle,
+      size: pathsize,
+      point: drawpoints,
+      tolerance: parseFloat($('#omit').val())
+    })
     //judge false
     isdraw = false
     //drawingPath null or undefined
@@ -93,11 +106,18 @@ $('#canvas').mouseup((e) => {
         return
     }
     drawpath = null
-    displaypathdata()
-    datasend()
+    //send data
+    socket.emit('pathdata_from_canvas', pathinfo)
 })
 
-datareceive()
+//recieve data
+socket.on('pathdata_from_server', (req) => {
+  drawpath = createPath(req[0].point, req[0].tolerance, true)
+  Object.assign(drawpath.style, req[0].style)
+  $('#canvas').append(drawpath)
+  $('#datasize').empty()
+  $('#datasize').append(req[0].size + "Byte")
+})
 
 //create path
 function createPath(points, tolerance, highestQuality) {
@@ -107,35 +127,8 @@ function createPath(points, tolerance, highestQuality) {
     return path
 }
 
-//svg-data size function
-function size(str){
-    return(encodeURIComponent(str).replace(/%../g,"x").length)
-}
-
-//all svg path data
-function displaypathdata() {
-    $('#datasize').empty()
-    let svg_data = size($('#canvas').html())
-    $('#datasize').append(svg_data + "Byte")
-}
-
-//data send
-function datasend(){
-  //send pointdata
-  socket.emit('pointdata_from_canvas',drawpoints)
-  //send stroke style
-  socket.emit('pathdata_Floatdata_from_canvas',parseFloat($('#omit').val()))
-}
-
-//data receive
-function datareceive(){
-  //receive pointdata
-  socket.on('pointdata_from_server',(pointdata) => {
-    //receive stroke style
-    socket.on('pathdata_Floatdata_from_server',(Floatdata) => {
-      datadraw = createPath(pointdata,Floatdata,true)
-      Object.assign(datadraw.style, pathstyle)
-      $('#canvas').append(datadraw)
-    })
-  })
+function svgdataSize(){
+  $('#datasize').empty()
+  pathsize = encodeURIComponent($('#canvas').html()).replace(/%../g,"x").length
+  $('#datasize').append(pathsize + "Byte")
 }

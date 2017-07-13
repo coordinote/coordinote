@@ -48,6 +48,10 @@ io.sockets.on('connection',(socket) => {
     socket.broadcast.emit('pointdata_from_server',pointdata)
   })
 
+  socket.on('pathdata_from_canvas', (req) => {
+    socket.broadcast.emit('pathdata_from_server', req)
+  })
+
   //save clip data
   socket.on('save_clip',(tag) => {
     //clip data send DB
