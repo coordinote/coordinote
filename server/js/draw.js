@@ -20,6 +20,7 @@ let pathsize
 
 //socket.io
 const socket = io.connect()
+//path infomation variable
 let pathinfo
 
 //before and after stack
@@ -35,6 +36,7 @@ $('#black').click(() => {
 
 //path before
 $('#before').click(() => {
+    //send before event
     socket.emit('before_event_from_canvas')
     //path delete and save
     let save_path = $('path:last').detach()
@@ -50,6 +52,7 @@ $('#before').click(() => {
 
 //path after
 $('#after').click(() => {
+    //send after event
     socket.emit('after_event_from_canvas')
     //path restoration
     $('#canvas').append(history_array[history_array.length - 1])
@@ -95,6 +98,7 @@ $('#canvas').mousemove((e) => {
 //mouse up
 $('#canvas').mouseup((e) => {
     svgdataSize()
+    //push svg data of html & path style & size & mouse point array & path tolerance
     pathinfo.push({
       allpath: $('#canvas').html(),
       style: pathstyle,
@@ -109,13 +113,12 @@ $('#canvas').mouseup((e) => {
         return
     }
     drawpath = null
-    //send data
+    //send path infomation
     socket.emit('pathdata_from_canvas', pathinfo)
 })
 
 //recieve data
 socket.on('pathdata_from_server', (req) => {
-  console.log(req[0].allpath)
   drawpath = createPath(req[0].point, req[0].tolerance, true)
   Object.assign(drawpath.style, req[0].style)
   $('#canvas').append(drawpath)
@@ -123,6 +126,7 @@ socket.on('pathdata_from_server', (req) => {
   $('#datasize').append(req[0].size + "Byte")
 })
 
+//recieve before event
 socket.on('before_event_from_server', () => {
   //path delete and save
   let save_path = $('path:last').detach()
@@ -136,6 +140,7 @@ socket.on('before_event_from_server', () => {
   }
 })
 
+//recieve after event
 socket.on('after_event_from_server', () => {
     //path restoration
     $('#canvas').append(history_array[history_array.length - 1])
@@ -152,6 +157,7 @@ function createPath(points, tolerance, highestQuality) {
     return path
 }
 
+//svg data size of html
 function svgdataSize(){
   $('#datasize').empty()
   pathsize = encodeURIComponent($('#canvas').html()).replace(/%../g,"x").length
