@@ -35,6 +35,7 @@ $('#black').click(() => {
 
 //path before
 $('#before').click(() => {
+    socket.emit('before_event_from_canvas')
     //path delete and save
     let save_path = $('path:last').detach()
     //array include savepath and not undefined
@@ -49,6 +50,7 @@ $('#before').click(() => {
 
 //path after
 $('#after').click(() => {
+    socket.emit('after_event_from_canvas')
     //path restoration
     $('#canvas').append(history_array[history_array.length - 1])
     //delete path in stack array
@@ -94,6 +96,7 @@ $('#canvas').mousemove((e) => {
 $('#canvas').mouseup((e) => {
     svgdataSize()
     pathinfo.push({
+      allpath: $('#canvas').html(),
       style: pathstyle,
       size: pathsize,
       point: drawpoints,
@@ -112,11 +115,33 @@ $('#canvas').mouseup((e) => {
 
 //recieve data
 socket.on('pathdata_from_server', (req) => {
+  console.log(req[0].allpath)
   drawpath = createPath(req[0].point, req[0].tolerance, true)
   Object.assign(drawpath.style, req[0].style)
   $('#canvas').append(drawpath)
   $('#datasize').empty()
   $('#datasize').append(req[0].size + "Byte")
+})
+
+socket.on('before_event_from_server', () => {
+  //path delete and save
+  let save_path = $('path:last').detach()
+  //array include savepath and not undefined
+  if(history_array.indexOf(save_path.get()[0]) != 0){
+      if(save_path.get()[0] !== undefined){
+          //add path in stack array
+          history_array.push(save_path.get()[0])
+          svgdataSize()
+      }
+  }
+})
+
+socket.on('after_event_from_server', () => {
+    //path restoration
+    $('#canvas').append(history_array[history_array.length - 1])
+    //delete path in stack array
+    history_array.pop()
+    svgdataSize()
 })
 
 //create path

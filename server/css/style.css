@@ -7,7 +7,6 @@ body {
 }
 
 .tools {
-    display: flex;
     position: absolute;
 }
 #datasize {

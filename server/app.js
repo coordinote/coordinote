@@ -52,6 +52,14 @@ io.sockets.on('connection',(socket) => {
     socket.broadcast.emit('pathdata_from_server', req)
   })
 
+  socket.on('before_event_from_canvas', () => {
+    socket.broadcast.emit('before_event_from_server')
+  })
+
+  socket.on('after_event_from_canvas', () => {
+    socket.broadcast.emit('after_event_from_server')
+  })
+
   //save clip data
   socket.on('save_clip',(tag) => {
     //clip data send DB
