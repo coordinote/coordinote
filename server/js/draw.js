@@ -15,8 +15,13 @@ let pathstyle = {
     stroke: "#000000",
     fill: "none"
 }
+//svg path data size
+let pathsize
+
 //socket.io
 const socket = io.connect()
+//path infomation variable
+let pathinfo
 
 //before and after stack
 let history_array = []
@@ -31,6 +36,8 @@ $('#black').click(() => {
 
 //path before
 $('#before').click(() => {
+    //send before event
+    socket.emit('before_event_from_canvas')
     //path delete and save
     let save_path = $('path:last').detach()
     //array include savepath and not undefined
@@ -38,18 +45,20 @@ $('#before').click(() => {
         if(save_path.get()[0] !== undefined){
             //add path in stack array
             history_array.push(save_path.get()[0])
-            displaypathdata()
+            svgdataSize()
         }
     }
 })
 
 //path after
 $('#after').click(() => {
+    //send after event
+    socket.emit('after_event_from_canvas')
     //path restoration
     $('#canvas').append(history_array[history_array.length - 1])
     //delete path in stack array
     history_array.pop()
-    displaypathdata()
+    svgdataSize()
 })
 
 //mouse click
@@ -60,6 +69,8 @@ $('#canvas').mousedown((e) => {
     history_array.length = 0
     //point array definition
     drawpoints = []
+    //socket send data array
+    pathinfo = []
 })
 
 //mouse move
@@ -86,6 +97,15 @@ $('#canvas').mousemove((e) => {
 
 //mouse up
 $('#canvas').mouseup((e) => {
+    svgdataSize()
+    //push svg data of html & path style & size & mouse point array & path tolerance
+    pathinfo.push({
+      allpath: $('#canvas').html(),
+      style: pathstyle,
+      size: pathsize,
+      point: drawpoints,
+      tolerance: parseFloat($('#omit').val())
+    })
     //judge false
     isdraw = false
     //drawingPath null or undefined
@@ -93,11 +113,41 @@ $('#canvas').mouseup((e) => {
         return
     }
     drawpath = null
-    displaypathdata()
-    datasend()
+    //send path infomation
+    socket.emit('pathdata_from_canvas', pathinfo)
 })
 
-datareceive()
+//recieve data
+socket.on('pathdata_from_server', (req) => {
+  drawpath = createPath(req[0].point, req[0].tolerance, true)
+  Object.assign(drawpath.style, req[0].style)
+  $('#canvas').append(drawpath)
+  $('#datasize').empty()
+  $('#datasize').append(req[0].size + "Byte")
+})
+
+//recieve before event
+socket.on('before_event_from_server', () => {
+  //path delete and save
+  let save_path = $('path:last').detach()
+  //array include savepath and not undefined
+  if(history_array.indexOf(save_path.get()[0]) != 0){
+      if(save_path.get()[0] !== undefined){
+          //add path in stack array
+          history_array.push(save_path.get()[0])
+          svgdataSize()
+      }
+  }
+})
+
+//recieve after event
+socket.on('after_event_from_server', () => {
+    //path restoration
+    $('#canvas').append(history_array[history_array.length - 1])
+    //delete path in stack array
+    history_array.pop()
+    svgdataSize()
+})
 
 //create path
 function createPath(points, tolerance, highestQuality) {
@@ -107,35 +157,9 @@ function createPath(points, tolerance, highestQuality) {
     return path
 }
 
-//svg-data size function
-function size(str){
-    return(encodeURIComponent(str).replace(/%../g,"x").length)
-}
-
-//all svg path data
-function displaypathdata() {
-    $('#datasize').empty()
-    let svg_data = size($('#canvas').html())
-    $('#datasize').append(svg_data + "Byte")
-}
-
-//data send
-function datasend(){
-  //send pointdata
-  socket.emit('pointdata_from_canvas',drawpoints)
-  //send stroke style
-  socket.emit('pathdata_Floatdata_from_canvas',parseFloat($('#omit').val()))
-}
-
-//data receive
-function datareceive(){
-  //receive pointdata
-  socket.on('pointdata_from_server',(pointdata) => {
-    //receive stroke style
-    socket.on('pathdata_Floatdata_from_server',(Floatdata) => {
-      datadraw = createPath(pointdata,Floatdata,true)
-      Object.assign(datadraw.style, pathstyle)
-      $('#canvas').append(datadraw)
-    })
-  })
+//svg data size of html
+function svgdataSize(){
+  $('#datasize').empty()
+  pathsize = encodeURIComponent($('#canvas').html()).replace(/%../g,"x").length
+  $('#datasize').append(pathsize + "Byte")
 }
