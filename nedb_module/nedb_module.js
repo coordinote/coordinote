@@ -77,7 +77,7 @@ DBMethod.prototype.find_allclipstags = function(callback_arg){
 }
 
 /* find clips by selected tags(about clip) */
-DBMethod.prototype.find_clips_tags = function(clip_tags, callback_arg){
+DBMethod.prototype.find_clips_tags = function(clip_tags, start_date, end_date, callback_arg){
   async.waterfall([
     (callback) => {
       // convert to query from clips_tags
@@ -90,7 +90,8 @@ DBMethod.prototype.find_clips_tags = function(clip_tags, callback_arg){
       })
     },
     (clip_tags, callback) => {
-      this.db.clips.find({$and: clip_tags}, (err, clipdocs) => {
+      // clear hour
+      this.db.clips.find({$and: clip_tags.concat([{date: {$gte: new Date(start_date.getFullYear(), start_date.getMonth(), start_date.getDate(), 0, 0, 0, 0)}}, {date: {$lte: new Date(end_date.getFullYear(), end_date.getMonth(), end_date.getDate(), 23, 59, 59, 999)}}])}, (err, clipdocs) => {
         let clipdocs_edited = []
         async.each(clipdocs, (doc, callback) => {
           this.find_tiles_cid(doc._id, (tiledocs) => {
