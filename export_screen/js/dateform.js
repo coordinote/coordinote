@@ -1,16 +1,24 @@
-$('.start').datepicker({
-  language: 'ja'
+let date_instance = new Date()
+let currentdate = date_instance.getMonth()+1+'/'+date_instance.getDay()+'/'+date_instance.getFullYear()
+
+$('.start').val(currentdate)
+$('.end').val(currentdate)
+
+$(() => {
+  $('.start').datepicker({
+    language: 'ja',
+    autoclose: true
+  })
+  $('.end').datepicker({
+    language: 'ja',
+    autoclose: true
+  })
 })
 
-$('.end').datepicker({
-  language: 'ja'
-})
-
-$('.designate').click(() => {
-  let start_date = Date.parse($('.start').val())
-  let end_date = Date.parse($('.end').val())
-  if($('.start').val() !== "" && $('.end').val() !== ""){
-    console.log(start_date+" ~ "+end_date)
-    console.log(new Date(start_date)+" ~ "+new Date(end_date))
-  }
+$(() => {
+  $('.start').on('changeDate', (e) => {
+    selected_date = e['date']
+    $('.end').datepicker('show')
+    $('.end').datepicker('setStartDate', selected_date.getMonth()+1+'/'+selected_date.getDate()+'/'+selected_date.getFullYear())
+  })
 })
