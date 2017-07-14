@@ -37,7 +37,7 @@ $('#black').click(() => {
 //path before
 $('#before').click(() => {
     //send before event
-    socket.emit('before_event_from_canvas')
+    socket.emit('send_beforeevent')
     //path delete and save
     let save_path = $('path:last').detach()
     //array include savepath and not undefined
@@ -53,7 +53,7 @@ $('#before').click(() => {
 //path after
 $('#after').click(() => {
     //send after event
-    socket.emit('after_event_from_canvas')
+    socket.emit('send_afterevent')
     //path restoration
     $('#canvas').append(history_array[history_array.length - 1])
     //delete path in stack array
@@ -114,11 +114,11 @@ $('#canvas').mouseup((e) => {
     }
     drawpath = null
     //send path infomation
-    socket.emit('pathdata_from_canvas', pathinfo)
+    socket.emit('send_pathdata', pathinfo)
 })
 
 //recieve data
-socket.on('pathdata_from_server', (req) => {
+socket.on('res_pathdata', (req) => {
   drawpath = createPath(req[0].point, req[0].tolerance, true)
   Object.assign(drawpath.style, req[0].style)
   $('#canvas').append(drawpath)
@@ -127,7 +127,7 @@ socket.on('pathdata_from_server', (req) => {
 })
 
 //recieve before event
-socket.on('before_event_from_server', () => {
+socket.on('res_beforeevent', () => {
   //path delete and save
   let save_path = $('path:last').detach()
   //array include savepath and not undefined
@@ -141,7 +141,7 @@ socket.on('before_event_from_server', () => {
 })
 
 //recieve after event
-socket.on('after_event_from_server', () => {
+socket.on('res_afterevent', () => {
     //path restoration
     $('#canvas').append(history_array[history_array.length - 1])
     //delete path in stack array

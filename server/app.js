@@ -37,50 +37,39 @@ app.get(/\/node_modules\/*/,(req,res) => {
 
 io.sockets.on('connection',(socket) => {
 
-  //server receive stroke style
-  socket.on('pathdata_Floatdata_from_canvas',(Floatdata) => {
-    //server send stroke style
-    socket.broadcast.emit('pathdata_Floatdata_from_server',Floatdata)
+  socket.on('send_pathdata', (rec) => {
+    socket.broadcast.emit('res_pathdata', rec)
   })
 
-  //server send pointdata
-  socket.on('pointdata_from_canvas',(pointdata) => {
-    socket.broadcast.emit('pointdata_from_server',pointdata)
+  socket.on('send_beforeevent', () => {
+    socket.broadcast.emit('res_beforeevent')
   })
 
-  socket.on('pathdata_from_canvas', (req) => {
-    socket.broadcast.emit('pathdata_from_server', req)
-  })
-
-  socket.on('before_event_from_canvas', () => {
-    socket.broadcast.emit('before_event_from_server')
-  })
-
-  socket.on('after_event_from_canvas', () => {
-    socket.broadcast.emit('after_event_from_server')
+  socket.on('send_afterevent', () => {
+    socket.broadcast.emit('res_afterevent')
   })
 
   //save clip data
-  socket.on('save_clip',(tag) => {
+  socket.on('save_clip',(rec) => {
     //clip data send DB
-    nedb.insert_clip(tag,(newclip) => {
+    nedb.insert_clip(rec,(newclip) => {
       //send newcilp.id send electron
-      socket.emit('return_cid',newclip._id)
+      socket.emit('res_cid',newclip._id)
     })
   })
 
   //save tile data
-  socket.on('save_tile',(tile) => {
+  socket.on('save_tile',(rec) => {
     //tile data send database
-    nedb.insert_tile(tile,(save_doc) => {
+    nedb.insert_tile(rec,(save_doc) => {
     })
   })
 
   //return all tag
-  socket.on('req_all_tags',() => {
+  socket.on('get_alltags',() => {
     nedb.find_allclipstags((alltags) => {
       //send all tag
-      socket.emit('return_all_tags',alltags)
+      socket.emit('res_alltags',alltags)
     })
   })
 })
