@@ -2,11 +2,12 @@ const app = require('express')()
 const http = require('http').Server(app)
 const io = require('socket.io').listen(http)
 const nedb_module = require ("../nedb_module")
+const async = require('async')
 
 let nedb = new nedb_module()
 
 //set portnumber
-const PORTNUMBER=6277
+const PORTNUMBER = 6277
 
 http.listen(PORTNUMBER,() => {
   console.log('Open 6277')
@@ -76,4 +77,26 @@ io.sockets.on('connection',(socket) => {
       socket.emit('res_alltags',alltags)
     })
   })
+
+  //return all tile tags
+  socket.on('send_clipsearchdata',(req) => {
+    nedb.find_clipids_tags(req.cliptags,new Date(req.startdate),new Date(req.enddate),(cids) => {
+      let tiletags = []
+      async.each(cids,(cid,callback) => {
+            nedb.find_alltilestags_cid(cid._id,(tiletag) => {
+              tiletags = tiletags.concat(tiletag)
+              callback()
+            })
+        },
+        (err) => {
+          if(err){
+            console.error(err)
+          }
+          let alltiletags = Array.from(new Set(tiletags).values())
+          socket.emit('res_alltiletags',alltiletags)
+      })
+    })
+  })
+
+
 })

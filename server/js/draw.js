@@ -15,6 +15,13 @@ let pathstyle = {
   stroke: "#000000",
   fill: "none"
 }
+
+let hoge = {
+  cliptags: ['helloworld'],
+  startdate: new Date(1298834800000),
+  enddate: new Date(1499789478356)
+}
+
 //svg path data size
 let pathsize
 
@@ -119,11 +126,11 @@ $('#canvas').mouseup((e) => {
   drawpath = null
   //send path infomation
   socket.emit('send_pathdata', pathinfo[0])
+  socket.emit('send_clipsearchdata',hoge)
 })
 
 //recieve data
 socket.on('res_pathdata', (req) => {
-  console.log(req)
   let recpath = createPath(req.point, req.tolerance, true)
   Object.assign(recpath.style, req.style)
   $('#canvas').append(recpath)
@@ -172,4 +179,3 @@ function svgdataSize(){
   pathsize = encodeURIComponent($('#canvas').html()).replace(/%../g,"x").length
   $('#datasize').append(pathsize + "Byte")
 }
-
