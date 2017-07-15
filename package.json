@@ -4,7 +4,7 @@
   "description": "",
   "main": "main.js",
   "repository": {
-    "type": "git"
+    "type": "git",
     "url": "https://github.com/coordinote/coordinote.git"
   }
   "scripts": {
