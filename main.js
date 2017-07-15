@@ -4,10 +4,6 @@ const { app, BrowserWindow, protocol, ipcMain } = require('electron')
 const path = require('path')
 const url = require('url')
 const fs = require('fs')
-const db = require('./database/nedb_module.js')
-
-let nedb = new db()
-
 //open server
 require('./server/app.js')
 
@@ -17,6 +13,7 @@ const PATH_DATA = JSON.parse(fs.readFileSync('./screen_info.json', 'utf-8'))
 
 // global
 let win
+let spwin
 
 app.on('ready', () => {
   protocol.interceptFileProtocol('file', (req, callback) => {
@@ -42,7 +39,7 @@ function createWindow(){
   })
 
   win.loadURL(url.format({
-    pathname: __dirname + PATH_DATA.splash_path,
+    pathname: __dirname + PATH_DATA.main_path,
     protocol: 'file:',
     slashes: true,
   }))
@@ -56,7 +53,29 @@ function createWindow(){
   })
 }
 
-app.on('ready', createWindow)
+//splash window
+function splashWindow(){
+  spwin = new BrowserWindow({
+    'width': 500,
+    'height': 600,
+    'transparent': true,
+    'frame': false,
+    "resizable": false
+  })
+
+  spwin.loadURL(url.format({
+    pathname: __dirname + PATH_DATA.splash_path,
+    protocol: 'file:',
+    slashes: true
+  }))
+
+  spwin.on('closed', () => {
+    createWindow()
+    spwin = null
+  })
+}
+
+app.on('ready', splashWindow)
 
 app.on('window-all-closed', () => {
   if(process.platform !== 'darwin'){
