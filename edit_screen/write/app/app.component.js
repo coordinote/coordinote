@@ -16,7 +16,7 @@ exports.Tile = Tile;
 let TILE = [];
 let clip_id = "null";
 let Select_Tile = {};
-let socket = io.connect('http://localhost:6277');
+const socket = io.connect('http://localhost:6277');
 let MathJaxDirective = class MathJaxDirective {
     constructor(el) {
         this.el = el;
@@ -74,6 +74,17 @@ let WriteClip = WriteClip_1 = class WriteClip {
         socket.emit('save_clip', ['clip_test', 'test']);
         socket.on('return_cid', (cid) => {
             clip_id = cid;
+        });
+    }
+    add_canvas() {
+        TILE.push({
+            cid: clip_id,
+            idx: TILE.length,
+            col: 3,
+            tag: ["test", "やったあ"],
+            sty: "svg",
+            con: '',
+            edited: false
         });
     }
     resize(textarea) {

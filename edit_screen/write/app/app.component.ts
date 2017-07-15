@@ -84,6 +84,18 @@ export class WriteClip{
     })
   }
 
+  add_canvas(): void{
+    TILE.push({
+      cid: clip_id,
+      idx: TILE.length,
+      col: 3,
+      tag: ["test", "やったあ"],
+      sty: "svg",
+      con: '',
+      edited: false
+    });
+  }
+
   resize(textarea): void{
     let scrollHeight = this.el.querySelector("#" + textarea.id).scrollHeight;
     let height = this.el.querySelector("#" + textarea.id).offsetHeight;
@@ -149,3 +161,4 @@ export class AppComponent{
   public tiles = TILE;
   public select_tile = Select_Tile;
 }
+

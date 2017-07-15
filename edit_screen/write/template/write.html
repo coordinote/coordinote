@@ -1,17 +1,39 @@
+<style>
+  .iframeda{
+    padding: 0 0 0 0;
+    -webkit-user-select: none;
+  }
+  .iframeda:focus{
+    outline: auto 5px -webkit-focus-ring-color;
+  }
+</style>
+
 <!--tileのdivタグ-->
 <span class="container tile-contents">
   <span *ngFor="let tile of tiles">
-    <div [MathJax]="tile.con" [style.visibility]="tile.edited ? 'hidden' : 'visible'" id='tile{{tile.idx}}' class="col-sm-{{tile.col}} tile" (click)="visibleTextarea(tile)"></div>
+    <ng-container *ngIf='tile.sty === "txt"'>
+      <div [MathJax]="tile.con" [style.visibility]="tile.edited ? 'hidden' : 'visible'" id='tile{{tile.idx}}' class="col-sm-{{tile.col}} tile" (click)="visibleTextarea(tile)"></div>
+    </ng-container>
+    <ng-container *ngIf='tile.sty === "svg"'>
+      <span class="col-sm-{{tile.col}}">
+        <iframe src="http://localhost:6277/html/svg-canvas.html" scrolling="auto" style="width: 50%; height: 100%; border-style: none;"></iframe>
+        <span class="iframeda" tabIndex="0" style="width: 100%; height: 100%;"></span>
+      </span>
+    </ng-container>
   </span>
   <input type=button (click)="add_tile()" value="add tile">
   <input type=button (click)="save_tile()" value="save_tile">
   <input type=button (click)="load_clip()" value="load_clip">
   <input type=button (click)="save_clip()" value="save_clip">
   <input type=button (click)="test()" value="hoge">
+  <input type=button (click)="add_canvas()" value="add canvas">
 </span>
 <!--tileのtextarea-->
 <span class="container tile-input">
   <span *ngFor="let tile of tiles">
-    <textarea #textarea [style.visibility]="tile.edited ? 'visible' : 'hidden'" id='textarea{{tile.idx}}' class="col-sm-{{tile.col}}" (input)="resize(textarea)" [(ngModel)]="tile.con" (blur)="unvisibleTextarea(tile); save_tile(tile)" wrap=hard style="line-height: 20px; height: 24px;"></textarea>
+    <ng-container *ngIf='tile.sty === "txt"'>
+      <textarea #textarea [style.visibility]="tile.edited ? 'visible' : 'hidden'" id='textarea{{tile.idx}}' class="col-sm-{{tile.col}}" (input)="resize(textarea)" [(ngModel)]="tile.con" (blur)="unvisibleTextarea(tile); save_tile(tile)" wrap=hard style="line-height: 20px; height: 24px;"></textarea>
+    </ng-container>
   </span>
 </span>
+
