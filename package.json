@@ -13,6 +13,7 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
+    "express-http-proxy": "^1.0.5",
     "gulp": "^3.9.1",
     "gulp-less": "^3.3.0",
     "gulp-webserver": "^0.9.1",

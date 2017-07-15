@@ -12,6 +12,10 @@ http.listen(PORTNUMBER,() => {
   console.log('Open 6277')
 })
 
+app.get('/',(req,res) => {
+  res.sendfile('./server/index.html')
+})
+
 app.get(/\/html\/*/,(req,res) => {
   res.sendfile(__dirname + req.url)
 })
@@ -73,4 +77,3 @@ io.sockets.on('connection',(socket) => {
     })
   })
 })
-
