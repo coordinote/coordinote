@@ -25,6 +25,7 @@ let pathinfo
 
 //before and after stack
 let history_array = []
+let reset = false
 
 //path style color
 $('#red').click(() => {
@@ -36,6 +37,7 @@ $('#black').click(() => {
 
 //path before
 $('#before').click(() => {
+    reset = false
     //send before event
     socket.emit('before_event_from_canvas')
     //path delete and save
@@ -53,7 +55,7 @@ $('#before').click(() => {
 //path after
 $('#after').click(() => {
     //send after event
-    socket.emit('after_event_from_canvas')
+    socket.emit('after_event_from_canvas', reset)
     //path restoration
     $('#canvas').append(history_array[history_array.length - 1])
     //delete path in stack array
@@ -67,6 +69,7 @@ $('#canvas').mousedown((e) => {
     isdraw = true
     //history array delete
     history_array.length = 0
+    reset = true
     //point array definition
     drawpoints = []
     //socket send data array
@@ -119,9 +122,9 @@ $('#canvas').mouseup((e) => {
 
 //recieve data
 socket.on('pathdata_from_server', (req) => {
-  drawpath = createPath(req[0].point, req[0].tolerance, true)
-  Object.assign(drawpath.style, req[0].style)
-  $('#canvas').append(drawpath)
+  let recpath = createPath(req[0].point, req[0].tolerance, true)
+  Object.assign(recpath.style, req[0].style)
+  $('#canvas').append(recpath)
   $('#datasize').empty()
   $('#datasize').append(req[0].size + "Byte")
 })
@@ -141,7 +144,10 @@ socket.on('before_event_from_server', () => {
 })
 
 //recieve after event
-socket.on('after_event_from_server', () => {
+socket.on('after_event_from_server', (res) => {
+    if(res){
+      history_array.length = 0
+    }
     //path restoration
     $('#canvas').append(history_array[history_array.length - 1])
     //delete path in stack array

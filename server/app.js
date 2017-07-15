@@ -56,8 +56,8 @@ io.sockets.on('connection',(socket) => {
     socket.broadcast.emit('before_event_from_server')
   })
 
-  socket.on('after_event_from_canvas', () => {
-    socket.broadcast.emit('after_event_from_server')
+  socket.on('after_event_from_canvas', (req) => {
+    socket.broadcast.emit('after_event_from_server', res)
   })
 
   //save clip data
