@@ -2,14 +2,19 @@ const app = require('express')()
 const http = require('http').Server(app)
 const io = require('socket.io').listen(http)
 const nedb_module = require ("../nedb_module")
+const async = require('async')
 
 let nedb = new nedb_module()
 
 //set portnumber
-const PORTNUMBER=6277
+const PORTNUMBER = 6277
 
 http.listen(PORTNUMBER,() => {
   console.log('Open 6277')
+})
+
+app.get('/',(req,res) => {
+  res.sendfile('./server/index.html')
 })
 
 app.get(/\/html\/*/,(req,res) => {
@@ -40,10 +45,12 @@ io.sockets.on('connection',(socket) => {
   socket.on('send_pathdata', (rec) => {
     socket.broadcast.emit('res_pathdata', rec)
   })
+
   //send before button push event
   socket.on('send_beforeevent', () => {
     socket.broadcast.emit('res_beforeevent')
   })
+
   //send after button push event
   socket.on('send_afterevent', (rec) => {
     socket.broadcast.emit('res_afterevent', rec)
@@ -72,5 +79,51 @@ io.sockets.on('connection',(socket) => {
       socket.emit('res_alltags',alltags)
     })
   })
-})
 
+  //return all tile tags
+  socket.on('send_clipsearchdata',(rec) => {
+    nedb.find_clipids_tags(rec.cliptags,new Date(rec.startdate),new Date(rec.enddate),(cids) => {
+      let tiletags = []
+      async.each(cids,(cid,callback) => {
+            nedb.find_alltilestags_cid(cid._id,(tiletag) => {
+              tiletags = tiletags.concat(tiletag)
+              callback()
+            })
+        },
+        (err) => {
+          if(err){
+            console.error(err)
+          }
+          let alltiletags = Array.from(new Set(tiletags).values())
+          socket.emit('res_alltiletags',alltiletags)
+      })
+    })
+  })
+
+  //return search clip
+  socket.on('send_clipsearchdata',(rec) => {
+    nedb.find_clips_tags(rec.cliptags,new Date(rec.startdate),new Date(rec.enddate),(clips) => {
+      socket.emit('res_clips',clips)
+    })
+  })
+
+  //return search tile
+  socket.on('send_tilesearchdata',(rec) => {
+    nedb.find_clipids_tags(rec.cliptags,new Date(rec.startdate),new Date(rec.enddate),(cids) => {
+      let tiles = []
+      async.each(cids,(cid,callback) => {
+            nedb.find_tiles_cidtags(cid._id,rec.tiletags,(tile) => {
+              tiles = tiles.concat(tile)
+              callback()
+            })
+        },
+        (err) => {
+          if(err){
+            console.error(err)
+          }
+          socket.emit('res_tiles',tiles)
+      })
+    })
+  })
+
+})

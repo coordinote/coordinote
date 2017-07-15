@@ -15,6 +15,7 @@ let pathstyle = {
   stroke: "#000000",
   fill: "none"
 }
+
 //svg path data size
 let pathsize
 
@@ -123,7 +124,6 @@ $('#canvas').mouseup((e) => {
 
 //recieve data
 socket.on('res_pathdata', (req) => {
-  console.log(req)
   let recpath = createPath(req.point, req.tolerance, true)
   Object.assign(recpath.style, req.style)
   $('#canvas').append(recpath)
@@ -172,4 +172,3 @@ function svgdataSize(){
   pathsize = encodeURIComponent($('#canvas').html()).replace(/%../g,"x").length
   $('#datasize').append(pathsize + "Byte")
 }
-
