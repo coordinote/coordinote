@@ -31,16 +31,22 @@ let target_id = "9SOzR0peDyDw9e80"
    //*/
 
 /*
-dbmethod.find_tiles_cidtags(target_cid, ['よくわからなかった'], (clips) => {
+   dbmethod.find_tiles_cidtags(target_cid, ['よくわからなかった'], (clips) => {
+   console.log(clips)
+   })
+   //*/
+
+/*
+dbmethod.find_clipids_tags(['helloworld'],new Date(1298834800000), new Date(1499770414512), (clips) => {
   console.log(clips)
 })
 //*/
 
-//*
-dbmethod.find_clips_tags(['helloworld'], new Date(1499770414512), new Date(1499770414512), (clips) => {
-   console.log(clips)
-   })
-   //*/
+/*
+dbmethod.find_clips_tags(['helloworld'], new Date(1298834800000), new Date(1499770414512), (clips) => {
+  console.log(clips)
+})
+//*/
 
 /*
    dbmethod.find_alltilestags_cid(target_cid, (tags) => {

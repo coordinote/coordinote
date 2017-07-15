@@ -8,7 +8,7 @@ const clip_schema = require('./clip_schema.js')
 const tile_schema = require('./tile_schema.js')
 
 // const
-const DB_DIR = os.homedir() + '/coordinote/database/'
+const DB_DIR = os.homedir() + '/.coordinote/database/'
 
 // constructor
 let DBMethod = function(){
@@ -85,13 +85,20 @@ DBMethod.prototype.find_clips_tags = function(clip_tags, start_date, end_date, c
       async.each(clip_tags, (clip_tag, callback) => {
         clip_tags_edited.push({tag: clip_tag})
         callback()
-      },(err) => {
+      },
+      (err) => {
+        if(err){
+          console.error(err)
+        }
         callback(null, clip_tags_edited)
       })
     },
     (clip_tags, callback) => {
       // clear hour
       this.db.clips.find({$and: clip_tags.concat([{date: {$gte: new Date(start_date.getFullYear(), start_date.getMonth(), start_date.getDate(), 0, 0, 0, 0)}}, {date: {$lte: new Date(end_date.getFullYear(), end_date.getMonth(), end_date.getDate(), 23, 59, 59, 999)}}])}, (err, clipdocs) => {
+        if(err){
+          console.error(err)
+        }
         let clipdocs_edited = []
         async.each(clipdocs, (doc, callback) => {
           this.find_tiles_cid(doc._id, (tiledocs) => {
@@ -100,12 +107,39 @@ DBMethod.prototype.find_clips_tags = function(clip_tags, start_date, end_date, c
           })
         },
         (err) => {
+          if(err){
+             console.error(err)
+          }
           callback_arg(clipdocs_edited)
         })
       })
     }
   ])
 }
+
+/* find _id(about clip)s by selected tags(about clip)  */
+DBMethod.prototype.find_clipids_tags = function(clip_tags, start_date, end_date, callback_arg){
+  async.waterfall([
+    (callback) => {
+      // convert to query from clips_tags
+      let clip_tags_edited = []
+      async.each(clip_tags, (clip_tag, callback) => {
+        clip_tags_edited.push({tag: clip_tag})
+        callback()
+      },
+      (err) => {
+        callback(null, clip_tags_edited)
+      })
+    },
+    (clip_tags, callback) => {
+      // clear hour
+      this.db.clips.find({$and: clip_tags.concat([{date: {$gte: new Date(start_date.getFullYear(), start_date.getMonth(), start_date.getDate(), 0, 0, 0, 0)}}, {date: {$lte: new Date(end_date.getFullYear(), end_date.getMonth(), end_date.getDate(), 23, 59, 59, 999)}}])}, {date: 0, tile_file: 0, tag: 0}, (err, clipdocs) => {
+        callback_arg(clipdocs)
+      })
+    }
+  ])
+}
+
 
 /* find tiles by cid */
 DBMethod.prototype.find_tiles_cid = function(clip_id, callback){
