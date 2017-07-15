@@ -85,8 +85,7 @@ DBMethod.prototype.find_clips_tags = function(clip_tags, start_date, end_date, c
       async.each(clip_tags, (clip_tag, callback) => {
         clip_tags_edited.push({tag: clip_tag})
         callback()
-      }
-      ,
+      },
       (err) => {
         if(err){
           console.error(err)
