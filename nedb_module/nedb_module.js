@@ -8,7 +8,7 @@ const clip_schema = require('./clip_schema.js')
 const tile_schema = require('./tile_schema.js')
 
 // const
-const DB_DIR = os.homedir() + '/coordinote/database/'
+const DB_DIR = os.homedir() + '/.coordinote/database/'
 
 // constructor
 let DBMethod = function(){
@@ -85,7 +85,9 @@ DBMethod.prototype.find_clips_tags = function(clip_tags, start_date, end_date, c
       async.each(clip_tags, (clip_tag, callback) => {
         clip_tags_edited.push({tag: clip_tag})
         callback()
-      },(err) => {
+      }
+      ,
+      (err) => {
         if(err){
           console.error(err)
         }
@@ -125,7 +127,8 @@ DBMethod.prototype.find_clipids_tags = function(clip_tags, start_date, end_date,
       async.each(clip_tags, (clip_tag, callback) => {
         clip_tags_edited.push({tag: clip_tag})
         callback()
-      },(err) => {
+      },
+      (err) => {
         callback(null, clip_tags_edited)
       })
     },
