@@ -118,16 +118,17 @@ $('#canvas').mouseup((e) => {
   }
   drawpath = null
   //send path infomation
-  socket.emit('send_pathdata', pathinfo)
+  socket.emit('send_pathdata', pathinfo[0])
 })
 
 //recieve data
 socket.on('res_pathdata', (req) => {
-  let recpath = createPath(req[0].point, req[0].tolerance, true)
-  Object.assign(recpath.style, req[0].style)
+  console.log(req)
+  let recpath = createPath(req.point, req.tolerance, true)
+  Object.assign(recpath.style, req.style)
   $('#canvas').append(recpath)
   $('#datasize').empty()
-  $('#datasize').append(req[0].size + "Byte")
+  $('#datasize').append(req.size + "Byte")
 })
 
 //recieve before event

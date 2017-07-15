@@ -40,11 +40,11 @@ io.sockets.on('connection',(socket) => {
   socket.on('send_pathdata', (rec) => {
     socket.broadcast.emit('res_pathdata', rec)
   })
-  //send before event
+  //send before button push event
   socket.on('send_beforeevent', () => {
     socket.broadcast.emit('res_beforeevent')
   })
-  //send after event
+  //send after button push event
   socket.on('send_afterevent', (rec) => {
     socket.broadcast.emit('res_afterevent', rec)
   })
