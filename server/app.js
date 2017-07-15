@@ -45,10 +45,12 @@ io.sockets.on('connection',(socket) => {
   socket.on('send_pathdata', (rec) => {
     socket.broadcast.emit('res_pathdata', rec)
   })
+
   //send before button push event
   socket.on('send_beforeevent', () => {
     socket.broadcast.emit('res_beforeevent')
   })
+
   //send after button push event
   socket.on('send_afterevent', (rec) => {
     socket.broadcast.emit('res_afterevent', rec)
@@ -79,8 +81,8 @@ io.sockets.on('connection',(socket) => {
   })
 
   //return all tile tags
-  socket.on('send_clipsearchdata',(req) => {
-    nedb.find_clipids_tags(req.cliptags,new Date(req.startdate),new Date(req.enddate),(cids) => {
+  socket.on('send_clipsearchdata',(rec) => {
+    nedb.find_clipids_tags(rec.cliptags,new Date(rec.startdate),new Date(rec.enddate),(cids) => {
       let tiletags = []
       async.each(cids,(cid,callback) => {
             nedb.find_alltilestags_cid(cid._id,(tiletag) => {
@@ -99,18 +101,18 @@ io.sockets.on('connection',(socket) => {
   })
 
   //return search clip
-  socket.on('send_clipsearchdata',(req) => {
-    nedb.find_clips_tags(req.cliptags,new Date(req.startdate),new Date(req.enddate),(clips) => {
+  socket.on('send_clipsearchdata',(rec) => {
+    nedb.find_clips_tags(rec.cliptags,new Date(rec.startdate),new Date(rec.enddate),(clips) => {
       socket.emit('res_clips',clips)
     })
   })
 
   //return search tile
-  socket.on('send_tilesearchdata',(req) => {
-    nedb.find_clipids_tags(req.cliptags,new Date(req.startdate),new Date(req.enddate),(cids) => {
+  socket.on('send_tilesearchdata',(rec) => {
+    nedb.find_clipids_tags(rec.cliptags,new Date(rec.startdate),new Date(rec.enddate),(cids) => {
       let tiles = []
       async.each(cids,(cid,callback) => {
-            nedb.find_tiles_cidtags(cid._id,req.tiletags,(tile) => {
+            nedb.find_tiles_cidtags(cid._id,rec.tiletags,(tile) => {
               tiles = tiles.concat(tile)
               callback()
             })
