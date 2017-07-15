@@ -14,6 +14,7 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
+    "@types/socket.io-client": "^1.4.29",
     "gulp": "^3.9.1",
     "gulp-less": "^3.3.0",
     "gulp-webserver": "^0.9.1",

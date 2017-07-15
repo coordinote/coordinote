@@ -16,6 +16,7 @@ exports.Tile = Tile;
 let TILE = [];
 let clip_id = "null";
 let Select_Tile = {};
+let socket = io.connect('http://localhost:6277');
 let MathJaxDirective = class MathJaxDirective {
     constructor(el) {
         this.el = el;
@@ -55,24 +56,25 @@ let WriteClip = WriteClip_1 = class WriteClip {
             edited: false
         });
     }
-    save_tile() {
-        for (let i = 0; i < TILE.length; i++) {
-            delete TILE[i].edited;
-            console.log(TILE[i]);
-        }
-        if (clip_id === "null") {
-            clip_id = ipcRenderer.sendSync('save_clip', ['clip_test', 'test']);
-            for (let i = 0; i < TILE.length; i++) {
-                TILE[i].cid = clip_id;
+    save_tile(tile) {
+        if (!tile.con.match(/^[ 　\r\n\t]*$/)) {
+            delete tile.edited;
+            if (clip_id === "null") {
+                save_clip();
+                tile.cid = clip_id;
             }
-            ipcRenderer.send('save_tile', TILE);
+            socket.emit('save_tile', tile);
+            console.log(tile);
         }
     }
     load_clip() {
         console.log(ipcRenderer.sendSync('load_clip', clip_id));
     }
     save_clip() {
-        clip_id = ipcRenderer.sendSync('save_clip', ['clip_test', 'test']);
+        socket.emit('save_clip', ['clip_test', 'test']);
+        socket.on('return_cid', (cid) => {
+            clip_id = cid;
+        });
     }
     resize(textarea) {
         let scrollHeight = this.el.querySelector("#" + textarea.id).scrollHeight;

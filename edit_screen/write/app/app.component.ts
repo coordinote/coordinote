@@ -16,6 +16,8 @@ let clip_id = "null";
 
 let Select_Tile: TIle = {};
 
+const socket = io.connect('http://localhost:6277')
+
 @Directive({
   selector: '[MathJax]'
 })
@@ -59,17 +61,15 @@ export class WriteClip{
     });
   }
 
-  save_tile(): void{
-    for(let i=0; i<TILE.length; i++){
-      delete TILE[i].edited;
-      console.log(TILE[i]);
-    }
-    if(clip_id === "null"){
-      clip_id = ipcRenderer.sendSync('save_clip', ['clip_test', 'test']);
-      for(let i=0; i<TILE.length; i++){
-        TILE[i].cid = clip_id;
+  save_tile(tile): void{
+    if(!tile.con.match(/^[ 　\r\n\t]*$/)){
+      delete tile.edited;
+      if(clip_id === "null"){
+        save_clip()
+        tile.cid = clip_id;
       }
-      ipcRenderer.send('save_tile', TILE);
+      socket.emit('save_tile', tile)
+      console.log(tile)
     }
   }
 
@@ -78,7 +78,10 @@ export class WriteClip{
   }
 
   save_clip(): void{
-    clip_id = ipcRenderer.sendSync('save_clip', ['clip_test', 'test']);
+    socket.emit('save_clip', ['clip_test', 'test'])
+    socket.on('return_cid', (cid) => {
+      clip_id = cid
+    })
   }
 
   resize(textarea): void{

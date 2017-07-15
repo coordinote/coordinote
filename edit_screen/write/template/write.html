@@ -7,11 +7,11 @@
   <input type=button (click)="save_tile()" value="save_tile">
   <input type=button (click)="load_clip()" value="load_clip">
   <input type=button (click)="save_clip()" value="save_clip">
-  <input type=button (click)="hoge()" value="hoge">
+  <input type=button (click)="test()" value="hoge">
 </span>
 <!--tileのtextarea-->
 <span class="container tile-input">
   <span *ngFor="let tile of tiles">
-    <textarea #textarea [style.visibility]="tile.edited ? 'visible' : 'hidden'" id='textarea{{tile.idx}}' class="col-sm-{{tile.col}}" (input)="resize(textarea)" [(ngModel)]="tile.con" (blur)="unvisibleTextarea(tile)" wrap=hard style="line-height: 20px; height: 24px;"></textarea>
+    <textarea #textarea [style.visibility]="tile.edited ? 'visible' : 'hidden'" id='textarea{{tile.idx}}' class="col-sm-{{tile.col}}" (input)="resize(textarea)" [(ngModel)]="tile.con" (blur)="unvisibleTextarea(tile); save_tile(tile)" wrap=hard style="line-height: 20px; height: 24px;"></textarea>
   </span>
 </span>
