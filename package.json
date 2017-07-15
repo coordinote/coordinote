@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "main.js",
+  "repository": {
+    "type": "git"
+    "url": "https://github.com/coordinote/coordinote.git"
+  }
   "scripts": {
     "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1",
