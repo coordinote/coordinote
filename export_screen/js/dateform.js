@@ -1,5 +1,6 @@
 let date_instance = new Date()
-let currentdate = date_instance.getMonth()+1+'/'+date_instance.getDay()+'/'+date_instance.getFullYear()
+let currentdate = date_instance.getMonth()+1+'/'+date_instance.getDate()+'/'+date_instance.getFullYear()
+console.log(currentdate)
 
 $('.start').val(currentdate)
 $('.end').val(currentdate)
