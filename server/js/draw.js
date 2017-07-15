@@ -25,7 +25,6 @@ let pathinfo
 
 //before and after stack
 let history_array = []
-//after reset flag
 let reset = false
 
 //path style color
@@ -146,7 +145,6 @@ socket.on('res_beforeevent', () => {
 
 //recieve after event
 socket.on('res_afterevent', (req) => {
-  //history_array initialize
   if(req){
     history_array.length = 0
   }

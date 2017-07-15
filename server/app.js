@@ -36,15 +36,15 @@ app.get(/\/node_modules\/*/,(req,res) => {
 
 
 io.sockets.on('connection',(socket) => {
-  //send pathdata
+
   socket.on('send_pathdata', (rec) => {
     socket.broadcast.emit('res_pathdata', rec)
   })
-  //send before event
+
   socket.on('send_beforeevent', () => {
     socket.broadcast.emit('res_beforeevent')
   })
-  //send after event
+
   socket.on('send_afterevent', (rec) => {
     socket.broadcast.emit('res_afterevent', rec)
   })
