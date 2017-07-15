@@ -16,12 +16,6 @@ let pathstyle = {
   fill: "none"
 }
 
-let hoge = {
-  cliptags: ['helloworld'],
-  startdate: new Date(1298834800000),
-  enddate: new Date(1499789478356)
-}
-
 //svg path data size
 let pathsize
 
@@ -126,7 +120,6 @@ $('#canvas').mouseup((e) => {
   drawpath = null
   //send path infomation
   socket.emit('send_pathdata', pathinfo[0])
-  socket.emit('send_clipsearchdata',hoge)
 })
 
 //recieve data

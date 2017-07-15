@@ -98,5 +98,30 @@ io.sockets.on('connection',(socket) => {
     })
   })
 
+  //return search clip
+  socket.on('send_clipsearchdata',(req) => {
+    nedb.find_clips_tags(req.cliptags,new Date(req.startdate),new Date(req.enddate),(clips) => {
+      socket.emit('res_clips',clips)
+    })
+  })
+
+  //return search tile
+  socket.on('send_tilesearchdata',(req) => {
+    nedb.find_clipids_tags(req.cliptags,new Date(req.startdate),new Date(req.enddate),(cids) => {
+      let tiles = []
+      async.each(cids,(cid,callback) => {
+            nedb.find_tiles_cidtags(cid._id,req.tiletags,(tile) => {
+              tiles = tiles.concat(tile)
+              callback()
+            })
+        },
+        (err) => {
+          if(err){
+            console.error(err)
+          }
+          socket.emit('res_tiles',tiles)
+      })
+    })
+  })
 
 })
