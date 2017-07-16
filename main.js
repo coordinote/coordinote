@@ -4,9 +4,6 @@ const { app, BrowserWindow, protocol, ipcMain } = require('electron')
 const path = require('path')
 const url = require('url')
 const fs = require('fs')
-const db = require('./database/nedb_module.js')
-
-let nedb = new db()
 
 //open server
 require('./server/app.js')
@@ -46,10 +43,6 @@ function createWindow(){
     protocol: 'file:',
     slashes: true,
   }))
-
-  win.webContents.on('did-finish-load', () => {
-    win.webContents.send('load_clip', 'load_test')
-  })
 
   win.on('closed', () => {
     win = null
@@ -101,26 +94,5 @@ ipcMain.on(PATH_DATA.event, (event, req) => {
     }))
     break
   }
-})
-
-ipcMain.on('save_tile', (event, TILE) => {
-  for(var i=0; i<TILE.length; i++){
-    nedb.set_tile(TILE[i], (save_doc) => {
-      console.log(save_doc)
-    })
-  }
-})
-
-ipcMain.on('save_clip', (event, tag) => {
-  nedb.set_clip(tag, (newclip) => {
-    event.returnValue = newclip._id
-  })
-})
-
-ipcMain.on('load_clip', (event, clip_id) => {
-  console.log(clip_id)
-  nedb.get_clip_id(clip_id, (load_doc) => {
-    event.returnValue = load_doc
-  })
 })
 
