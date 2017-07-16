@@ -1,4 +1,5 @@
 import { Component, Directive, ElementRef, EventEmitter, Input, Output, Renderer }  from '@angular/core';
+const socket = io.connect('http://localhost:6277')
 
 export class Tile {
   cid: string;
@@ -16,7 +17,12 @@ let clip_id = "null";
 
 let Select_Tile: TIle = {};
 
-const socket = io.connect('http://localhost:6277')
+socket.on('return_cid', (cid) => {
+  clip_id = cid
+  for(let i=0; i<TILE.length; i++){
+    TILE[i].cid = clip_id;
+  }
+})
 
 @Directive({
   selector: '[MathJax]'
@@ -57,19 +63,20 @@ export class WriteClip{
       tag: ["test", "やったあ"],
       sty: "txt",
       con: '',
-      edited: false
+      edited: false,
+      saved: false
     });
   }
 
   save_tile(tile): void{
     if(!tile.con.match(/^[ 　\r\n\t]*$/)){
       delete tile.edited;
-      if(clip_id === "null"){
-        save_clip()
-        tile.cid = clip_id;
+      if(!tile.saved){
+        delete tile.saved;
+        socket.emit('save_tile', tile)
       }
-      socket.emit('save_tile', tile)
-      console.log(tile)
+    }else{
+      //データベースのtile削除処理
     }
   }
 
@@ -79,9 +86,6 @@ export class WriteClip{
 
   save_clip(): void{
     socket.emit('save_clip', ['clip_test', 'test'])
-    socket.on('return_cid', (cid) => {
-      clip_id = cid
-    })
   }
 
   resize(textarea): void{

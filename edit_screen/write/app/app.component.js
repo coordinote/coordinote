@@ -10,13 +10,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const core_1 = require("@angular/core");
+const socket = io.connect('http://localhost:6277');
 class Tile {
 }
 exports.Tile = Tile;
 let TILE = [];
 let clip_id = "null";
 let Select_Tile = {};
-let socket = io.connect('http://localhost:6277');
+socket.on('return_cid', (cid) => {
+    clip_id = cid;
+    for (let i = 0; i < TILE.length; i++) {
+        TILE[i].cid = clip_id;
+    }
+});
 let MathJaxDirective = class MathJaxDirective {
     constructor(el) {
         this.el = el;
@@ -53,18 +59,20 @@ let WriteClip = WriteClip_1 = class WriteClip {
             tag: ["test", "やったあ"],
             sty: "txt",
             con: '',
-            edited: false
+            edited: false,
+            saved: false
         });
     }
     save_tile(tile) {
         if (!tile.con.match(/^[ 　\r\n\t]*$/)) {
             delete tile.edited;
-            if (clip_id === "null") {
-                save_clip();
-                tile.cid = clip_id;
+            if (!tile.saved) {
+                delete tile.saved;
+                socket.emit('save_tile', tile);
             }
-            socket.emit('save_tile', tile);
-            console.log(tile);
+        }
+        else {
+            //データベースのtile削除処理
         }
     }
     load_clip() {
@@ -72,9 +80,6 @@ let WriteClip = WriteClip_1 = class WriteClip {
     }
     save_clip() {
         socket.emit('save_clip', ['clip_test', 'test']);
-        socket.on('return_cid', (cid) => {
-            clip_id = cid;
-        });
     }
     resize(textarea) {
         let scrollHeight = this.el.querySelector("#" + textarea.id).scrollHeight;
