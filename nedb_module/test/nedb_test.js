@@ -95,9 +95,8 @@ dbmethod.find_clips_tags(['helloworld'], new Date(1298834800000), new Date(14997
    })
    //*/
 
-/*
    let instance = {
-   "cid": target_cid,
+   "cid": 'LzwqcEcNq8ZlgBiK',
    "idx": 0,
    "col": 321,
    "tag": ["公式", "よくわかった"],

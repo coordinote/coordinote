@@ -1,15 +1,17 @@
 //socket io
 const socket = io.connect('http://localhost:6277')
+//user input all infomation
+let inputinfo = []
 //send to get all tags
-socket.emit('req_all_tags')
+socket.emit('get_allcliptags')
 
-//recieve all tags
-socket.on('return_all_tags', (alltags) => {
+//recieve all clip tags
+socket.on('res_allcliptags', (rec) => {
   //set complete clip
   let cliptags = new Bloodhound({
     datumTokenizer: Bloodhound.tokenizers.obj.whitespace('clip'),
     queryTokenizer: Bloodhound.tokenizers.whitespace,
-    local: $.map(alltags, (tag) => {
+    local: $.map(rec, (tag) => {
       return {
         clip: tag
       }
@@ -18,7 +20,7 @@ socket.on('return_all_tags', (alltags) => {
   //reflection of clip setting
   cliptags.initialize()
   //input auto complete clip
-  $('.bootstrap-tagsinput').tagsinput({
+  $('.clip-tags-form').tagsinput({
     typeaheadjs: [{
       minLength: 1,
       highlight: true,
@@ -33,30 +35,20 @@ socket.on('return_all_tags', (alltags) => {
   })
 })
 
-let data = ["test", "テスト"]
-//input complete tile
-let tiletags = new Bloodhound({
-  datumTokenizer: Bloodhound.tokenizers.obj.whitespace('tile'),
-  queryTokenizer: Bloodhound.tokenizers.whitespace,
-  local: $.map(data, (tag) => {
-    return {
-      tile: tag
-    }
-  })
+$('#search-button').click(() => {
+  inputinfo.push({
+    cliptags: $('.clip-tags-form').tagsinput('items'),
+    startdate: Date.parse($('.start').val()),
+    enddate: Date.parse($('.end').val())
+  }) 
+  socket.emit('send_clipsearchdata', inputinfo[0])
+  $('.tile-tags-form').tagsinput('refresh')
+  inputinfo = []
+  console.log(inputinfo[0])
 })
-//reflection of tile setting
-tiletags.initialize()
-//input auto complete tile
-$('.tile-tags-form input').tagsinput({
-  typeaheadjs: [{
-    minLength: 1,
-    highlight: true
-  },{
-    minlength: 1,
-    name: 'tiletags',
-    displayKey: 'tile',
-    valueKey: 'tile',
-    source: tiletags.ttAdapter()
-  }],
-  freeInput: true
+
+//recieve all tile tags
+socket.on('res_alltiletags', (rec) => {
+  console.log(rec)
 })
+

@@ -13,21 +13,17 @@
     <script src="/__dirname/require.js"></script>
   </head>
   <body>
-    <div class="clip-tags-form">
+    <div>
       <p>clip tags</p>
-      <input type="text"  data-role="tagsinput" />
-    </div>
-    
-    <div class="tile-tags-form">
-      <p>tile tags</p>
-      <input type="text" data-role="tagsinput" />
+      <input class="clip-tags-form"  type="text" />
+      <button id="search-button">search</button>
     </div>
 
     <div class="daterange">
-      <button class="designate">Designate</button>
       <input type="text" class="form-inline start" placeholder="日付" />
       <input type="text" class="form-inline end" placeholder="日付" />
     </div>
+
     <export-view></export-view>
 
     <!-- socket io -->

@@ -73,10 +73,10 @@ io.sockets.on('connection',(socket) => {
   })
 
   //return all tag
-  socket.on('get_alltags',() => {
+  socket.on('get_allcliptags',() => {
     nedb.find_allclipstags((alltags) => {
       //send all tag
-      socket.emit('res_alltags',alltags)
+      socket.emit('res_allcliptags',alltags)
     })
   })
 
