@@ -5,6 +5,8 @@ const nedb_module = require ("../nedb_module")
 const async = require('async')
 
 let nedb = new nedb_module()
+let readid
+let writeid
 
 //set portnumber
 const PORTNUMBER = 6277
@@ -41,9 +43,29 @@ app.get(/\/node_modules\/*/,(req,res) => {
 
 
 io.sockets.on('connection',(socket) => {
+
+  socket.on('send_readflag',() => {
+    readid = socket.id
+    socket.broadcast.emit('send_id',readid)
+  })
+
+  socket.on('send_writeflag',() => {
+    writeid = socket.id
+    socket.broadcast.emit('send_writeid',writeid)
+  })
+
+
   //send pathdata
-  socket.on('send_pathdata', (rec) => {
-    socket.broadcast.emit('res_pathdata', rec)
+  socket.on('send_recid',(rec) => {
+    socket.on('send_sendid',(rec1) => {
+      socket.on('send_pathdata', (rec2) => {
+        let checkid = socket.id
+        if(writeid == checkid){
+          console.log("hello")
+          io.to(rec1).emit('res_pathdata', rec2)
+        }
+      })
+    })
   })
 
   //send before button push event
@@ -55,6 +77,7 @@ io.sockets.on('connection',(socket) => {
   socket.on('send_afterevent', (rec) => {
     socket.broadcast.emit('res_afterevent', rec)
   })
+
 
   //save clip data
   socket.on('save_clip',(rec) => {

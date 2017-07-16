@@ -21,6 +21,10 @@ let pathsize
 
 //socket.io
 const socket = io.connect()
+socket.on('connent',() => {
+  socket.emit('send_writeflag')
+})
+
 //path infomation variable
 let pathinfo
 
@@ -172,3 +176,7 @@ function svgdataSize(){
   pathsize = encodeURIComponent($('#canvas').html()).replace(/%../g,"x").length
   $('#datasize').append(pathsize + "Byte")
 }
+
+socket.on('send_id',(id) => {
+  socket.emit('send_sendid',id)
+})
