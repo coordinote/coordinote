@@ -109,13 +109,20 @@ export class WriteClip{
   }
 
   visibleTextarea(tile): void{
-    let div = this.el.querySelector("#tile" + tile.idx)
+    // case of text
+    if(tile.sty === "txt"){
+      let div = this.el.querySelector("#tile" + tile.idx)
     tile.edited = true;
     this.el.querySelector("#textarea" + tile.idx).style.visibility = "visible";
     this.renderer.invokeElementMethod(this.el.querySelector("#textarea" + tile.idx), 'focus');
     this.output.emit(tile)
     this.el.querySelector("#textarea" + tile.idx).style.top = div.offsetTop + "px";
     this.el.querySelector("#textarea" + tile.idx).style.left = div.offsetLeft + "px";
+    }
+    // case of canvas
+    else if(tile.sty === "svg"){
+      this.output.emit(tile)
+    }
   }
 
   unvisibleTextarea(tile): void{
