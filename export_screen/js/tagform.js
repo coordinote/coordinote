@@ -2,7 +2,7 @@ const socket = io.connect('http://localhost:6277')
 //user input all infomation
 let inclipinfo = []
 let intileinfo = []
-
+//user input item
 let incliptags
 let intiletags
 
@@ -39,6 +39,7 @@ socket.on('res_allcliptags', (rec) => {
   })
 })
 
+//search button event
 $('#search-button').click(() => {
   incliptags = $('.clip-tags-form').tagsinput('items')
   intiletags = $('.btn').text().replace(/\s+/g, "").split(',')
@@ -48,7 +49,6 @@ $('#search-button').click(() => {
   if(intiletags.length == 0){
     intiletags = undefined
   }
-  console.log(intiletags)
   inclipinfo.push({
     cliptags: incliptags,
     startdate: Date.parse($('.start').val()),
@@ -64,18 +64,21 @@ $('#search-button').click(() => {
   $('.clip-form').empty()
   $('.tile-form').empty()
   $('.dropdown-menu').empty()
+  //send input data
   socket.emit('send_clipsearchdata', inclipinfo[0])
   socket.emit('send_tilesearchdata', intileinfo[0])
   inclipinfo = []
   intileinfo = []
 })
 
+//tile tags dropdown
 socket.on('res_alltiletags', (rec) => {
   for(i = 0; i < rec.length; i++){
     $('.dropdown-menu').append('<li><input id="'+i+'" type="checkbox" ><label for="'+i+'">'+rec[i]+'</label></li>')
   }
 })
 
+//clip form
 socket.on('res_clips', (rec) => {
   for(i = 0; i < rec.length; i++){
     $('.clip-form').append('<div class="clip-field '+i+'" ></div>')
@@ -86,7 +89,7 @@ socket.on('res_clips', (rec) => {
   }
 })
 
-
+//tile form
 socket.on('res_tiles', (rec) => {
   for(i = 0; i < rec.length; i++){
     if(rec[i].tag.join(',') == $('.btn').text().replace(/\s+/g, "")){
