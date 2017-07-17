@@ -92,10 +92,8 @@ socket.on('res_clips', (rec) => {
 //tile form
 socket.on('res_tiles', (rec) => {
   for(i = 0; i < rec.length; i++){
-    if(rec[i].tag.join(',') == $('.btn').text().replace(/\s+/g, "")){
       $('.tile-form').append('<div class="tile-field">'+rec[i].con+'</div>')
       MathJax.Hub.Queue(["Typeset", MathJax.Hub, "tile-field"])
-    }
   }
 })
 
