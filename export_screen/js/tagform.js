@@ -72,7 +72,9 @@ $('#search-button').click(() => {
   $('.tile-form').empty()
   //send input data
   socket.emit('send_clipsearchdata', inclipinfo[0])
-  socket.emit('send_tilesearchdata', intileinfo[0])
+  if(intiletags !== undefined){
+    socket.emit('send_tilesearchdata', intileinfo[0])
+  }
   inclipinfo = []
   intileinfo = []
   intiletags = []
