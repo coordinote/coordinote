@@ -35,7 +35,6 @@ socket.on('res_allcliptags', (rec) => {
 })
 
 $('#search-button').click(() => {
-  console.log($('.dropdown-menu').val())
   inputinfo.push({
     cliptags: $('.clip-tags-form').tagsinput('items'),
     startdate: Date.parse($('.start').val()),
@@ -61,14 +60,13 @@ socket.on('res_clips', (rec) => {
 
 socket.on('res_tiles', (rec) => {
   for(i = 0; i < rec.length; i++){
-    $('.tile-form').append('<div class="tile-field">'+rec[i].con+'</div>')
-    MathJax.Hub.Queue(["Typeset", MathJax.Hub, "tile-field"])
+    if(rec[i].tag.join(',') == $('.btn').text().replace(/\s+/g, "")){
+      $('.tile-form').append('<div class="tile-field">'+rec[i].con+'</div>')
+      MathJax.Hub.Queue(["Typeset", MathJax.Hub, "tile-field"])
+    }
     for(j = 0; j < rec[i].tag.length; j++){
-      $('.dropdown-menu').append('<li><input id="'+j+'" type="checkbox"><label for="'+j+'">'+rec[i].tag[j]+'</label></li>')
+      $('.dropdown-menu').append('<li><input id="'+j+'" type="checkbox" ><label for="'+j+'">'+rec[i].tag[j]+'</label></li>')
     }
   }
 })
 
-socket.on('res_alltiletags', (rec) => {
-
-})
