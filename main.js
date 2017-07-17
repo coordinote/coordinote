@@ -23,6 +23,8 @@ app.on('ready', () => {
     if(requrl.split('/')[1] === dirname) {
       // /__dirnameをパース
       requrl = requrl.replace(/\/__dirname/, __dirname)
+      // URLパラメータを除去
+      requrl = requrl.replace(/\?.*/, '')
     }
     // ノーマライズして返す
     callback(path.normalize(requrl))
@@ -93,3 +95,4 @@ ipcMain.on(PATH_DATA.event, (event, req) => {
     break
   }
 })
+

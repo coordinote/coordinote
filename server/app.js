@@ -110,6 +110,7 @@ io.sockets.on('connection',(socket) => {
   //return search tile
   socket.on('send_tilesearchdata',(rec) => {
     nedb.find_clipids_tags(rec.cliptags,new Date(rec.startdate),new Date(rec.enddate),(cids) => {
+
       let tiles = []
       async.each(cids,(cid,callback) => {
             nedb.find_tiles_cidtags(cid._id,rec.tiletags,(tile) => {
