@@ -21,8 +21,9 @@ let pathsize
 
 //socket.io
 const socket = io.connect()
-socket.on('connent',() => {
-  socket.emit('send_writeflag')
+
+socket.on('send_connect', () => {
+  socket.emit('send_writeconnect')
 })
 
 //path infomation variable
@@ -177,6 +178,6 @@ function svgdataSize(){
   $('#datasize').append(pathsize + "Byte")
 }
 
-socket.on('send_id',(id) => {
-  socket.emit('send_sendid',id)
+socket.on('res_reloadevent', () => {
+  location.reload()
 })

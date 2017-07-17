@@ -22,10 +22,6 @@ let pathsize
 //socket.io
 const socket = io.connect()
 
-socket.on('connect',() => {
-  socket.emit('send_readflag')
-})
-
 //path infomation variable
 let pathinfo
 
@@ -45,6 +41,7 @@ $('#black').click(() => {
 //path before
 $('#before').click(() => {
   reset = false
+  socket.emit('send_readid')
   //send before event
   socket.emit('send_beforeevent')
   //path delete and save
@@ -177,11 +174,3 @@ function svgdataSize(){
   pathsize = encodeURIComponent($('#canvas').html()).replace(/%../g,"x").length
   $('#datasize').append(pathsize + "Byte")
 }
-
-socket.on('send_id',(id) => {
-  socket.emit('send_sendid',id)
-})
-
-socket.on('send_writeid',(rec) => {
-  socket.emit('send_recid',rec)
-})

@@ -44,38 +44,31 @@ app.get(/\/node_modules\/*/,(req,res) => {
 
 io.sockets.on('connection',(socket) => {
 
-  socket.on('send_readflag',() => {
-    readid = socket.id
-    socket.broadcast.emit('send_id',readid)
-  })
+  socket.emit("send_connect")
 
-  socket.on('send_writeflag',() => {
+  socket.on('send_writeconnect',() => {
     writeid = socket.id
-    socket.broadcast.emit('send_writeid',writeid)
+    console.log(writeid)
   })
 
+  socket.on('send_readid',() => {
+    readid = socket.id
+  })
 
   //send pathdata
-  socket.on('send_recid',(rec) => {
-    socket.on('send_sendid',(rec1) => {
-      socket.on('send_pathdata', (rec2) => {
-        let checkid = socket.id
-        if(writeid == checkid){
-          console.log("hello")
-          io.to(rec1).emit('res_pathdata', rec2)
-        }
-      })
-    })
+  socket.on('send_pathdata', (rec) => {
+    io.to(readid).emit('res_pathdata', rec)
   })
 
   //send before button push event
   socket.on('send_beforeevent', () => {
-    socket.broadcast.emit('res_beforeevent')
+    io.to(readid).emit('res_beforeevent')
+    io.to(writeid).emit('res_reloadevent')
   })
 
   //send after button push event
   socket.on('send_afterevent', (rec) => {
-    socket.broadcast.emit('res_afterevent', rec)
+    io.to(readid).emit('res_afterevent', rec)
   })
 
 
@@ -96,10 +89,10 @@ io.sockets.on('connection',(socket) => {
   })
 
   //return all tag
-  socket.on('get_alltags',() => {
+  socket.on('get_allcliptags',() => {
     nedb.find_allclipstags((alltags) => {
       //send all tag
-      socket.emit('res_alltags',alltags)
+      socket.emit('res_allcliptags',alltags)
     })
   })
 
