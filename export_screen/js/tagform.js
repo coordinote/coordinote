@@ -1,11 +1,13 @@
+//socket io
 const socket = io.connect('http://localhost:6277')
 //user input all infomation
 let inclipinfo = []
 let intileinfo = []
 //user input item
 let incliptags
-let intiletags
-
+let intiletags = []
+//recieve tags stack
+let stacktile = []
 //send to get all tags
 socket.emit('get_allcliptags')
 
@@ -42,7 +44,12 @@ socket.on('res_allcliptags', (rec) => {
 //search button event
 $('#search-button').click(() => {
   incliptags = $('.clip-tags-form').tagsinput('items')
-  intiletags = $('.btn').text().replace(/\s+/g, "").split(',')
+  //select dropdown item to array
+  for(i = 0; i < $('.dropdown-menu li').length; i++){
+    if($('#'+i).prop('checked')){
+      intiletags.push($('#'+i).val())
+    }
+  }
   if(incliptags.length == 0){
     incliptags = undefined
   }
@@ -63,19 +70,22 @@ $('#search-button').click(() => {
 
   $('.clip-form').empty()
   $('.tile-form').empty()
-  $('.dropdown-menu').empty()
   //send input data
   socket.emit('send_clipsearchdata', inclipinfo[0])
   socket.emit('send_tilesearchdata', intileinfo[0])
   inclipinfo = []
   intileinfo = []
+  intiletags = []
 })
-
 //tile tags dropdown
 socket.on('res_alltiletags', (rec) => {
-  for(i = 0; i < rec.length; i++){
-    $('.dropdown-menu').append('<li><input id="'+i+'" type="checkbox" ><label for="'+i+'">'+rec[i]+'</label></li>')
+  if(rec.join(',') != stacktile.join(',')){
+    $('.dropdown-menu').empty()
+    for(i = 0; i < rec.length; i++){
+      $('.dropdown-menu').append('<li><input id="'+i+'" type="checkbox" value="'+rec[i]+'"><label for="'+i+'">'+rec[i]+'</label></li>')
+    }
   }
+  stacktile = rec
 })
 
 //clip form
