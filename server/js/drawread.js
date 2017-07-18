@@ -41,7 +41,6 @@ $('#black').click(() => {
 //path before
 $('#before').click(() => {
   reset = false
-  socket.emit('send_readconnect')
   //send before event
   socket.emit('send_beforeevent')
   //path delete and save
@@ -173,4 +172,9 @@ function svgdataSize(){
   $('#datasize').empty()
   pathsize = encodeURIComponent($('#canvas').html()).replace(/%../g,"x").length
   $('#datasize').append(pathsize + "Byte")
+}
+
+// send readconnect
+function sendReadID(){
+  socket.emit('send_readconnect')
 }

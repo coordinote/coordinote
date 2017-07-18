@@ -37,7 +37,8 @@ export class MathJaxDirective {
 @Component({
   selector: 'write-clip',
   templateUrl: 'write/template/write.html',
-  directives: WriteClip
+  directives: WriteClip,
+  styleUrls: ['write/template/canvas_iframe.css']
 })
 
 export class WriteClip{
@@ -108,7 +109,7 @@ export class WriteClip{
     }
   }
 
-  visibleTextarea(tile): void{
+  visibleTextarea(tile, dom): void{
     // case of text
     if(tile.sty === "txt"){
       let div = this.el.querySelector("#tile" + tile.idx)
@@ -121,6 +122,7 @@ export class WriteClip{
     }
     // case of canvas
     else if(tile.sty === "svg"){
+      dom.contentWindow.sendReadID()
       this.output.emit(tile)
     }
   }

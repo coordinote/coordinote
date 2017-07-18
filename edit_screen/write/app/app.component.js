@@ -99,7 +99,7 @@ let WriteClip = WriteClip_1 = class WriteClip {
             this.el.querySelector("#" + textarea.id).style.height = height - lineHeight + "px";
         }
     }
-    visibleTextarea(tile) {
+    visibleTextarea(tile, dom) {
         // case of text
         if (tile.sty === "txt") {
             let div = this.el.querySelector("#tile" + tile.idx);
@@ -111,6 +111,7 @@ let WriteClip = WriteClip_1 = class WriteClip {
             this.el.querySelector("#textarea" + tile.idx).style.left = div.offsetLeft + "px";
         }
         else if (tile.sty === "svg") {
+            dom.contentWindow.sendReadID();
             this.output.emit(tile);
         }
     }
@@ -139,7 +140,8 @@ WriteClip = WriteClip_1 = __decorate([
     core_1.Component({
         selector: 'write-clip',
         templateUrl: 'write/template/write.html',
-        directives: WriteClip_1
+        directives: WriteClip_1,
+        styleUrls: ['write/template/canvas_iframe.css']
     }),
     __metadata("design:paramtypes", [core_1.ElementRef, core_1.Renderer])
 ], WriteClip);
