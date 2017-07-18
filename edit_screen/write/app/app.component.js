@@ -17,6 +17,7 @@ exports.Tile = Tile;
 let TILE = [];
 let clip_id = "null";
 let Select_Tile = {};
+let preTile = {};
 socket.on('return_cid', (cid) => {
     clip_id = cid;
     for (let i = 0; i < TILE.length; i++) {
@@ -60,7 +61,8 @@ let WriteClip = WriteClip_1 = class WriteClip {
             sty: "txt",
             con: '',
             edited: false,
-            saved: false
+            saved: false,
+            tid: null
         });
     }
     save_tile(tile) {
@@ -69,6 +71,8 @@ let WriteClip = WriteClip_1 = class WriteClip {
             if (!tile.saved) {
                 delete tile.saved;
                 socket.emit('save_tile', tile);
+            }
+            else {
             }
         }
         else {
@@ -109,6 +113,9 @@ let WriteClip = WriteClip_1 = class WriteClip {
         else {
             tile.edited = false;
         }
+    }
+    getPreTile(tile) {
+        preTile = tile;
     }
     test() {
         console.log(TILE);
@@ -180,5 +187,16 @@ AppComponent = __decorate([
     })
 ], AppComponent);
 exports.AppComponent = AppComponent;
+let tilediff = (tile, preTile) => {
+    let keys = Object.keys(tile).sort();
+    let diffProp = [];
+    let diffcount = 0;
+    keys.forEach((key) => {
+        if (tile[key] === preTile[key]) {
+            diffProp.push(key);
+        }
+        return diffProp;
+    });
+};
 var WriteClip_1, WriteNav_1;
 //# sourceMappingURL=app.component.js.map

@@ -10,6 +10,8 @@ export class Tile {
   sty: string;
   con: string;
   edited: boolean;
+  saved: boolean;
+  tid: string;
 }
 
 let TILE: Tile[] = [];
@@ -17,6 +19,8 @@ let TILE: Tile[] = [];
 let clip_id = "null";
 
 let Select_Tile: TIle = {};
+
+let preTile: Tile = {};
 
 socket.on('return_cid', (cid) => {
   clip_id = cid
@@ -65,7 +69,8 @@ export class WriteClip{
       sty: "txt",
       con: '',
       edited: false,
-      saved: false
+      saved: false,
+      tid: null
     });
   }
 
@@ -75,6 +80,7 @@ export class WriteClip{
       if(!tile.saved){
         delete tile.saved;
         socket.emit('save_tile', tile)
+      }else{
       }
     }else{
       //データベースのtile削除処理
@@ -119,6 +125,10 @@ export class WriteClip{
     }
   }
 
+  getPreTile(tile){
+    preTile = tile;
+  }
+
   test() {
     console.log(TILE)
   }
@@ -137,7 +147,7 @@ export class WriteClip{
   directives: WriteNav
 })
 
-export class WriteNav implements AfterViewInit{
+export class WriteNav{
   @Input() tiles: Tile
   @Input() select_tile
 }
@@ -157,4 +167,17 @@ export class WriteNav implements AfterViewInit{
 export class AppComponent{
   public tiles = TILE;
   public select_tile = Select_Tile;
+}
+
+let tilediff(tile: Tile, preTile: Tile){
+  let keys = Object.keys(tile).sort()
+  let diffProp = []
+  let diffcount = 0;
+
+  keys.forEach((key) => {
+    if(tile[key] === preTile[key]){
+      diffProp.push(key)
+    }
+    return diffProp
+  })
 }
