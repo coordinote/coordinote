@@ -18,11 +18,9 @@ let TILE = [];
 let clip_id = "null";
 let Select_Tile = {};
 let preTile = {};
+//'res_cidに変更
 socket.on('return_cid', (cid) => {
     clip_id = cid;
-    for (let i = 0; i < TILE.length; i++) {
-        TILE[i].cid = clip_id;
-    }
 });
 let MathJaxDirective = class MathJaxDirective {
     constructor(el) {
@@ -49,12 +47,13 @@ let WriteClip = WriteClip_1 = class WriteClip {
         this.elementRef = elementRef;
         this.Renderer = Renderer;
         this.output = new core_1.EventEmitter();
+        this.save_tileedit = new core_1.EventEmitter();
+        this.getPreTileedit = new core_1.EventEmitter();
         this.el = this.elementRef.nativeElement;
         this.renderer = this.Renderer;
     }
     add_tile() {
         TILE.push({
-            cid: clip_id,
             idx: TILE.length,
             col: 3,
             tag: ["hoge", "fuga"],
@@ -66,63 +65,13 @@ let WriteClip = WriteClip_1 = class WriteClip {
         });
     }
     save_tile(tile) {
-        if (!tile.con.match(/^[ 　\r\n\t]*$/)) {
-            delete tile.edited;
-            if (tile.saved) {
-                delete tile.saved;
-                socket.emit('save_tile', tile);
-            }
-            else {
-                delete tile.saved;
-                //console.log(preTile)
-                let diffkey = tilediff(tile, preTile);
-                diffkey.forEach((key) => {
-                    switch (key) {
-                        case "idx":
-                            /*socket.emit('update_tileidx', {
-                              idx: tile[diffkey],
-                              cid: clip_id,
-                              tid: tile.tid
-                            })*/
-                            console.log(tile.idx);
-                            break;
-                        case "tag":
-                            /*socket.emit('update_tiletag', {
-                              tag: tile[diffkey],
-                              cid: clip_id,
-                              tid: tile.tid
-                            })*/
-                            console.log(tile.tag);
-                            break;
-                        case "con":
-                            /*socket.emit('update_tilecon', {
-                              con: tile[diffkey],
-                              cid: clip_id,
-                              tid: tile.tid
-                            })*/
-                            console.log(tile.con);
-                            break;
-                        case "col":
-                            /*socket.emit('update_tilecol', {
-                              col: tile[diffkey],
-                              cid: clip_id,
-                              tid: tile.tid
-                            })*/
-                            console.log(tile.col);
-                            break;
-                        default:
-                            break;
-                    }
-                });
-            }
-        }
-        else {
-            //データベースのtile削除処理
-        }
+        this.save_tileedit.emit(tile);
     }
-    load_clip() {
+    /*
+      load_clip(): void{
         console.log(ipcRenderer.sendSync('load_clip', clip_id));
-    }
+      }
+    */
     save_clip() {
         socket.emit('save_clip', ['clip_test', 'test']);
     }
@@ -156,17 +105,7 @@ let WriteClip = WriteClip_1 = class WriteClip {
         }
     }
     getPreTile(tile) {
-        preTile = {
-            cid: tile.cid,
-            idx: tile.idx,
-            col: tile.col,
-            tag: tile.tag,
-            sty: tile.sty,
-            con: tile.con,
-            tid: tile.tid
-        };
-        console.log(preTile);
-        console.log(tile);
+        this.getPreTileedit.emit(tile);
     }
     test() {
         console.log(TILE);
@@ -184,6 +123,14 @@ __decorate([
     core_1.Output(),
     __metadata("design:type", Object)
 ], WriteClip.prototype, "output", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", Object)
+], WriteClip.prototype, "save_tileedit", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", Object)
+], WriteClip.prototype, "getPreTileedit", void 0);
 WriteClip = WriteClip_1 = __decorate([
     core_1.Component({
         selector: 'write-clip',
@@ -194,18 +141,15 @@ WriteClip = WriteClip_1 = __decorate([
 ], WriteClip);
 exports.WriteClip = WriteClip;
 let WriteNav = WriteNav_1 = class WriteNav {
+    constructor() {
+        this.getPreTilenav = new core_1.EventEmitter();
+        this.save_tilenav = new core_1.EventEmitter();
+    }
     getPreTile(tile) {
-        preTile = {
-            cid: tile.cid,
-            idx: tile.idx,
-            col: tile.col,
-            tag: tile.tag,
-            sty: tile.sty,
-            con: tile.con,
-            tid: tile.tid
-        };
-        console.log(preTile);
-        console.log(tile);
+        this.getPreTilenav.emit(tile);
+    }
+    save_tile(tile) {
+        this.save_tilenav.emit(tile);
     }
 };
 __decorate([
@@ -216,12 +160,20 @@ __decorate([
     core_1.Input(),
     __metadata("design:type", Object)
 ], WriteNav.prototype, "select_tile", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", Object)
+], WriteNav.prototype, "getPreTilenav", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", Object)
+], WriteNav.prototype, "save_tilenav", void 0);
 WriteNav = WriteNav_1 = __decorate([
     core_1.Component({
         selector: 'write-nav',
         template: `
     <nav class="col-sm-12">
-      <tag-input class="tag-input" [(ngModel)]="select_tile.tag" [theme]="'bootstrap'"></tag-input>
+      <tag-input class="tag-input" [(ngModel)]="select_tile.tag" [theme]="'bootstrap'" (click)="getPreTile(select_tile)" (blur)="save_tile(select_tile)"></tag-input>
       <select id="col-select" class="col-sm-3" [(ngModel)]="select_tile.col">
         <option *ngFor="let number of [1,2,3,4,5,6,7,8,9,10,11,12]">{{number}}</option>
       </select>
@@ -236,14 +188,83 @@ let AppComponent = class AppComponent {
         this.tiles = TILE;
         this.select_tile = Select_Tile;
     }
+    save_tile(tile) {
+        if (!tile.con.match(/^[ 　\r\n\t]*$/)) {
+            //tileの新規保存
+            if (!tile.saved) {
+                socket.emit('save_tile', {
+                    cid: clip_id,
+                    idx: tile.idx,
+                    col: tile.col,
+                    tag: tile.tag,
+                    sty: tile.sty,
+                    con: tile.con
+                });
+            }
+            else {
+                //tileの更新処理
+                let diffkey = tilediff(tile, preTile);
+                diffkey.forEach((key) => {
+                    switch (key) {
+                        case "idx":
+                            socket.emit('update_tileidx', {
+                                idx: tile[diffkey],
+                                cid: clip_id,
+                                tid: tile.tid
+                            });
+                            break;
+                        case "tag":
+                            socket.emit('update_tiletag', {
+                                tag: tile[diffkey],
+                                cid: clip_id,
+                                tid: tile.tid
+                            });
+                            break;
+                        case "con":
+                            socket.emit('update_tilecon', {
+                                con: tile[diffkey],
+                                cid: clip_id,
+                                tid: tile.tid
+                            });
+                            break;
+                        case "col":
+                            socket.emit('update_tilecol', {
+                                col: tile[diffkey],
+                                cid: clip_id,
+                                tid: tile.tid
+                            });
+                            break;
+                        default:
+                            break;
+                    }
+                });
+            }
+            tile.saved = true;
+        }
+        else {
+            //データベースのtile削除処理
+        }
+    }
+    getPreTile(tile) {
+        preTile = {
+            cid: tile.cid,
+            idx: tile.idx,
+            col: tile.col,
+            tag: tile.tag,
+            sty: tile.sty,
+            con: tile.con,
+            tid: tile.tid
+        };
+        console.log(preTile);
+    }
 };
 AppComponent = __decorate([
     core_1.Component({
         selector: 'write-view',
         template: `
-    <write-nav class="write-nav" [tiles]="tiles" [select_tile]="select_tile"></write-nav>
+    <write-nav class="write-nav" [tiles]="tiles" [select_tile]="select_tile" (save_tilenav)="save_tile($event)" (getPreTilenav)="getPreTile($event)"></write-nav>
     <article class="write-field">
-      <write-clip [tiles]="tiles" [select_tile]="select_tile" (output)="select_tile=$event"></write-clip>
+      <write-clip [tiles]="tiles" [select_tile]="select_tile" (output)="select_tile=$event" (save_tileedit)="save_tile($event)" (getPreTileedit)="getPreTile($event)"></write-clip>
     </article>
     `,
         directives: [WriteClip, WriteNav],

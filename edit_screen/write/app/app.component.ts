@@ -3,7 +3,6 @@ import { Component, Directive, ElementRef, EventEmitter, Input, Output, Renderer
 const socket = io.connect('http://localhost:6277')
 
 export class Tile {
-  cid: string;
   idx: number;
   col: number;
   tag: string;
@@ -22,11 +21,9 @@ let Select_Tile: TIle = {};
 
 let preTile: Tile = {};
 
+//'res_cidに変更
 socket.on('return_cid', (cid) => {
   clip_id = cid
-  for(let i=0; i<TILE.length; i++){
-    TILE[i].cid = clip_id;
-  }
 })
 
 @Directive({
@@ -55,6 +52,8 @@ export class WriteClip{
   @Input() tiles: Tile;
   @Input() select_tile: tile_clip;
   @Output() output = new EventEmitter<select_tile>();
+  @Output() save_tileedit = new EventEmitter<tile>()
+  @Output() getPreTileedit = new EventEmitter<tile>()
 
   constructor(private elementRef: ElementRef, private Renderer: Renderer){}
   el = this.elementRef.nativeElement;
@@ -62,7 +61,6 @@ export class WriteClip{
 
   add_tile(): void{
     TILE.push({
-      cid: clip_id,
       idx: TILE.length,
       col: 3,
       tag: ["hoge", "fuga"],
@@ -74,64 +72,14 @@ export class WriteClip{
     });
   }
 
-  save_tile(tile): void{
-    if(!tile.con.match(/^[ 　\r\n\t]*$/)){
-      delete tile.edited;
-      if(tile.saved){
-        delete tile.saved;
-        socket.emit('save_tile', tile)
-      }else{
-        delete tile.saved;
-        //console.log(preTile)
-        let diffkey = tilediff(tile, preTile)
-        diffkey.forEach((key) => {
-          switch(key){
-            case "idx":
-              /*socket.emit('update_tileidx', {
-                idx: tile[diffkey],
-                cid: clip_id,
-                tid: tile.tid
-              })*/
-              console.log(tile.idx)
-              break;
-            case "tag":
-              /*socket.emit('update_tiletag', {
-                tag: tile[diffkey],
-                cid: clip_id,
-                tid: tile.tid
-              })*/
-              console.log(tile.tag)
-              break;
-            case "con":
-              /*socket.emit('update_tilecon', {
-                con: tile[diffkey],
-                cid: clip_id,
-                tid: tile.tid
-              })*/
-              console.log(tile.con)
-              break;
-            case "col":
-              /*socket.emit('update_tilecol', {
-                col: tile[diffkey],
-                cid: clip_id,
-                tid: tile.tid
-              })*/
-              console.log(tile.col)
-              break;
-            default:
-              break;
-          }
-        })
-      }
-    }else{
-      //データベースのtile削除処理
-    }
+  save_tile(tile){
+    this.save_tileedit.emit(tile)
   }
-
+/*
   load_clip(): void{
     console.log(ipcRenderer.sendSync('load_clip', clip_id));
   }
-
+*/
   save_clip(): void{
     socket.emit('save_clip', ['clip_test', 'test'])
   }
@@ -166,18 +114,8 @@ export class WriteClip{
     }
   }
 
-  getPreTile(tile){
-    preTile = {
-      cid: tile.cid;
-      idx: tile.idx;
-      col: tile.col;
-      tag: tile.tag;
-      sty: tile.sty;
-      con: tile.con;
-      tid: tile.tid;
-    };
-    console.log(preTile)
-    console.log(tile)
+  getPreTile(tile): void{
+    this.getPreTileedit.emit(tile)
   }
 
   test() {
@@ -189,7 +127,7 @@ export class WriteClip{
   selector: 'write-nav',
   template: `
     <nav class="col-sm-12">
-      <tag-input class="tag-input" [(ngModel)]="select_tile.tag" [theme]="'bootstrap'"></tag-input>
+      <tag-input class="tag-input" [(ngModel)]="select_tile.tag" [theme]="'bootstrap'" (click)="getPreTile(select_tile)" (blur)="save_tile(select_tile)"></tag-input>
       <select id="col-select" class="col-sm-3" [(ngModel)]="select_tile.col">
         <option *ngFor="let number of [1,2,3,4,5,6,7,8,9,10,11,12]">{{number}}</option>
       </select>
@@ -201,6 +139,89 @@ export class WriteClip{
 export class WriteNav{
   @Input() tiles: Tile
   @Input() select_tile
+  @Output() getPreTilenav = new EventEmitter<tile>()
+  @Output() save_tilenav = new EventEmitter<tile>()
+
+  getPreTile(tile): void{
+    this.getPreTilenav.emit(tile)
+  }
+
+  save_tile(tile): void{
+    this.save_tilenav.emit(tile)
+  }
+}
+
+@Component({
+  selector: 'write-view',
+  template: `
+    <write-nav class="write-nav" [tiles]="tiles" [select_tile]="select_tile" (save_tilenav)="save_tile($event)" (getPreTilenav)="getPreTile($event)"></write-nav>
+    <article class="write-field">
+      <write-clip [tiles]="tiles" [select_tile]="select_tile" (output)="select_tile=$event" (save_tileedit)="save_tile($event)" (getPreTileedit)="getPreTile($event)"></write-clip>
+    </article>
+    `,
+    directives: [WriteClip, WriteNav],
+    inputs: ['tiles', 'select_tile']
+})
+
+export class AppComponent{
+  public tiles = TILE;
+  public select_tile = Select_Tile;
+
+  save_tile(tile): void{
+    if(!tile.con.match(/^[ 　\r\n\t]*$/)){
+      //tileの新規保存
+      if(!tile.saved){
+        socket.emit('save_tile', {
+          cid: clip_id
+          idx: tile.idx,
+          col: tile.col,
+          tag: tile.tag,
+          sty: tile.sty,
+          con: tile.con
+        })
+      }else{
+        //tileの更新処理
+        let diffkey = tilediff(tile, preTile)
+        diffkey.forEach((key) => {
+          switch(key){
+            case "idx":
+              socket.emit('update_tileidx', {
+                idx: tile[diffkey],
+                cid: clip_id,
+                tid: tile.tid
+              })
+              break;
+            case "tag":
+              socket.emit('update_tiletag', {
+                tag: tile[diffkey],
+                cid: clip_id,
+                tid: tile.tid
+              })
+              break;
+            case "con":
+              socket.emit('update_tilecon', {
+                con: tile[diffkey],
+                cid: clip_id,
+                tid: tile.tid
+              })
+              break;
+            case "col":
+              socket.emit('update_tilecol', {
+                col: tile[diffkey],
+                cid: clip_id,
+                tid: tile.tid
+              })
+              break;
+            default:
+              break;
+          }
+        })
+      }
+      tile.saved = true
+    }else{
+      //データベースのtile削除処理
+    }
+  }
 
   getPreTile(tile){
     preTile = {
@@ -213,25 +234,7 @@ export class WriteNav{
       tid: tile.tid;
     };
     console.log(preTile)
-    console.log(tile)
   }
-}
-
-@Component({
-  selector: 'write-view',
-  template: `
-    <write-nav class="write-nav" [tiles]="tiles" [select_tile]="select_tile"></write-nav>
-    <article class="write-field">
-      <write-clip [tiles]="tiles" [select_tile]="select_tile" (output)="select_tile=$event"></write-clip>
-    </article>
-    `,
-    directives: [WriteClip, WriteNav],
-    inputs: ['tiles', 'select_tile']
-})
-
-export class AppComponent{
-  public tiles = TILE;
-  public select_tile = Select_Tile;
 }
 
 let tilediff(tile: Tile, preTile: Tile){
