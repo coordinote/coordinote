@@ -52,6 +52,7 @@ io.sockets.on('connection',(socket) => {
 
   socket.on('send_readconnect',() => {
     readid = socket.id
+    io.to(writeid).emit('res_reloadevent')
   })
 
   //send pathdata
@@ -62,7 +63,6 @@ io.sockets.on('connection',(socket) => {
   //send before button push event
   socket.on('send_beforeevent', () => {
     io.to(readid).emit('res_beforeevent')
-    io.to(writeid).emit('res_reloadevent')
   })
 
   //send after button push event
@@ -84,6 +84,7 @@ io.sockets.on('connection',(socket) => {
   socket.on('save_tile',(rec) => {
     //tile data send database
     nedb.insert_tile(rec,(save_doc) => {
+      socket.emit('res_tid',save_doc._id)
     })
   })
 
@@ -138,6 +139,26 @@ io.sockets.on('connection',(socket) => {
           }
           socket.emit('res_tiles',tiles)
       })
+    })
+  })
+
+  socket.on('update_tiletag',(rec) => {
+    nedb.update_tiletags_cidid(rec.tags,rec.cid,rec.tid,() => {
+    })
+  })
+
+  socket.on('update_tilecon',(rec) => {
+    nedb.update_tilecon_cidid(rec.con,rec.cid,rec.tid,() => {
+    })
+  })
+
+  socket.on('update_tilecol',(rec) => {
+    nedb.update_tilecol_cidid(rec.col,tile.cid,rec.tid,() => {
+    })
+  })
+
+  socket.on('update_tileidx',(rec) => {
+    nedb.update_tileidx_cidid(rec.idx,rec.cid,rec.tid,() => {
     })
   })
 
