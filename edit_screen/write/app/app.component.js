@@ -56,7 +56,7 @@ let WriteClip = WriteClip_1 = class WriteClip {
             cid: clip_id,
             idx: TILE.length,
             col: 3,
-            tag: ["test", "やったあ"],
+            tag: ["hoge", "fuga"],
             sty: "txt",
             con: '',
             edited: false,
@@ -110,6 +110,9 @@ let WriteClip = WriteClip_1 = class WriteClip {
             tile.edited = false;
         }
     }
+    test() {
+        console.log(TILE);
+    }
 };
 __decorate([
     core_1.Input(),
@@ -147,7 +150,7 @@ WriteNav = WriteNav_1 = __decorate([
         selector: 'write-nav',
         template: `
     <nav class="col-sm-12">
-      <input type="text" id="tile-tag-input" class="col-sm-9" [(ngModel)]="select_tile.tag">
+      <tag-input class="tag-input" [(ngModel)]="select_tile.tag" [theme]="'bootstrap'"></tag-input>
       <select id="col-select" class="col-sm-3" [(ngModel)]="select_tile.col">
         <option *ngFor="let number of [1,2,3,4,5,6,7,8,9,10,11,12]">{{number}}</option>
       </select>

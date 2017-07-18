@@ -3,11 +3,11 @@
   <span *ngFor="let tile of tiles">
     <div [MathJax]="tile.con" [style.visibility]="tile.edited ? 'hidden' : 'visible'" id='tile{{tile.idx}}' class="col-sm-{{tile.col}} tile" (click)="visibleTextarea(tile)"></div>
   </span>
-  <input type=button (click)="add_tile()" value="add tile">
-  <input type=button (click)="save_tile()" value="save_tile">
-  <input type=button (click)="load_clip()" value="load_clip">
-  <input type=button (click)="save_clip()" value="save_clip">
-  <input type=button (click)="test()" value="hoge">
+  <button type=button (click)="add_tile()">add tile</button>
+  <button type=button (click)="save_tile()">save_tile</button>
+  <button type=button (click)="load_clip()">load_clip</button>
+  <button type=button (click)="save_clip()">save_clip</button>
+  <button type=button (click)="test()">hoge</button>
 </span>
 <!--tileのtextarea-->
 <span class="container tile-input">

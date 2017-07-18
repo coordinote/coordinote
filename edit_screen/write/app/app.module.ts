@@ -1,13 +1,18 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule }  from '@angular/platform-browser';
+import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { AppComponent, WriteClip, WriteNav, MathJaxDirective }   from './app.component.js';
+import { TagInputModule } from 'ng2-tag-input';
+
+import { AppComponent, WriteClip, WriteNav, MathJaxDirective } from './app.component.js';
 
 @NgModule({
   imports:      [
     BrowserModule,
-    FormsModule
+    BrowserAnimationsModule,
+    FormsModule,
+    TagInputModule
   ],
   declarations: [
     AppComponent,
