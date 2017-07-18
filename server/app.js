@@ -48,10 +48,9 @@ io.sockets.on('connection',(socket) => {
 
   socket.on('send_writeconnect',() => {
     writeid = socket.id
-    console.log(writeid)
   })
 
-  socket.on('send_readid',() => {
+  socket.on('send_readconnect',() => {
     readid = socket.id
   })
 

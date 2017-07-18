@@ -41,7 +41,7 @@ $('#black').click(() => {
 //path before
 $('#before').click(() => {
   reset = false
-  socket.emit('send_readid')
+  socket.emit('send_readconnect')
   //send before event
   socket.emit('send_beforeevent')
   //path delete and save
