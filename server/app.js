@@ -143,7 +143,7 @@ io.sockets.on('connection',(socket) => {
   })
 
   socket.on('update_tiletag',(rec) => {
-    nedb.update_tiletags_cidid(rec.tags,rec.cid,rec.tid,() => {
+    nedb.update_tiletags_cidid(rec.tag,rec.cid,rec.tid,() => {
     })
   })
 
