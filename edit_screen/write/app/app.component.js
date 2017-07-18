@@ -68,11 +68,52 @@ let WriteClip = WriteClip_1 = class WriteClip {
     save_tile(tile) {
         if (!tile.con.match(/^[ 　\r\n\t]*$/)) {
             delete tile.edited;
-            if (!tile.saved) {
+            if (tile.saved) {
                 delete tile.saved;
                 socket.emit('save_tile', tile);
             }
             else {
+                delete tile.saved;
+                //console.log(preTile)
+                let diffkey = tilediff(tile, preTile);
+                diffkey.forEach((key) => {
+                    switch (key) {
+                        case "idx":
+                            /*socket.emit('update_tileidx', {
+                              idx: tile[diffkey],
+                              cid: clip_id,
+                              tid: tile.tid
+                            })*/
+                            console.log(tile.idx);
+                            break;
+                        case "tag":
+                            /*socket.emit('update_tiletag', {
+                              tag: tile[diffkey],
+                              cid: clip_id,
+                              tid: tile.tid
+                            })*/
+                            console.log(tile.tag);
+                            break;
+                        case "con":
+                            /*socket.emit('update_tilecon', {
+                              con: tile[diffkey],
+                              cid: clip_id,
+                              tid: tile.tid
+                            })*/
+                            console.log(tile.con);
+                            break;
+                        case "col":
+                            /*socket.emit('update_tilecol', {
+                              col: tile[diffkey],
+                              cid: clip_id,
+                              tid: tile.tid
+                            })*/
+                            console.log(tile.col);
+                            break;
+                        default:
+                            break;
+                    }
+                });
             }
         }
         else {
@@ -115,7 +156,17 @@ let WriteClip = WriteClip_1 = class WriteClip {
         }
     }
     getPreTile(tile) {
-        preTile = tile;
+        preTile = {
+            cid: tile.cid,
+            idx: tile.idx,
+            col: tile.col,
+            tag: tile.tag,
+            sty: tile.sty,
+            con: tile.con,
+            tid: tile.tid
+        };
+        console.log(preTile);
+        console.log(tile);
     }
     test() {
         console.log(TILE);
@@ -143,6 +194,19 @@ WriteClip = WriteClip_1 = __decorate([
 ], WriteClip);
 exports.WriteClip = WriteClip;
 let WriteNav = WriteNav_1 = class WriteNav {
+    getPreTile(tile) {
+        preTile = {
+            cid: tile.cid,
+            idx: tile.idx,
+            col: tile.col,
+            tag: tile.tag,
+            sty: tile.sty,
+            con: tile.con,
+            tid: tile.tid
+        };
+        console.log(preTile);
+        console.log(tile);
+    }
 };
 __decorate([
     core_1.Input(),
@@ -188,15 +252,14 @@ AppComponent = __decorate([
 ], AppComponent);
 exports.AppComponent = AppComponent;
 let tilediff = (tile, preTile) => {
-    let keys = Object.keys(tile).sort();
+    let keys = Object.keys(tile);
     let diffProp = [];
-    let diffcount = 0;
     keys.forEach((key) => {
-        if (tile[key] === preTile[key]) {
+        if (tile[key] !== preTile[key]) {
             diffProp.push(key);
         }
-        return diffProp;
     });
+    return diffProp;
 };
 var WriteClip_1, WriteNav_1;
 //# sourceMappingURL=app.component.js.map

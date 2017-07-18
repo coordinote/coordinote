@@ -77,10 +77,51 @@ export class WriteClip{
   save_tile(tile): void{
     if(!tile.con.match(/^[ 　\r\n\t]*$/)){
       delete tile.edited;
-      if(!tile.saved){
+      if(tile.saved){
         delete tile.saved;
         socket.emit('save_tile', tile)
       }else{
+        delete tile.saved;
+        //console.log(preTile)
+        let diffkey = tilediff(tile, preTile)
+        diffkey.forEach((key) => {
+          switch(key){
+            case "idx":
+              /*socket.emit('update_tileidx', {
+                idx: tile[diffkey],
+                cid: clip_id,
+                tid: tile.tid
+              })*/
+              console.log(tile.idx)
+              break;
+            case "tag":
+              /*socket.emit('update_tiletag', {
+                tag: tile[diffkey],
+                cid: clip_id,
+                tid: tile.tid
+              })*/
+              console.log(tile.tag)
+              break;
+            case "con":
+              /*socket.emit('update_tilecon', {
+                con: tile[diffkey],
+                cid: clip_id,
+                tid: tile.tid
+              })*/
+              console.log(tile.con)
+              break;
+            case "col":
+              /*socket.emit('update_tilecol', {
+                col: tile[diffkey],
+                cid: clip_id,
+                tid: tile.tid
+              })*/
+              console.log(tile.col)
+              break;
+            default:
+              break;
+          }
+        })
       }
     }else{
       //データベースのtile削除処理
@@ -126,7 +167,17 @@ export class WriteClip{
   }
 
   getPreTile(tile){
-    preTile = tile;
+    preTile = {
+      cid: tile.cid;
+      idx: tile.idx;
+      col: tile.col;
+      tag: tile.tag;
+      sty: tile.sty;
+      con: tile.con;
+      tid: tile.tid;
+    };
+    console.log(preTile)
+    console.log(tile)
   }
 
   test() {
@@ -150,6 +201,20 @@ export class WriteClip{
 export class WriteNav{
   @Input() tiles: Tile
   @Input() select_tile
+
+  getPreTile(tile){
+    preTile = {
+      cid: tile.cid;
+      idx: tile.idx;
+      col: tile.col;
+      tag: tile.tag;
+      sty: tile.sty;
+      con: tile.con;
+      tid: tile.tid;
+    };
+    console.log(preTile)
+    console.log(tile)
+  }
 }
 
 @Component({
@@ -170,14 +235,13 @@ export class AppComponent{
 }
 
 let tilediff(tile: Tile, preTile: Tile){
-  let keys = Object.keys(tile).sort()
+  let keys = Object.keys(tile)
   let diffProp = []
-  let diffcount = 0;
 
   keys.forEach((key) => {
-    if(tile[key] === preTile[key]){
+    if(tile[key] !== preTile[key]){
       diffProp.push(key)
     }
-    return diffProp
   })
+  return diffProp
 }
