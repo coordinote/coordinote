@@ -17,7 +17,9 @@ const clip_schema = {
 }
 
 const tag_schema = {
-  "type": "array"
+  "type": "array",
+  "required": true,
+  "additionalProperties": false
 }
 
 // constructor
@@ -38,10 +40,10 @@ clipSchema.clip_valid = function(instance, callback_arg){
   ])
 }
 
-clipSchema.tag_valid = function(tag_schema, callback_arg){
+clipSchema.tag_valid = function(tag, callback_arg){
   async.waterfall([
     (callback) => {
-      let result = validate(tag_schema, tag_schema)
+      let result = validate(tag, tag_schema)
       callback(null, result)
     },
     (result, callback) => {
