@@ -58,7 +58,7 @@ export class WriteClip{
   @Output() save_tileedit = new EventEmitter<tile>()
   @Output() getPreTileedit = new EventEmitter<tile>()
 
-  constructor(private elementRef: ElementRef, private Renderer: Renderer, private http: Http){}
+  constructor(private elementRef: ElementRef, private Renderer: Renderer){}
   el = this.elementRef.nativeElement;
   renderer = this.Renderer;
 
@@ -76,11 +76,7 @@ export class WriteClip{
   }
 
   save_tile(tile){
-    console.log('hoge')
-    this.http.post('/api/save_tile', tile).subscribe(res => {
-      tile._id = res._id;
-    })
-    //this.save_tileedit.emit(tile)
+    this.save_tileedit.emit(tile)
   }
 /*
   load_clip(): void{
@@ -193,17 +189,22 @@ export class AppComponent{
   public tiles = TILE;
   public select_tile = Select_Tile;
 
+  constructor(private http: Http){}
+
   save_tile(tile): void{
     if(!tile.con.match(/^[ 　\r\n\t]*$/)){
       //tileの新規保存
       if(!tile.saved){
-        socket.emit('save_tile', {
+        this.http.post('http://localhost:6277/api/save_tile', {
           cid: clip_id,
           idx: tile.idx,
           col: tile.col,
           tag: tile.tag,
           sty: tile.sty,
           con: tile.con
+        })
+        .subscribe(res => {
+          tile.tid = res._body;
         })
       }else{
         //tileの更新処理

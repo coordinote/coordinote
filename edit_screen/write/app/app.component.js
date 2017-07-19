@@ -44,10 +44,9 @@ MathJaxDirective = __decorate([
 ], MathJaxDirective);
 exports.MathJaxDirective = MathJaxDirective;
 let WriteClip = WriteClip_1 = class WriteClip {
-    constructor(elementRef, Renderer, http) {
+    constructor(elementRef, Renderer) {
         this.elementRef = elementRef;
         this.Renderer = Renderer;
-        this.http = http;
         this.output = new core_1.EventEmitter();
         this.save_tileedit = new core_1.EventEmitter();
         this.getPreTileedit = new core_1.EventEmitter();
@@ -67,11 +66,7 @@ let WriteClip = WriteClip_1 = class WriteClip {
         });
     }
     save_tile(tile) {
-        console.log('hoge');
-        this.http.post('/api/save_tile', tile).subscribe(res => {
-            tile._id = res._id;
-        });
-        //this.save_tileedit.emit(tile)
+        this.save_tileedit.emit(tile);
     }
     /*
       load_clip(): void{
@@ -161,7 +156,7 @@ WriteClip = WriteClip_1 = __decorate([
         directives: WriteClip_1,
         styleUrls: ['write/template/canvas_iframe.css']
     }),
-    __metadata("design:paramtypes", [core_1.ElementRef, core_1.Renderer, http_1.Http])
+    __metadata("design:paramtypes", [core_1.ElementRef, core_1.Renderer])
 ], WriteClip);
 exports.WriteClip = WriteClip;
 let WriteNav = WriteNav_1 = class WriteNav {
@@ -208,7 +203,8 @@ WriteNav = WriteNav_1 = __decorate([
 ], WriteNav);
 exports.WriteNav = WriteNav;
 let AppComponent = class AppComponent {
-    constructor() {
+    constructor(http) {
+        this.http = http;
         this.tiles = TILE;
         this.select_tile = Select_Tile;
     }
@@ -216,13 +212,16 @@ let AppComponent = class AppComponent {
         if (!tile.con.match(/^[ 　\r\n\t]*$/)) {
             //tileの新規保存
             if (!tile.saved) {
-                socket.emit('save_tile', {
+                this.http.post('http://localhost:6277/api/save_tile', {
                     cid: clip_id,
                     idx: tile.idx,
                     col: tile.col,
                     tag: tile.tag,
                     sty: tile.sty,
                     con: tile.con
+                })
+                    .subscribe(res => {
+                    tile.tid = res._body;
                 });
             }
             else {
@@ -293,7 +292,8 @@ AppComponent = __decorate([
     `,
         directives: [WriteClip, WriteNav],
         inputs: ['tiles', 'select_tile']
-    })
+    }),
+    __metadata("design:paramtypes", [http_1.Http])
 ], AppComponent);
 exports.AppComponent = AppComponent;
 let tilediff = (tile, preTile) => {
