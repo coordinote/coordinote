@@ -6,8 +6,20 @@
     <meta name="viewport" content="width=device-width initial-scale=1">
     <link rel="stylesheet" href="/__dirname/node_modules/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="/__dirname/node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/__dirname/node_modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.css">
+    <link rel="stylesheet" href="/__dirname/node_modules/bootstrap-tagsinput/examples/assets/app.css" />
     <link rel="stylesheet" href="/__dirname/edit_screen/css/screen_view.css">
     <script src="/__dirname/require.js"></script>
+    <script type="text/javascript" async src="/__dirname/node_modules/mathjax/MathJax.js?config=TeX-AMS_CHTML"></script>
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+          displayMath: [ ['$$','$$'], ["\\[","\\]"] ]
+        }
+      })
+    </script>
+    <script type="text/javascript" src="/__dirname/node_modules/socket.io-client/dist/socket.io.js"></script>
   </head>
   <body>
     <!-- ナビゲーションバー(メニュー) -->
@@ -23,7 +35,6 @@
         <button class="button" id="debug_button" title="Debug"><i class="fa fa-bug fa-2x"></i></button>
       </article>
     </nav>
-
     <!-- サイドバー(クリップ) -->
     <article class="clip-bar">
       <!-- ng selector tag -->
@@ -31,10 +42,8 @@
     </article>
 
     <!-- 中央(執筆) -->
-    <article class="write-field">
-      <!-- ng selector tag -->
-      <write-view></write-view>
-    </article>
+    <!-- ng selector tag -->
+    <write-view></write-view>
 
     <script src="/__dirname/edit_screen/js/screen_view.js"></script>
     <script src="/__dirname/node_modules/core-js/client/shim.js"></script>

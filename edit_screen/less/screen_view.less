@@ -64,37 +64,72 @@ body{
     }
   }
 
+  .write-nav{
+    position: absolute;
+    height: 5vh;
+    left: 38vw;
+    top: 10vh;
+
+    nav{
+      padding: 0;
+      margin: 0;
+    }
+
+    input{
+      height: 20px;
+    }
+
+    select{
+      height: 20px;
+    }
+  }
+
   article.write-field{
     background-color: @menu-color;
     position: absolute;
     width: @write-field-width;
     height: @write-field-width * 1.414;
     left: 38vw;
-    top: 10vh;
+    top: 15vh;
+
+    .tile-contents{
+      position: relative;
+      padding: 0;
+      margin: 0;
+      z-index: 10;
+
+      .tile{
+        min-height: 24px;
+        overflow: hidden;
+        word-wrap: break-word;
+        white-space: pre-wrap;
+        user-select: none;
+        cursor: pointer;
+      }
+    }
+
+    .tile-input{
+      padding: 0;
+      margin: 0;
+      z-index: 20;
+
+      span{
+        padding: 0;
+        margin: 0;
+
+        label{
+          padding: 0;
+          margin: 0;
+        }
+
+        textarea{
+          position: absolute;
+          //position: relative;
+          overflow: hidden;
+          resize: none;
+        }
+      }
+    }
   }
 }
 
-.tile-text{
-  //display: none;
-  z-index: 10;
-  padding: 0;
-  margin: 0;
-
-  .tile{
-    overflow: hidden;
-  }
-}
-
-.tile-input{
-  //position: absolute;
-  //left: 0px;
-  //top: 0px;
-  padding: 0;
-  margin: 0;
-  z-index: 20;
-
-  textarea{
-    overflow: hidden;
-  //resize: none;
-  }
-}
