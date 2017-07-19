@@ -21,8 +21,7 @@ let Select_Tile: TIle = {};
 
 let preTile: Tile = {};
 
-//'res_cidに変更
-socket.on('return_cid', (cid) => {
+socket.on('res_cid', (cid) => {
   clip_id = cid
 })
 
@@ -64,12 +63,12 @@ export class WriteClip{
       TILE.push({
         idx: TILE.length,
         col: 3,
-        tag: ["hoge", "fuga"],
+        tag: [],
         sty: "txt",
         con: '',
         edited: false,
         saved: false,
-        tid: null
+        _id: null
       });
     })
   }
@@ -129,7 +128,7 @@ export class WriteClip{
   selector: 'write-nav',
   template: `
     <nav class="col-sm-12">
-      <tag-input class="tag-input" [(ngModel)]="select_tile.tag" [theme]="'bootstrap'" (click)="getPreTile(select_tile)" (blur)="save_tile(select_tile)"></tag-input>
+      <tag-input class="tag-input" [(ngModel)]="select_tile.tag" [theme]="'bootstrap'" (click)="getPreTile(select_tile)" (onBlur)="save_tile(select_tile)"></tag-input>
       <select id="col-select" class="col-sm-3" [(ngModel)]="select_tile.col">
         <option *ngFor="let number of [1,2,3,4,5,6,7,8,9,10,11,12]">{{number}}</option>
       </select>
@@ -149,6 +148,7 @@ export class WriteNav{
   }
 
   save_tile(tile): void{
+    console.log("hoge")
     this.save_tilenav.emit(tile)
   }
 }
@@ -170,17 +170,20 @@ export class AppComponent{
   public select_tile = Select_Tile;
 
   save_tile(tile): void{
+    console.log("OK")
     if(!tile.con.match(/^[ 　\r\n\t]*$/)){
       //tileの新規保存
       if(!tile.saved){
+        let tag = tagsubstitute(tile.tag)
         socket.emit('save_tile', {
-          cid: clip_id
+          cid: clip_id,
           idx: tile.idx,
           col: tile.col,
-          tag: tile.tag,
+          tag: tag,
           sty: tile.sty,
           con: tile.con
         })
+        tile.saved = true
       }else{
         //tileの更新処理
         let diffkey = tilediff(tile, preTile)
@@ -190,28 +193,30 @@ export class AppComponent{
               socket.emit('update_tileidx', {
                 idx: tile[diffkey],
                 cid: clip_id,
-                tid: tile.tid
+                _id: tile.tid
               })
               break;
             case "tag":
+              let tag = tagsubstitute(tile.tag)
+              console.log(tag)
               socket.emit('update_tiletag', {
-                tag: tile[diffkey],
+                tag: tag,
                 cid: clip_id,
-                tid: tile.tid
+                _id: tile.tid
               })
               break;
             case "con":
               socket.emit('update_tilecon', {
                 con: tile[diffkey],
                 cid: clip_id,
-                tid: tile.tid
+                _id: tile.tid
               })
               break;
             case "col":
               socket.emit('update_tilecol', {
                 col: tile[diffkey],
                 cid: clip_id,
-                tid: tile.tid
+                _id: tile.tid
               })
               break;
             default:
@@ -219,7 +224,6 @@ export class AppComponent{
           }
         })
       }
-      tile.saved = true
     }else{
       //データベースのtile削除処理
     }
@@ -227,7 +231,6 @@ export class AppComponent{
 
   getPreTile(tile){
     preTile = {
-      cid: tile.cid,
       idx: tile.idx,
       col: tile.col,
       tag: tile.tag,
@@ -259,4 +262,12 @@ let tilesort(callback){
     TILE[i].idx = i
   }
   callback()
+}
+
+let tagsubstitute(tag){
+  let tag_array = []
+  tag.forEach((input_tag) => {
+    tag_array.push(input_tag.value)
+  })
+  return tag_array
 }
