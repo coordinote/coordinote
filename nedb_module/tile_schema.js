@@ -19,22 +19,33 @@ const tile_schema = {
   }
 }
 
+const cid_schema = {
+  "type": "string",
+  "required": true,
+  "additionalProperties": false
+}
+
 const idx_schema = {
   "type": "integer",
+  "required": true,
   "additionalProperties": false
 }
 
 const col_schema = {
   "type": "integer",
+  "required": true,
   "additionalProperties": false
 }
 
 const tag_schema = {
-  "type": "array"
+  "type": "array",
+  "required": true,
+  "additionalProperties": false
 }
 
 const con_schema = {
   "type": "string",
+  "required": true,
   "additionalProperties": false
 }
 
@@ -47,6 +58,19 @@ tileSchema.tile_valid = function(instance, callback_arg){
   async.waterfall([
     (callback) => {
       let result = validate(instance, tile_schema)
+      callback(null, result)
+    },
+    (result, callback) => {
+      callback_arg(result)
+      callback(null)
+    }
+  ])
+}
+
+tileSchema.cid_valid = function(cid, callback_arg){
+  async.waterfall([
+    (callback) => {
+      let result = validate(cid, cid_schema)
       callback(null, result)
     },
     (result, callback) => {
