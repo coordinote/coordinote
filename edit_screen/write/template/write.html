@@ -3,7 +3,7 @@
   <span *ngFor="let tile of tiles">
     <!--textの場合-->
     <ng-container *ngIf='tile.sty === "txt"'>
-      <div [MathJax]="tile.con" [style.visibility]="tile.edited ? 'hidden' : 'visible'" id='tile{{tile.idx}}' class="col-sm-{{tile.col}} tile" (click)="visibleTextarea(tile)"></div>
+      <div [MathJax]="tile.con" [style.visibility]="tile.edited ? 'hidden' : 'visible'" id='tile{{tile.idx}}' class="col-sm-{{tile.col}} tile" (click)="visibleTextarea(tile); getPreTile(tile)"></div>
     </ng-container>
     <!--canvasの場合-->
     <ng-container *ngIf='tile.sty === "svg"'>
@@ -13,12 +13,12 @@
       </span>
     </ng-container>
   </span>
-  <input type=button (click)="add_tile()" value="add tile">
-  <input type=button (click)="save_tile()" value="save_tile">
-  <input type=button (click)="load_clip()" value="load_clip">
-  <input type=button (click)="save_clip()" value="save_clip">
-  <input type=button (click)="test()" value="hoge">
-  <input type=button (click)="add_canvas()" value="add canvas">
+  <button type=button (click)="add_tile()">add tile</button>
+  <button type=button (click)="save_tile()">save_tile</button>
+  <button type=button (click)="load_clip()">load_clip</button>
+  <button type=button (click)="save_clip()">save_clip</button>
+  <button type=button (click)="test()">hoge</button>
+  <button type=button (click)="add_canvas()">add canvas</button>
 </span>
 <!--tileのtextarea-->
 <span class="container tile-input">
