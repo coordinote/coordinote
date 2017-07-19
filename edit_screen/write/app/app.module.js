@@ -10,6 +10,7 @@ const core_1 = require("@angular/core");
 const platform_browser_1 = require("@angular/platform-browser");
 const forms_1 = require("@angular/forms");
 const animations_1 = require("@angular/platform-browser/animations");
+const http_1 = require("@angular/http");
 const ng2_tag_input_1 = require("ng2-tag-input");
 const app_component_js_1 = require("./app.component.js");
 let AppModule = class AppModule {
@@ -20,6 +21,7 @@ AppModule = __decorate([
             platform_browser_1.BrowserModule,
             animations_1.BrowserAnimationsModule,
             forms_1.FormsModule,
+            http_1.HttpModule,
             ng2_tag_input_1.TagInputModule
         ],
         declarations: [

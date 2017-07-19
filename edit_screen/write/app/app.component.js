@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const core_1 = require("@angular/core");
+const http_1 = require("@angular/http");
 const socket = io.connect('http://localhost:6277');
 class Tile {
 }
@@ -76,6 +77,16 @@ let WriteClip = WriteClip_1 = class WriteClip {
     save_clip() {
         socket.emit('save_clip', ['clip_test', 'test']);
     }
+    add_canvas() {
+        TILE.push({
+            cid: clip_id,
+            idx: TILE.length,
+            col: 3,
+            tag: [],
+            sty: "svg",
+            con: '',
+        });
+    }
     resize(textarea) {
         let scrollHeight = this.el.querySelector("#" + textarea.id).scrollHeight;
         let height = this.el.querySelector("#" + textarea.id).offsetHeight;
@@ -88,14 +99,21 @@ let WriteClip = WriteClip_1 = class WriteClip {
             this.el.querySelector("#" + textarea.id).style.height = height - lineHeight + "px";
         }
     }
-    visibleTextarea(tile) {
-        let div = this.el.querySelector("#tile" + tile.idx);
-        tile.edited = true;
-        this.el.querySelector("#textarea" + tile.idx).style.visibility = "visible";
-        this.renderer.invokeElementMethod(this.el.querySelector("#textarea" + tile.idx), 'focus');
-        this.output.emit(tile);
-        this.el.querySelector("#textarea" + tile.idx).style.top = div.offsetTop + "px";
-        this.el.querySelector("#textarea" + tile.idx).style.left = div.offsetLeft + "px";
+    visibleTextarea(tile, dom) {
+        // case of text
+        if (tile.sty === "txt") {
+            let div = this.el.querySelector("#tile" + tile.idx);
+            tile.edited = true;
+            this.el.querySelector("#textarea" + tile.idx).style.visibility = "visible";
+            this.renderer.invokeElementMethod(this.el.querySelector("#textarea" + tile.idx), 'focus');
+            this.output.emit(tile);
+            this.el.querySelector("#textarea" + tile.idx).style.top = div.offsetTop + "px";
+            this.el.querySelector("#textarea" + tile.idx).style.left = div.offsetLeft + "px";
+        }
+        else if (tile.sty === "svg") {
+            dom.contentWindow.sendReadID();
+            this.output.emit(tile);
+        }
     }
     unvisibleTextarea(tile) {
         if (tile.con.match(/^[ 　\r\n\t]*$/)) {
@@ -136,7 +154,8 @@ WriteClip = WriteClip_1 = __decorate([
     core_1.Component({
         selector: 'write-clip',
         templateUrl: 'write/template/write.html',
-        directives: WriteClip_1
+        directives: WriteClip_1,
+        styleUrls: ['write/template/canvas_iframe.css']
     }),
     __metadata("design:paramtypes", [core_1.ElementRef, core_1.Renderer])
 ], WriteClip);
@@ -150,7 +169,6 @@ let WriteNav = WriteNav_1 = class WriteNav {
         this.getPreTilenav.emit(tile);
     }
     save_tile(tile) {
-        console.log("hoge");
         this.save_tilenav.emit(tile);
     }
 };
@@ -186,23 +204,26 @@ WriteNav = WriteNav_1 = __decorate([
 ], WriteNav);
 exports.WriteNav = WriteNav;
 let AppComponent = class AppComponent {
-    constructor() {
+    constructor(http) {
+        this.http = http;
         this.tiles = TILE;
         this.select_tile = Select_Tile;
     }
     save_tile(tile) {
-        console.log("OK");
         if (!tile.con.match(/^[ 　\r\n\t]*$/)) {
             //tileの新規保存
             if (!tile.saved) {
                 let tag = tagsubstitute(tile.tag);
-                socket.emit('save_tile', {
+                this.http.post('http://localhost:6277/api/save_tile', {
                     cid: clip_id,
                     idx: tile.idx,
                     col: tile.col,
                     tag: tag,
                     sty: tile.sty,
                     con: tile.con
+                })
+                    .subscribe(res => {
+                    tile.tid = res._body;
                 });
                 tile.saved = true;
             }
@@ -212,6 +233,7 @@ let AppComponent = class AppComponent {
                 diffkey.forEach((key) => {
                     switch (key) {
                         case "idx":
+                            console.log("idx");
                             socket.emit('update_tileidx', {
                                 idx: tile[diffkey],
                                 cid: clip_id,
@@ -219,8 +241,8 @@ let AppComponent = class AppComponent {
                             });
                             break;
                         case "tag":
+                            console.log("tag");
                             let tag = tagsubstitute(tile.tag);
-                            console.log(tag);
                             socket.emit('update_tiletag', {
                                 tag: tag,
                                 cid: clip_id,
@@ -228,6 +250,7 @@ let AppComponent = class AppComponent {
                             });
                             break;
                         case "con":
+                            console.log("con");
                             socket.emit('update_tilecon', {
                                 con: tile[diffkey],
                                 cid: clip_id,
@@ -235,6 +258,7 @@ let AppComponent = class AppComponent {
                             });
                             break;
                         case "col":
+                            console.log("col");
                             socket.emit('update_tilecol', {
                                 col: tile[diffkey],
                                 cid: clip_id,
@@ -260,7 +284,6 @@ let AppComponent = class AppComponent {
             con: tile.con,
             tid: tile.tid
         };
-        console.log(preTile);
     }
 };
 AppComponent = __decorate([
@@ -274,7 +297,8 @@ AppComponent = __decorate([
     `,
         directives: [WriteClip, WriteNav],
         inputs: ['tiles', 'select_tile']
-    })
+    }),
+    __metadata("design:paramtypes", [http_1.Http])
 ], AppComponent);
 exports.AppComponent = AppComponent;
 let tilediff = (tile, preTile) => {

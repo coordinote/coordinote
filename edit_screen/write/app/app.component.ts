@@ -1,5 +1,7 @@
 import { Component, Directive, ElementRef, EventEmitter, Input, Output, Renderer }  from '@angular/core';
 
+import { Http } from '@angular/http';
+
 const socket = io.connect('http://localhost:6277')
 
 export class Tile {
@@ -44,7 +46,8 @@ export class MathJaxDirective {
 @Component({
   selector: 'write-clip',
   templateUrl: 'write/template/write.html',
-  directives: WriteClip
+  directives: WriteClip,
+  styleUrls: ['write/template/canvas_iframe.css']
 })
 
 export class WriteClip{
@@ -85,6 +88,17 @@ export class WriteClip{
     socket.emit('save_clip', ['clip_test', 'test'])
   }
 
+  add_canvas(): void{
+    TILE.push({
+      cid: clip_id,
+      idx: TILE.length,
+      col: 3,
+      tag: [],
+      sty: "svg",
+      con: '',
+    });
+  }
+
   resize(textarea): void{
     let scrollHeight = this.el.querySelector("#" + textarea.id).scrollHeight;
     let height = this.el.querySelector("#" + textarea.id).offsetHeight;
@@ -97,14 +111,22 @@ export class WriteClip{
     }
   }
 
-  visibleTextarea(tile): void{
-    let div = this.el.querySelector("#tile" + tile.idx)
+  visibleTextarea(tile, dom): void{
+    // case of text
+    if(tile.sty === "txt"){
+      let div = this.el.querySelector("#tile" + tile.idx)
     tile.edited = true;
     this.el.querySelector("#textarea" + tile.idx).style.visibility = "visible";
     this.renderer.invokeElementMethod(this.el.querySelector("#textarea" + tile.idx), 'focus');
     this.output.emit(tile)
     this.el.querySelector("#textarea" + tile.idx).style.top = div.offsetTop + "px";
     this.el.querySelector("#textarea" + tile.idx).style.left = div.offsetLeft + "px";
+    }
+    // case of canvas
+    else if(tile.sty === "svg"){
+      dom.contentWindow.sendReadID()
+      this.output.emit(tile)
+    }
   }
 
   unvisibleTextarea(tile): void{
@@ -148,7 +170,6 @@ export class WriteNav{
   }
 
   save_tile(tile): void{
-    console.log("hoge")
     this.save_tilenav.emit(tile)
   }
 }
@@ -169,19 +190,23 @@ export class AppComponent{
   public tiles = TILE;
   public select_tile = Select_Tile;
 
+  constructor(private http: Http){}
+
   save_tile(tile): void{
-    console.log("OK")
     if(!tile.con.match(/^[ 　\r\n\t]*$/)){
       //tileの新規保存
       if(!tile.saved){
         let tag = tagsubstitute(tile.tag)
-        socket.emit('save_tile', {
+        this.http.post('http://localhost:6277/api/save_tile', {
           cid: clip_id,
           idx: tile.idx,
           col: tile.col,
           tag: tag,
           sty: tile.sty,
           con: tile.con
+        })
+        .subscribe(res => {
+          tile.tid = res._body;
         })
         tile.saved = true
       }else{
@@ -190,6 +215,7 @@ export class AppComponent{
         diffkey.forEach((key) => {
           switch(key){
             case "idx":
+              console.log("idx")
               socket.emit('update_tileidx', {
                 idx: tile[diffkey],
                 cid: clip_id,
@@ -197,8 +223,8 @@ export class AppComponent{
               })
               break;
             case "tag":
+              console.log("tag")
               let tag = tagsubstitute(tile.tag)
-              console.log(tag)
               socket.emit('update_tiletag', {
                 tag: tag,
                 cid: clip_id,
@@ -206,6 +232,7 @@ export class AppComponent{
               })
               break;
             case "con":
+              console.log("con")
               socket.emit('update_tilecon', {
                 con: tile[diffkey],
                 cid: clip_id,
@@ -213,6 +240,7 @@ export class AppComponent{
               })
               break;
             case "col":
+              console.log("col")
               socket.emit('update_tilecol', {
                 col: tile[diffkey],
                 cid: clip_id,
@@ -238,7 +266,6 @@ export class AppComponent{
       con: tile.con,
       tid: tile.tid
     };
-    console.log(preTile)
   }
 }
 

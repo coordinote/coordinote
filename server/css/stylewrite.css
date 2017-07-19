@@ -1,0 +1,19 @@
+body {
+  margin: 0;
+  background-color: #ddd;
+  width: 100vw;
+  overflow: hidden;
+  height: 100vh;
+}
+
+.tools {
+  display: flex;
+  position: absolute;
+}
+#datasize {
+  margin: 0 5px;
+}
+#canvas {
+  width: 100%;
+  height: 100%;
+}
