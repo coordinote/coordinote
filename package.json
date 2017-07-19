@@ -18,6 +18,7 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
+    "body-parser": "^1.17.2",
     "gulp": "^3.9.1",
     "gulp-less": "^3.3.0",
     "gulp-webserver": "^0.9.1",

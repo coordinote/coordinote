@@ -3,6 +3,7 @@ const http = require('http').Server(app)
 const io = require('socket.io').listen(http)
 const nedb_module = require ("../nedb_module")
 const async = require('async')
+const bodyParser = require('body-parser')
 
 let nedb = new nedb_module()
 let readid
@@ -13,6 +14,17 @@ const PORTNUMBER = 6277
 
 http.listen(PORTNUMBER,() => {
   console.log('Open 6277')
+})
+
+app.use(bodyParser.urlencoded({
+    extended: true
+}))
+app.use(bodyParser.json())
+
+app.post('/api/save_tile',(req,res) => {
+  nedb.insert_tile(req.body,(save_doc) => {
+    res.send(save_doc._id)
+  })
 })
 
 app.get('/',(req,res) => {
