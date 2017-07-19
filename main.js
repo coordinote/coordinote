@@ -31,7 +31,7 @@ app.on('ready', () => {
   })
 })
 
-function createWindow(){
+function createWindow(path){
   win = new BrowserWindow({
     'width': 1200,
     'height': 800,
@@ -39,7 +39,7 @@ function createWindow(){
   })
 
   win.loadURL(url.format({
-    pathname: __dirname + PATH_DATA.main_path,
+    pathname: __dirname + path,
     protocol: 'file:',
     slashes: true,
   }))
@@ -56,8 +56,8 @@ function createWindow(){
 //splash window
 function splashWindow(){
   spwin = new BrowserWindow({
-    'width': 500,
-    'height': 600,
+    'width': 510,
+    'height': 620,
     'transparent': true,
     'frame': false,
     "resizable": false
@@ -70,7 +70,6 @@ function splashWindow(){
   }))
 
   spwin.on('closed', () => {
-    createWindow()
     spwin = null
   })
 }
@@ -143,3 +142,13 @@ ipcMain.on('load_clip', (event, clip_id) => {
   })
 })
 
+ipcMain.on('move_from_splash', (event, path) => {
+  switch(path){
+    case PATH_DATA.edit_path:
+      createWindow(path)
+      break
+    case PATH_DATA.pdf_path:
+      createWindow(path)
+      break
+  }
+})
