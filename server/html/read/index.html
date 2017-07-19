@@ -6,18 +6,11 @@
         <title>coordinote Canvas</title>
         <script src="/node_modules/svg-catmull-rom-spline/bundle.js"></script>
         <script src="/node_modules/jquery/dist/jquery.min.js"></script>
-        <link rel="stylesheet" href="/css/style.css">
+        <link rel="stylesheet" href="/css/styleread.css">
     </head>
     <body>
         <div class="tools">
             <p id="datasize">0Byte</p>
-            <label>tolerance</label>
-            <input type="range" min="0" max="7" id="omit" name="omit" step="0.1" value="3" />
-            <label id="omit-label"></label>
-            <button id="black">black</button>
-            <button id="red">red</button>
-            <button id="before">before</button>
-            <button id="after">after</button>
         </div>
         <svg id="canvas" />
         <script src="/node_modules/socket.io-client/dist/socket.io.js"></script>

@@ -93,7 +93,6 @@ export class WriteClip{
       tag: ["test", "やったあ"],
       sty: "svg",
       con: '',
-      edited: false
     });
   }
 
