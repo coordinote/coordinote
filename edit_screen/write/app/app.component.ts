@@ -60,16 +60,18 @@ export class WriteClip{
   renderer = this.Renderer;
 
   add_tile(): void{
-    TILE.push({
-      idx: TILE.length,
-      col: 3,
-      tag: ["hoge", "fuga"],
-      sty: "txt",
-      con: '',
-      edited: false,
-      saved: false,
-      tid: null
-    });
+    tilesort(() => {
+      TILE.push({
+        idx: TILE.length,
+        col: 3,
+        tag: ["hoge", "fuga"],
+        sty: "txt",
+        con: '',
+        edited: false,
+        saved: false,
+        tid: null
+      });
+    })
   }
 
   save_tile(tile){
@@ -225,13 +227,13 @@ export class AppComponent{
 
   getPreTile(tile){
     preTile = {
-      cid: tile.cid;
-      idx: tile.idx;
-      col: tile.col;
-      tag: tile.tag;
-      sty: tile.sty;
-      con: tile.con;
-      tid: tile.tid;
+      cid: tile.cid,
+      idx: tile.idx,
+      col: tile.col,
+      tag: tile.tag,
+      sty: tile.sty,
+      con: tile.con,
+      tid: tile.tid
     };
     console.log(preTile)
   }
@@ -247,4 +249,14 @@ let tilediff(tile: Tile, preTile: Tile){
     }
   })
   return diffProp
+}
+
+let tilesort(callback){
+  TILE.sort((tile1, tile2) => {
+    return tile1.idx - tile2.idx
+  })
+  for(let i=0; i<TILE.length; i++){
+    TILE[i].idx = i
+  }
+  callback()
 }

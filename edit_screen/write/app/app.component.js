@@ -53,15 +53,17 @@ let WriteClip = WriteClip_1 = class WriteClip {
         this.renderer = this.Renderer;
     }
     add_tile() {
-        TILE.push({
-            idx: TILE.length,
-            col: 3,
-            tag: ["hoge", "fuga"],
-            sty: "txt",
-            con: '',
-            edited: false,
-            saved: false,
-            tid: null
+        tilesort(() => {
+            TILE.push({
+                idx: TILE.length,
+                col: 3,
+                tag: ["hoge", "fuga"],
+                sty: "txt",
+                con: '',
+                edited: false,
+                saved: false,
+                tid: null
+            });
         });
     }
     save_tile(tile) {
@@ -281,6 +283,15 @@ let tilediff = (tile, preTile) => {
         }
     });
     return diffProp;
+};
+let tilesort = (callback) => {
+    TILE.sort((tile1, tile2) => {
+        return tile1.idx - tile2.idx;
+    });
+    for (let i = 0; i < TILE.length; i++) {
+        TILE[i].idx = i;
+    }
+    callback();
 };
 var WriteClip_1, WriteNav_1;
 //# sourceMappingURL=app.component.js.map
