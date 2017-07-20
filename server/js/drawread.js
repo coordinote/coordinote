@@ -1,6 +1,18 @@
 //svg path data size
 let pathsize
 
+// svg path data
+let pathdata = []
+
+// document ids
+/*
+{
+  cid: ドキュメントのクリップid,
+  tid: ドキュメントのタイルid
+}
+ */
+let doc_id = {}
+
 //socket.io
 const socket = io.connect()
 
@@ -11,15 +23,33 @@ let history_array = []
 socket.on('res_pathdata', (req) => {
   let recpath = createPath(req.point, req.tolerance, true)
   Object.assign(recpath.style, req.style)
+
+  // save to model
+  pathdata.push(recpath)
   $('#canvas').append(recpath)
   $('#datasize').empty()
   $('#datasize').append(req.size + "Byte")
+
+  // send to db
+  if(Object.keys(doc_id).length !== 0){
+    socket.emit('update_tilecon', {
+      con: pathdata,
+      cid: doc_id.cid,
+      tid: doc_id.tid
+    })
+  }
 })
 
 //recieve before event
 socket.on('res_beforeevent', () => {
   //path delete and save
   let save_path = $('path:last').detach()
+
+  // pop from model
+  if(pathdata.length !== 0){
+    pathdata.pop()
+  }
+
   //array include savepath and not undefined
   if(history_array.indexOf(save_path.get()[0]) != 0){
     if(save_path.get()[0] !== undefined){
@@ -27,6 +57,15 @@ socket.on('res_beforeevent', () => {
       history_array.push(save_path.get()[0])
       svgdataSize()
     }
+  }
+
+  // send to db
+  if(Object.keys(doc_id).length !== 0){
+    socket.emit('update_tilecon', {
+      con: pathdata,
+      cid: doc_id.cid,
+      tid: doc_id.tid
+    })
   }
 })
 
@@ -38,9 +77,21 @@ socket.on('res_afterevent', (req) => {
   }
   //path restoration
   $('#canvas').append(history_array[history_array.length - 1])
+  // resave to model
+  pathdata.push(history_array[history_array.length - 1])
+
   //delete path in stack array
   history_array.pop()
   svgdataSize()
+
+  // send to db
+  if(Object.keys(doc_id).length !== 0){
+    socket.emit('update_tilecon', {
+      con: pathdata,
+      cid: doc_id.cid,
+      tid: doc_id.tid
+    })
+  }
 })
 
 //create path
@@ -60,5 +111,19 @@ function svgdataSize(){
 
 // send readconnect
 function sendReadID(){
-  socket.emit('send_readconnect')
+  console.log('passed')
+  if(Object.keys(doc_id).length !== 0){
+    console.log('unundefined')
+    socket.emit('send_readconnect', {
+      cid: doc_id.cid,
+      tid: doc_id.tid
+    })
+  }
 }
+
+// save document ids
+function save_cidtid(cid, tid){
+  doc_id.cid = cid
+  doc_id.tid = tid
+}
+

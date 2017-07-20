@@ -84,7 +84,6 @@ let WriteClip = WriteClip_1 = class WriteClip {
         this.save_tileedit.emit(tile);
     }
     save_svg(tile, dom) {
-        dom.contentWindow.sendReadID();
         if (!tile.saved) {
             let tag = tagsubstitute(tile.tag);
             this.http.post('http://localhost:6277/api/save_tile', {
@@ -97,7 +96,8 @@ let WriteClip = WriteClip_1 = class WriteClip {
             })
                 .subscribe(res => {
                 tile.tid = res._body;
-                //dom.contentWindow.save_cidttid(clip_id, tile.tid)
+                dom.contentWindow.save_cidtid(clip_id, tile.tid);
+                dom.contentWindow.sendReadID();
             });
             tile.saved = true;
         }
@@ -129,7 +129,9 @@ let WriteClip = WriteClip_1 = class WriteClip {
             this.el.querySelector("#textarea" + tile.idx).style.left = div.offsetLeft + "px";
         }
         else if (tile.sty === "svg") {
-            dom.contentWindow.sendReadID();
+            if (tile.saved) {
+                dom.contentWindow.sendReadID();
+            }
             this.output.emit(tile);
         }
     }
