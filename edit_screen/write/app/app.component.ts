@@ -71,7 +71,21 @@ export class WriteClip{
         con: '',
         edited: false,
         saved: false,
-        _id: null
+        tid: null
+      });
+    })
+  }
+
+  add_canvas(): void{
+    tilesort(() => {
+      TILE.push({
+        idx: TILE.length,
+        col: 3,
+        tag: [],
+        sty: "svg",
+        con: '',
+        saved: false,
+        tid: null
       });
     })
   }
@@ -80,43 +94,59 @@ export class WriteClip{
     this.save_tileedit.emit(tile)
   }
 
-  save_svg(tile): void{
-    if(tile.saved){
+  save_svg(tile, dom): void{
+    let tag = tagsubstitute(tile.tag)
+    dom.contentWindow.sendReadID()
+    if(!tile.saved){
       this.http.post('http://localhost:6277/api/save_tile', {
         cid: clip_id,
         idx: tile.idx,
         col: tile.col,
         tag: tag,
         sty: tile.sty,
-        con: ""
+        con: ''
       })
       .subscribe(res => {
         tile.tid = res._body;
+        //dom.contentWindow.save_cidttid(clip_id, tile.tid)
       })
       tile.saved = true
-      dom.contentWindow.sendReadID()
+    }else{
+      //tileの更新処理
+      let diffkey = tilediff(tile, preTile)
+      diffkey.forEach((key) => {
+        switch(key){
+          case "idx":
+            socket.emit('update_tileidx', {
+              idx: tile[key],
+              cid: clip_id,
+              tid: tile.tid
+            })
+            break;
+          case "tag":
+            let tag = tagsubstitute(tile.tag)
+            socket.emit('update_tiletag', {
+              tag: tag,
+              cid: clip_id,
+              tid: tile.tid
+            })
+            break;
+          case "col":
+            socket.emit('update_tilecol', {
+              col: tile[key],
+              cid: clip_id,
+              tid: tile.tid
+            })
+            break;
+          default:
+            break;
+        }
+      })
     }
   }
-/*
-  load_clip(): void{
-    console.log(ipcRenderer.sendSync('load_clip', clip_id));
-  }
-*/
+
   save_clip(): void{
     socket.emit('save_clip', ['clip_test', 'test'])
-  }
-
-  add_canvas(): void{
-    tilesort(() => {
-      TILE.push({
-        cid: clip_id,
-        idx: TILE.length,
-        col: 3,
-        tag: [],
-        sty: "svg",
-        con: '',
-      });
-    })
   }
 
   resize(textarea): void{
