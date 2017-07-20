@@ -177,6 +177,17 @@ DBMethod.prototype.find_clipids_tags = function(clip_tags, start_date = Date.now
   ])
 }
 
+/* find tile by cid and _id */
+DBMethod.prototype.find_tile_cidid = function(clip_id, tile_id, callback){
+  this.dbLoad(clip_id, (tile_file) => {
+    this.db[tile_file].findOne({$and: [{cid: clip_id}, {_id: tile_id}]}, (err, tiledoc) => {
+      if(err){
+        console.error(err)
+      }
+      callback(tiledoc)
+    })
+  })
+}
 
 /* find tiles by cid */
 DBMethod.prototype.find_tiles_cid = function(clip_id, callback){
