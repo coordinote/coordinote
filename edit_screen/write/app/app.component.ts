@@ -76,8 +76,25 @@ export class WriteClip{
     })
   }
 
-  save_tile(tile){
+  save_tile(tile): void{
     this.save_tileedit.emit(tile)
+  }
+
+  save_svg(tile): void{
+    if(tile.saved){
+      this.http.post('http://localhost:6277/api/save_tile', {
+        cid: clip_id,
+        idx: tile.idx,
+        col: tile.col,
+        tag: tag,
+        sty: tile.sty,
+        con: ""
+      })
+      .subscribe(res => {
+        tile.tid = res._body;
+      })
+      tile.saved = true
+    }
   }
 /*
   load_clip(): void{
