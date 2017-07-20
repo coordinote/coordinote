@@ -19,11 +19,10 @@ let TILE: Tile[] = [];
 
 let clip_id = "null";
 
-let Select_Tile: TIle = {};
+let Select_Tile: Tile = {};
 
 let preTile: Tile = {};
 
-//'res_cidに変更
 socket.on('res_cid', (cid) => {
   clip_id = cid
 })
@@ -58,44 +57,65 @@ export class WriteClip{
   @Output() save_tileedit = new EventEmitter<tile>()
   @Output() getPreTileedit = new EventEmitter<tile>()
 
-  constructor(private elementRef: ElementRef, private Renderer: Renderer){}
+  constructor(private elementRef: ElementRef, private Renderer: Renderer, private http: Http){}
   el = this.elementRef.nativeElement;
   renderer = this.Renderer;
 
   add_tile(): void{
-    TILE.push({
-      idx: TILE.length,
-      col: 3,
-      tag: ["hoge", "fuga"],
-      sty: "txt",
-      con: '',
-      edited: false,
-      saved: false,
-      tid: null
-    });
-  }
-
-  save_tile(tile){
-    this.save_tileedit.emit(tile)
-  }
-/*
-  load_clip(): void{
-    console.log(ipcRenderer.sendSync('load_clip', clip_id));
-  }
-*/
-  save_clip(): void{
-    socket.emit('save_clip', ['clip_test', 'test'])
+    tilesort(() => {
+      TILE.push({
+        idx: TILE.length,
+        col: 3,
+        tag: [],
+        sty: "txt",
+        con: '',
+        edited: false,
+        saved: false,
+        tid: null
+      });
+    })
   }
 
   add_canvas(): void{
-    TILE.push({
-      cid: clip_id,
-      idx: TILE.length,
-      col: 3,
-      tag: ["test", "やったあ"],
-      sty: "svg",
-      con: '',
-    });
+    tilesort(() => {
+      TILE.push({
+        idx: TILE.length,
+        col: 3,
+        tag: [],
+        sty: "svg",
+        con: '',
+        saved: false,
+        tid: null
+      });
+    })
+  }
+
+  save_tile(tile): void{
+    this.save_tileedit.emit(tile)
+  }
+
+  save_svg(tile, dom): void{
+    dom.contentWindow.sendReadID()
+    if(!tile.saved){
+      let tag = tagsubstitute(tile.tag)
+      this.http.post('http://localhost:6277/api/save_tile', {
+        cid: clip_id,
+        idx: tile.idx,
+        col: tile.col,
+        tag: tag,
+        sty: tile.sty,
+        con: ''
+      })
+      .subscribe(res => {
+        tile.tid = res._body;
+        //dom.contentWindow.save_cidttid(clip_id, tile.tid)
+      })
+      tile.saved = true
+    }
+  }
+
+  save_clip(): void{
+    socket.emit('save_clip', ['clip_test', 'test'])
   }
 
   resize(textarea): void{
@@ -131,6 +151,7 @@ export class WriteClip{
   unvisibleTextarea(tile): void{
     if(tile.con.match(/^[ 　\r\n\t]*$/)){
       TILE.splice(tile.idx, 1);
+      tilesort(() => {})
     }else{
       tile.edited = false;
     }
@@ -149,7 +170,7 @@ export class WriteClip{
   selector: 'write-nav',
   template: `
     <nav class="col-sm-12">
-      <tag-input class="tag-input" [(ngModel)]="select_tile.tag" [theme]="'bootstrap'" (click)="getPreTile(select_tile)" (blur)="save_tile(select_tile)"></tag-input>
+      <tag-input class="tag-input" [(ngModel)]="select_tile.tag" [theme]="'bootstrap'" (click)="getPreTile(select_tile)" (onBlur)="save_tile(select_tile)"></tag-input>
       <select id="col-select" class="col-sm-3" [(ngModel)]="select_tile.col">
         <option *ngFor="let number of [1,2,3,4,5,6,7,8,9,10,11,12]">{{number}}</option>
       </select>
@@ -192,20 +213,22 @@ export class AppComponent{
   constructor(private http: Http){}
 
   save_tile(tile): void{
-    if(!tile.con.match(/^[ 　\r\n\t]*$/)){
+    if(!tile.con.match(/^[ 　\r\n\t]*$/) || tile.sty !== "txt"){
       //tileの新規保存
       if(!tile.saved){
+        let tag = tagsubstitute(tile.tag)
         this.http.post('http://localhost:6277/api/save_tile', {
           cid: clip_id,
           idx: tile.idx,
           col: tile.col,
-          tag: tile.tag,
+          tag: tag,
           sty: tile.sty,
           con: tile.con
         })
         .subscribe(res => {
           tile.tid = res._body;
         })
+        tile.saved = true
       }else{
         //tileの更新処理
         let diffkey = tilediff(tile, preTile)
@@ -213,28 +236,29 @@ export class AppComponent{
           switch(key){
             case "idx":
               socket.emit('update_tileidx', {
-                idx: tile[diffkey],
+                idx: tile[key],
                 cid: clip_id,
                 tid: tile.tid
               })
               break;
             case "tag":
+              let tag = tagsubstitute(tile.tag)
               socket.emit('update_tiletag', {
-                tag: tile[diffkey],
+                tag: tag,
                 cid: clip_id,
                 tid: tile.tid
               })
               break;
             case "con":
               socket.emit('update_tilecon', {
-                con: tile[diffkey],
+                con: tile[key],
                 cid: clip_id,
                 tid: tile.tid
               })
               break;
             case "col":
               socket.emit('update_tilecol', {
-                col: tile[diffkey],
+                col: tile[key],
                 cid: clip_id,
                 tid: tile.tid
               })
@@ -244,15 +268,17 @@ export class AppComponent{
           }
         })
       }
-      tile.saved = true
     }else{
       //データベースのtile削除処理
+      socket.emit('delete_tile', {
+        cid: clip_id,
+        tid: tile.tid
+      })
     }
   }
 
   getPreTile(tile){
     preTile = {
-      cid: tile.cid,
       idx: tile.idx,
       col: tile.col,
       tag: tile.tag,
@@ -260,11 +286,15 @@ export class AppComponent{
       con: tile.con,
       tid: tile.tid
     };
-    console.log(preTile)
+  }
+
+  delete_clip(cid): void{
+    //データベースのclip削除処理
+    socket.emit('delete_clip', cid)
   }
 }
 
-let tilediff(tile: Tile, preTile: Tile){
+let tilediff = (tile: Tile, preTile: Tile) => {
   let keys = Object.keys(tile)
   let diffProp = []
 
@@ -276,3 +306,20 @@ let tilediff(tile: Tile, preTile: Tile){
   return diffProp
 }
 
+let tilesort = (callback) => {
+  TILE.sort((tile1, tile2) => {
+    return tile1.idx - tile2.idx
+  })
+  for(let i=0; i<TILE.length; i++){
+    TILE[i].idx = i
+  }
+  callback()
+}
+
+let tagsubstitute = (tag) => {
+  let tag_array = []
+  tag.forEach((input_tag) => {
+    tag_array.push(input_tag.value)
+  })
+  return tag_array
+}

@@ -19,7 +19,6 @@ let TILE = [];
 let clip_id = "null";
 let Select_Tile = {};
 let preTile = {};
-//'res_cidに変更
 socket.on('res_cid', (cid) => {
     clip_id = cid;
 });
@@ -44,9 +43,10 @@ MathJaxDirective = __decorate([
 ], MathJaxDirective);
 exports.MathJaxDirective = MathJaxDirective;
 let WriteClip = WriteClip_1 = class WriteClip {
-    constructor(elementRef, Renderer) {
+    constructor(elementRef, Renderer, http) {
         this.elementRef = elementRef;
         this.Renderer = Renderer;
+        this.http = http;
         this.output = new core_1.EventEmitter();
         this.save_tileedit = new core_1.EventEmitter();
         this.getPreTileedit = new core_1.EventEmitter();
@@ -54,37 +54,56 @@ let WriteClip = WriteClip_1 = class WriteClip {
         this.renderer = this.Renderer;
     }
     add_tile() {
-        TILE.push({
-            idx: TILE.length,
-            col: 3,
-            tag: ["hoge", "fuga"],
-            sty: "txt",
-            con: '',
-            edited: false,
-            saved: false,
-            tid: null
+        tilesort(() => {
+            TILE.push({
+                idx: TILE.length,
+                col: 3,
+                tag: [],
+                sty: "txt",
+                con: '',
+                edited: false,
+                saved: false,
+                tid: null
+            });
+        });
+    }
+    add_canvas() {
+        tilesort(() => {
+            TILE.push({
+                idx: TILE.length,
+                col: 3,
+                tag: [],
+                sty: "svg",
+                con: '',
+                saved: false,
+                tid: null
+            });
         });
     }
     save_tile(tile) {
         this.save_tileedit.emit(tile);
     }
-    /*
-      load_clip(): void{
-        console.log(ipcRenderer.sendSync('load_clip', clip_id));
-      }
-    */
+    save_svg(tile, dom) {
+        dom.contentWindow.sendReadID();
+        if (!tile.saved) {
+            let tag = tagsubstitute(tile.tag);
+            this.http.post('http://localhost:6277/api/save_tile', {
+                cid: clip_id,
+                idx: tile.idx,
+                col: tile.col,
+                tag: tag,
+                sty: tile.sty,
+                con: ''
+            })
+                .subscribe(res => {
+                tile.tid = res._body;
+                //dom.contentWindow.save_cidttid(clip_id, tile.tid)
+            });
+            tile.saved = true;
+        }
+    }
     save_clip() {
         socket.emit('save_clip', ['clip_test', 'test']);
-    }
-    add_canvas() {
-        TILE.push({
-            cid: clip_id,
-            idx: TILE.length,
-            col: 3,
-            tag: ["test", "やったあ"],
-            sty: "svg",
-            con: '',
-        });
     }
     resize(textarea) {
         let scrollHeight = this.el.querySelector("#" + textarea.id).scrollHeight;
@@ -117,6 +136,7 @@ let WriteClip = WriteClip_1 = class WriteClip {
     unvisibleTextarea(tile) {
         if (tile.con.match(/^[ 　\r\n\t]*$/)) {
             TILE.splice(tile.idx, 1);
+            tilesort(() => { });
         }
         else {
             tile.edited = false;
@@ -156,7 +176,7 @@ WriteClip = WriteClip_1 = __decorate([
         directives: WriteClip_1,
         styleUrls: ['write/template/canvas_iframe.css']
     }),
-    __metadata("design:paramtypes", [core_1.ElementRef, core_1.Renderer])
+    __metadata("design:paramtypes", [core_1.ElementRef, core_1.Renderer, http_1.Http])
 ], WriteClip);
 exports.WriteClip = WriteClip;
 let WriteNav = WriteNav_1 = class WriteNav {
@@ -192,7 +212,7 @@ WriteNav = WriteNav_1 = __decorate([
         selector: 'write-nav',
         template: `
     <nav class="col-sm-12">
-      <tag-input class="tag-input" [(ngModel)]="select_tile.tag" [theme]="'bootstrap'" (click)="getPreTile(select_tile)" (blur)="save_tile(select_tile)"></tag-input>
+      <tag-input class="tag-input" [(ngModel)]="select_tile.tag" [theme]="'bootstrap'" (click)="getPreTile(select_tile)" (onBlur)="save_tile(select_tile)"></tag-input>
       <select id="col-select" class="col-sm-3" [(ngModel)]="select_tile.col">
         <option *ngFor="let number of [1,2,3,4,5,6,7,8,9,10,11,12]">{{number}}</option>
       </select>
@@ -209,20 +229,22 @@ let AppComponent = class AppComponent {
         this.select_tile = Select_Tile;
     }
     save_tile(tile) {
-        if (!tile.con.match(/^[ 　\r\n\t]*$/)) {
+        if (!tile.con.match(/^[ 　\r\n\t]*$/) || tile.sty !== "txt") {
             //tileの新規保存
             if (!tile.saved) {
+                let tag = tagsubstitute(tile.tag);
                 this.http.post('http://localhost:6277/api/save_tile', {
                     cid: clip_id,
                     idx: tile.idx,
                     col: tile.col,
-                    tag: tile.tag,
+                    tag: tag,
                     sty: tile.sty,
                     con: tile.con
                 })
                     .subscribe(res => {
                     tile.tid = res._body;
                 });
+                tile.saved = true;
             }
             else {
                 //tileの更新処理
@@ -231,28 +253,29 @@ let AppComponent = class AppComponent {
                     switch (key) {
                         case "idx":
                             socket.emit('update_tileidx', {
-                                idx: tile[diffkey],
+                                idx: tile[key],
                                 cid: clip_id,
                                 tid: tile.tid
                             });
                             break;
                         case "tag":
+                            let tag = tagsubstitute(tile.tag);
                             socket.emit('update_tiletag', {
-                                tag: tile[diffkey],
+                                tag: tag,
                                 cid: clip_id,
                                 tid: tile.tid
                             });
                             break;
                         case "con":
                             socket.emit('update_tilecon', {
-                                con: tile[diffkey],
+                                con: tile[key],
                                 cid: clip_id,
                                 tid: tile.tid
                             });
                             break;
                         case "col":
                             socket.emit('update_tilecol', {
-                                col: tile[diffkey],
+                                col: tile[key],
                                 cid: clip_id,
                                 tid: tile.tid
                             });
@@ -262,15 +285,17 @@ let AppComponent = class AppComponent {
                     }
                 });
             }
-            tile.saved = true;
         }
         else {
             //データベースのtile削除処理
+            socket.emit('delete_tile', {
+                cid: clip_id,
+                tid: tile.tid
+            });
         }
     }
     getPreTile(tile) {
         preTile = {
-            cid: tile.cid,
             idx: tile.idx,
             col: tile.col,
             tag: tile.tag,
@@ -278,7 +303,10 @@ let AppComponent = class AppComponent {
             con: tile.con,
             tid: tile.tid
         };
-        console.log(preTile);
+    }
+    delete_clip(cid) {
+        //データベースのclip削除処理
+        socket.emit('delete_clip', cid);
     }
 };
 AppComponent = __decorate([
@@ -305,6 +333,22 @@ let tilediff = (tile, preTile) => {
         }
     });
     return diffProp;
+};
+let tilesort = (callback) => {
+    TILE.sort((tile1, tile2) => {
+        return tile1.idx - tile2.idx;
+    });
+    for (let i = 0; i < TILE.length; i++) {
+        TILE[i].idx = i;
+    }
+    callback();
+};
+let tagsubstitute = (tag) => {
+    let tag_array = [];
+    tag.forEach((input_tag) => {
+        tag_array.push(input_tag.value);
+    });
+    return tag_array;
 };
 var WriteClip_1, WriteNav_1;
 //# sourceMappingURL=app.component.js.map
