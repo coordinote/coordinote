@@ -269,6 +269,11 @@ export class AppComponent{
       tid: tile.tid
     };
   }
+
+  delete_clip(cid): void{
+    //データベースのclip削除処理
+    socket.emit('delete_clip', cid)
+  }
 }
 
 let tilediff(tile: Tile, preTile: Tile){

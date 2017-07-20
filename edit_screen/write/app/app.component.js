@@ -287,6 +287,10 @@ let AppComponent = class AppComponent {
             tid: tile.tid
         };
     }
+    delete_clip(cid) {
+        //データベースのclip削除処理
+        socket.emit('delete_clip', cid);
+    }
 };
 AppComponent = __decorate([
     core_1.Component({
