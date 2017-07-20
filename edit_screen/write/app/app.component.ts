@@ -94,6 +94,7 @@ export class WriteClip{
         tile.tid = res._body;
       })
       tile.saved = true
+      dom.contentWindow.sendReadID()
     }
   }
 /*
@@ -151,6 +152,7 @@ export class WriteClip{
   unvisibleTextarea(tile): void{
     if(tile.con.match(/^[ 　\r\n\t]*$/)){
       TILE.splice(tile.idx, 1);
+      tilesort(() => {})
     }else{
       tile.edited = false;
     }

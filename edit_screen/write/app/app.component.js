@@ -84,6 +84,7 @@ let WriteClip = WriteClip_1 = class WriteClip {
                 tile.tid = res._body;
             });
             tile.saved = true;
+            dom.contentWindow.sendReadID();
         }
     }
     /*
@@ -137,6 +138,7 @@ let WriteClip = WriteClip_1 = class WriteClip {
     unvisibleTextarea(tile) {
         if (tile.con.match(/^[ 　\r\n\t]*$/)) {
             TILE.splice(tile.idx, 1);
+            tilesort(() => { });
         }
         else {
             tile.edited = false;
