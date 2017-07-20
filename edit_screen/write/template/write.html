@@ -8,16 +8,14 @@
     <!--canvasの場合-->
     <ng-container *ngIf='tile.sty === "svg"'>
       <span class="col-sm-{{tile.col}} iframe-wrap">
-        <img tabIndex="0" style="position: absolute; width: 100%; height: 100%; border-style: none;" (click)="visibleTextarea(tile, iframe)">
+        <img tabIndex="0" style="position: absolute; width: 100%; height: 100%; border-style: none;" (click)="visibleTextarea(tile, iframe); save_svg(tile, iframe); getPreTile(tile)">
         <iframe #iframe src="http://localhost:6277/html/read/" scrolling="auto"></iframe>
       </span>
     </ng-container>
   </span>
   <button type=button (click)="add_tile()">add tile</button>
-  <button type=button (click)="save_tile()">save_tile</button>
-  <button type=button (click)="load_clip()">load_clip</button>
   <button type=button (click)="save_clip()">save_clip</button>
-  <button type=button (click)="test()">hoge</button>
+  <button type=button (click)="test()">test</button>
   <button type=button (click)="add_canvas()">add canvas</button>
 </span>
 <!--tileのtextarea-->
