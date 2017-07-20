@@ -233,7 +233,6 @@ let AppComponent = class AppComponent {
                 diffkey.forEach((key) => {
                     switch (key) {
                         case "idx":
-                            console.log("idx");
                             socket.emit('update_tileidx', {
                                 idx: tile[key],
                                 cid: clip_id,
@@ -241,7 +240,6 @@ let AppComponent = class AppComponent {
                             });
                             break;
                         case "tag":
-                            console.log("tag");
                             let tag = tagsubstitute(tile.tag);
                             socket.emit('update_tiletag', {
                                 tag: tag,
@@ -250,7 +248,6 @@ let AppComponent = class AppComponent {
                             });
                             break;
                         case "con":
-                            console.log("con");
                             socket.emit('update_tilecon', {
                                 con: tile[key],
                                 cid: clip_id,
@@ -258,7 +255,6 @@ let AppComponent = class AppComponent {
                             });
                             break;
                         case "col":
-                            console.log("col");
                             socket.emit('update_tilecol', {
                                 col: tile[key],
                                 cid: clip_id,
