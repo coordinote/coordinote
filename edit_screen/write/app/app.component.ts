@@ -19,7 +19,7 @@ let TILE: Tile[] = [];
 
 let clip_id = "null";
 
-let Select_Tile: TIle = {};
+let Select_Tile: Tile = {};
 
 let preTile: Tile = {};
 
@@ -57,7 +57,7 @@ export class WriteClip{
   @Output() save_tileedit = new EventEmitter<tile>()
   @Output() getPreTileedit = new EventEmitter<tile>()
 
-  constructor(private elementRef: ElementRef, private Renderer: Renderer){}
+  constructor(private elementRef: ElementRef, private Renderer: Renderer, private http: Http){}
   el = this.elementRef.nativeElement;
   renderer = this.Renderer;
 
@@ -276,7 +276,7 @@ export class AppComponent{
   }
 }
 
-let tilediff(tile: Tile, preTile: Tile){
+let tilediff = (tile: Tile, preTile: Tile) => {
   let keys = Object.keys(tile)
   let diffProp = []
 
@@ -288,7 +288,7 @@ let tilediff(tile: Tile, preTile: Tile){
   return diffProp
 }
 
-let tilesort(callback){
+let tilesort = (callback) => {
   TILE.sort((tile1, tile2) => {
     return tile1.idx - tile2.idx
   })
@@ -298,7 +298,7 @@ let tilesort(callback){
   callback()
 }
 
-let tagsubstitute(tag){
+let tagsubstitute = (tag) => {
   let tag_array = []
   tag.forEach((input_tag) => {
     tag_array.push(input_tag.value)

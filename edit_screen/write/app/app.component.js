@@ -43,9 +43,10 @@ MathJaxDirective = __decorate([
 ], MathJaxDirective);
 exports.MathJaxDirective = MathJaxDirective;
 let WriteClip = WriteClip_1 = class WriteClip {
-    constructor(elementRef, Renderer) {
+    constructor(elementRef, Renderer, http) {
         this.elementRef = elementRef;
         this.Renderer = Renderer;
+        this.http = http;
         this.output = new core_1.EventEmitter();
         this.save_tileedit = new core_1.EventEmitter();
         this.getPreTileedit = new core_1.EventEmitter();
@@ -159,7 +160,7 @@ WriteClip = WriteClip_1 = __decorate([
         directives: WriteClip_1,
         styleUrls: ['write/template/canvas_iframe.css']
     }),
-    __metadata("design:paramtypes", [core_1.ElementRef, core_1.Renderer])
+    __metadata("design:paramtypes", [core_1.ElementRef, core_1.Renderer, http_1.Http])
 ], WriteClip);
 exports.WriteClip = WriteClip;
 let WriteNav = WriteNav_1 = class WriteNav {
