@@ -102,8 +102,14 @@ let WriteClip = WriteClip_1 = class WriteClip {
             tile.saved = true;
         }
     }
-    save_clip() {
-        socket.emit('save_clip', ['clip_test', 'test']);
+    delete_tile(tile) {
+        TILE.splice(tile.idx, 1);
+        tilesort(() => { });
+        //データベースのtile削除処理
+        socket.emit('delete_tile', {
+            cid: clip_id,
+            tid: tile.tid
+        });
     }
     resize(textarea) {
         let scrollHeight = this.el.querySelector("#" + textarea.id).scrollHeight;
@@ -303,6 +309,9 @@ let AppComponent = class AppComponent {
             con: tile.con,
             tid: tile.tid
         };
+    }
+    ngAfterViewInit() {
+        socket.emit('save_clip', ['clip_test', 'test']);
     }
     delete_clip(cid) {
         //データベースのclip削除処理

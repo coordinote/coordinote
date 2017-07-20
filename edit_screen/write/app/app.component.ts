@@ -1,4 +1,4 @@
-import { Component, Directive, ElementRef, EventEmitter, Input, Output, Renderer }  from '@angular/core';
+import { AterViewInit, Component, Directive, ElementRef, EventEmitter, Input, Output, Renderer }  from '@angular/core';
 
 import { Http } from '@angular/http';
 
@@ -114,8 +114,14 @@ export class WriteClip{
     }
   }
 
-  save_clip(): void{
-    socket.emit('save_clip', ['clip_test', 'test'])
+  delete_tile(tile) {
+    TILE.splice(tile.idx, 1);
+    tilesort(() => {})
+    //データベースのtile削除処理
+    socket.emit('delete_tile', {
+      cid: clip_id,
+      tid: tile.tid
+    })
   }
 
   resize(textarea): void{
@@ -286,6 +292,10 @@ export class AppComponent{
       con: tile.con,
       tid: tile.tid
     };
+  }
+
+  ngAfterViewInit(){
+    socket.emit('save_clip', ['clip_test', 'test'])
   }
 
   delete_clip(cid): void{
