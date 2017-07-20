@@ -235,9 +235,9 @@ let AppComponent = class AppComponent {
                         case "idx":
                             console.log("idx");
                             socket.emit('update_tileidx', {
-                                idx: tile[diffkey],
+                                idx: tile[key],
                                 cid: clip_id,
-                                _id: tile.tid
+                                tid: tile.tid
                             });
                             break;
                         case "tag":
@@ -246,23 +246,23 @@ let AppComponent = class AppComponent {
                             socket.emit('update_tiletag', {
                                 tag: tag,
                                 cid: clip_id,
-                                _id: tile.tid
+                                tid: tile.tid
                             });
                             break;
                         case "con":
                             console.log("con");
                             socket.emit('update_tilecon', {
-                                con: tile[diffkey],
+                                con: tile[key],
                                 cid: clip_id,
-                                _id: tile.tid
+                                tid: tile.tid
                             });
                             break;
                         case "col":
                             console.log("col");
                             socket.emit('update_tilecol', {
-                                col: tile[diffkey],
+                                col: tile[key],
                                 cid: clip_id,
-                                _id: tile.tid
+                                tid: tile.tid
                             });
                             break;
                         default:
