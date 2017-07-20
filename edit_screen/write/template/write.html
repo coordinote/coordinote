@@ -8,7 +8,7 @@
     <!--canvasの場合-->
     <ng-container *ngIf='tile.sty === "svg"'>
       <span class="col-sm-{{tile.col}} iframe-wrap">
-        <img tabIndex="0" style="position: absolute; width: 100%; height: 100%; border-style: none;" (click)="visibleTextarea(tile, iframe); save_svg(tile, iframe)">
+        <img tabIndex="0" style="position: absolute; width: 100%; height: 100%; border-style: none;" (click)="visibleTextarea(tile, iframe); save_svg(tile, iframe); getPreTile(tile)">
         <iframe #iframe src="http://localhost:6277/html/read/" scrolling="auto"></iframe>
       </span>
     </ng-container>

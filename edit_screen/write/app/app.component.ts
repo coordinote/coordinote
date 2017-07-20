@@ -111,37 +111,6 @@ export class WriteClip{
         //dom.contentWindow.save_cidttid(clip_id, tile.tid)
       })
       tile.saved = true
-    }else{
-      //tileの更新処理
-      let diffkey = tilediff(tile, preTile)
-      diffkey.forEach((key) => {
-        switch(key){
-          case "idx":
-            socket.emit('update_tileidx', {
-              idx: tile[key],
-              cid: clip_id,
-              tid: tile.tid
-            })
-            break;
-          case "tag":
-            let tag = tagsubstitute(tile.tag)
-            socket.emit('update_tiletag', {
-              tag: tag,
-              cid: clip_id,
-              tid: tile.tid
-            })
-            break;
-          case "col":
-            socket.emit('update_tilecol', {
-              col: tile[key],
-              cid: clip_id,
-              tid: tile.tid
-            })
-            break;
-          default:
-            break;
-        }
-      })
     }
   }
 
@@ -244,7 +213,7 @@ export class AppComponent{
   constructor(private http: Http){}
 
   save_tile(tile): void{
-    if(!tile.con.match(/^[ 　\r\n\t]*$/)){
+    if(!tile.con.match(/^[ 　\r\n\t]*$/) || tile.sty !== "txt"){
       //tileの新規保存
       if(!tile.saved){
         let tag = tagsubstitute(tile.tag)

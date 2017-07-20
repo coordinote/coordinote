@@ -101,38 +101,6 @@ let WriteClip = WriteClip_1 = class WriteClip {
             });
             tile.saved = true;
         }
-        else {
-            //tileの更新処理
-            let diffkey = tilediff(tile, preTile);
-            diffkey.forEach((key) => {
-                switch (key) {
-                    case "idx":
-                        socket.emit('update_tileidx', {
-                            idx: tile[key],
-                            cid: clip_id,
-                            tid: tile.tid
-                        });
-                        break;
-                    case "tag":
-                        let tag = tagsubstitute(tile.tag);
-                        socket.emit('update_tiletag', {
-                            tag: tag,
-                            cid: clip_id,
-                            tid: tile.tid
-                        });
-                        break;
-                    case "col":
-                        socket.emit('update_tilecol', {
-                            col: tile[key],
-                            cid: clip_id,
-                            tid: tile.tid
-                        });
-                        break;
-                    default:
-                        break;
-                }
-            });
-        }
     }
     save_clip() {
         socket.emit('save_clip', ['clip_test', 'test']);
@@ -261,7 +229,7 @@ let AppComponent = class AppComponent {
         this.select_tile = Select_Tile;
     }
     save_tile(tile) {
-        if (!tile.con.match(/^[ 　\r\n\t]*$/)) {
+        if (!tile.con.match(/^[ 　\r\n\t]*$/) || tile.sty !== "txt") {
             //tileの新規保存
             if (!tile.saved) {
                 let tag = tagsubstitute(tile.tag);
