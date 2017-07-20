@@ -127,3 +127,18 @@ function save_cidtid(cid, tid){
   doc_id.tid = tid
 }
 
+// load path
+function loadPath(load_pathdata){
+  $('#canvas').empty()
+  if(load_pathdata !== undefined){
+    for(let path of load_pathdata){
+      let recpath = createPath(path.point, path.tolerance, true)
+      Object.assign(recpath.style, path.style)
+      $('#canvas').append(recpath)
+    }
+  }
+  // load to variable
+  pathdata = load_pathdata
+  svgdataSize()
+}
+
