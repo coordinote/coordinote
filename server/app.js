@@ -174,4 +174,14 @@ io.sockets.on('connection',(socket) => {
     })
   })
 
+  socket.on('delete_clip',(rec) => {
+    nedb.delete_clip_id(rec,() => {
+    })
+  })
+
+  socket.on('delete_tile',(rec) => {
+    nedb.delete_tile_cidid(rec.cid,rec.tid,() => {
+    })
+  })
+
 })
