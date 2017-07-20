@@ -89,14 +89,16 @@ export class WriteClip{
   }
 
   add_canvas(): void{
-    TILE.push({
-      cid: clip_id,
-      idx: TILE.length,
-      col: 3,
-      tag: [],
-      sty: "svg",
-      con: '',
-    });
+    tilesort(() => {
+      TILE.push({
+        cid: clip_id,
+        idx: TILE.length,
+        col: 3,
+        tag: [],
+        sty: "svg",
+        con: '',
+      });
+    })
   }
 
   resize(textarea): void{
@@ -250,6 +252,10 @@ export class AppComponent{
       }
     }else{
       //データベースのtile削除処理
+      socket.emit('delete_tile', {
+        cid: clip_id,
+        tid: tile.tid
+      })
     }
   }
 

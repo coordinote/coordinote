@@ -78,13 +78,15 @@ let WriteClip = WriteClip_1 = class WriteClip {
         socket.emit('save_clip', ['clip_test', 'test']);
     }
     add_canvas() {
-        TILE.push({
-            cid: clip_id,
-            idx: TILE.length,
-            col: 3,
-            tag: [],
-            sty: "svg",
-            con: '',
+        tilesort(() => {
+            TILE.push({
+                cid: clip_id,
+                idx: TILE.length,
+                col: 3,
+                tag: [],
+                sty: "svg",
+                con: '',
+            });
         });
     }
     resize(textarea) {
@@ -269,6 +271,10 @@ let AppComponent = class AppComponent {
         }
         else {
             //データベースのtile削除処理
+            socket.emit('delete_tile', {
+                cid: clip_id,
+                tid: tile.tid
+            });
         }
     }
     getPreTile(tile) {
