@@ -95,9 +95,9 @@ export class WriteClip{
   }
 
   save_svg(tile, dom): void{
-    let tag = tagsubstitute(tile.tag)
     dom.contentWindow.sendReadID()
     if(!tile.saved){
+      let tag = tagsubstitute(tile.tag)
       this.http.post('http://localhost:6277/api/save_tile', {
         cid: clip_id,
         idx: tile.idx,
