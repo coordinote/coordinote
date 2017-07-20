@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="/__dirname/node_modules/bootstrap-tagsinput/examples/assets/app.css" />
     <link rel="stylesheet" href="/__dirname/edit_screen/css/screen_view.css">
     <script src="/__dirname/require.js"></script>
+    <script src="/__dirname/common.js"></script>
     <script type="text/javascript" async src="/__dirname/node_modules/mathjax/MathJax.js?config=TeX-AMS_CHTML"></script>
     <script type="text/x-mathjax-config">
       MathJax.Hub.Config({
@@ -25,11 +26,12 @@
     <!-- ナビゲーションバー(メニュー) -->
     <nav class="menu-bar">
       <article class="buttons">
-        <button class="button" id="clip_toggle"><i class="fa fa-bars fa-2x"></i></button>
+        <button class="button" id="sidebar_toggle"><i class="fa fa-bars fa-2x"></i></button>
+        <button class="button" id="preview"><i class="fa fa-angle-left fa-2x"></i></button>
 
-        <button class="button" title="Create Note"><i class="fa fa-file-text-o fa-2x"></i></button>
-        <button class="button" title="PDF"><i class="fa fa-file-pdf-o fa-2x"></i></button>
-        <button class="button" title="Settings"><i class="fa fa-cogs fa-2x"></i></button>
+        <button class="button" id="create_button" title="Create Note"><i class="fa fa-file-text-o fa-2x"></i></button>
+        <button class="button" id="export_button" title="Export"><i class="fa fa-file-pdf-o fa-2x"></i></button>
+        <button class="button" id="setting_button" title="Settings"><i class="fa fa-cogs fa-2x"></i></button>
         <button class="button" title="Tools"><i class="fa fa-wrench fa-2x"></i></button>
 
         <button class="button" id="debug_button" title="Debug"><i class="fa fa-bug fa-2x"></i></button>
