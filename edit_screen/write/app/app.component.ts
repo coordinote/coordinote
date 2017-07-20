@@ -103,7 +103,7 @@ export class WriteClip{
         col: tile.col,
         tag: tag,
         sty: tile.sty,
-        con: ''
+        con: []
       })
       .subscribe(res => {
         tile.tid = res._body;

@@ -19,13 +19,17 @@ const socket = io.connect()
 //before and after stack
 let history_array = []
 
+// svg path data (before and after stack)
+let history_array_pathdata = []
+
 //recieve data
 socket.on('res_pathdata', (req) => {
   let recpath = createPath(req.point, req.tolerance, true)
   Object.assign(recpath.style, req.style)
 
   // save to model
-  pathdata.push(recpath)
+  pathdata.push(req)
+  console.log(pathdata)
   $('#canvas').append(recpath)
   $('#datasize').empty()
   $('#datasize').append(req.size + "Byte")
@@ -45,16 +49,15 @@ socket.on('res_beforeevent', () => {
   //path delete and save
   let save_path = $('path:last').detach()
 
-  // pop from model
-  if(pathdata.length !== 0){
-    pathdata.pop()
-  }
-
   //array include savepath and not undefined
   if(history_array.indexOf(save_path.get()[0]) != 0){
     if(save_path.get()[0] !== undefined){
       //add path in stack array
       history_array.push(save_path.get()[0])
+      // pop from model
+      if(pathdata.length !== 0){
+        history_array_pathdata.push(pathdata.pop())
+      }
       svgdataSize()
     }
   }
@@ -78,7 +81,7 @@ socket.on('res_afterevent', (req) => {
   //path restoration
   $('#canvas').append(history_array[history_array.length - 1])
   // resave to model
-  pathdata.push(history_array[history_array.length - 1])
+  pathdata.push(history_array_pathdata.pop())
 
   //delete path in stack array
   history_array.pop()
@@ -111,9 +114,7 @@ function svgdataSize(){
 
 // send readconnect
 function sendReadID(){
-  console.log('passed')
   if(Object.keys(doc_id).length !== 0){
-    console.log('unundefined')
     socket.emit('send_readconnect', {
       cid: doc_id.cid,
       tid: doc_id.tid

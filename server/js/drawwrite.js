@@ -183,7 +183,9 @@ socket.on('res_reloadevent', (pathdata) => {
   $('#canvas').empty()
   if(pathdata !== undefined){
     for(let path of pathdata){
-      $('#canvas').append(path)
+      let recpath = createPath(path.point, path.tolerance, true)
+      Object.assign(recpath.style, path.style)
+      $('#canvas').append(recpath)
     }
   }
   svgdataSize()
