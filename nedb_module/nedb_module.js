@@ -446,21 +446,23 @@ DBMethod.prototype.update_tiletags_cidid = function(tags, clip_id, tile_id, call
 
 /* update con about tile by cid and _id */
 DBMethod.prototype.update_tilecon_cidid = function(con, clip_id, tile_id, callback){
-  tile_schema.con_valid(con, (result) => {
-    if(result.valid){
-      this.dbLoad(clip_id, (tile_file) => {
-        this.db[tile_file].update({_id: tile_id}, {$set: {con: con}}, {returnUpdatedDocs: true}, (err, numReplaced, affectedDocuments) => {
-          if(err){
-            console.error(err)
-          }
-          callback(affectedDocuments)
+  this.find_tile_cidid(clip_id, tile_id, (tile_doc) => {
+    tile_schema.con_valid(con, tile_doc.sty, (result) => {
+      if(result.valid){
+        this.dbLoad(clip_id, (tile_file) => {
+          this.db[tile_file].update({_id: tile_id}, {$set: {con: con}}, {returnUpdatedDocs: true}, (err, numReplaced, affectedDocuments) => {
+            if(err){
+              console.error(err)
+            }
+            callback(affectedDocuments)
+          })
         })
-      })
-    }
-    else{
-      // output
-      console.error(result.errors)
-    }
+      }
+      else{
+        // output
+        console.error(result.errors)
+      }
+    })
   })
 }
 
