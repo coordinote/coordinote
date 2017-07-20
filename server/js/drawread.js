@@ -29,7 +29,6 @@ socket.on('res_pathdata', (req) => {
 
   // save to model
   pathdata.push(req)
-  console.log(pathdata)
   $('#canvas').append(recpath)
   $('#datasize').empty()
   $('#datasize').append(req.size + "Byte")
