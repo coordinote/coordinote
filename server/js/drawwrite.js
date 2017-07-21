@@ -21,6 +21,11 @@ let pathsize
 
 //socket.io
 const socket = io.connect()
+
+socket.on('send_connect', () => {
+  socket.emit('send_writeconnect')
+})
+
 //path infomation variable
 let pathinfo
 
@@ -172,3 +177,16 @@ function svgdataSize(){
   pathsize = encodeURIComponent($('#canvas').html()).replace(/%../g,"x").length
   $('#datasize').append(pathsize + "Byte")
 }
+
+// reload and draw selected tile
+socket.on('res_reloadevent', (pathdata) => {
+  $('#canvas').empty()
+  if(pathdata !== undefined){
+    for(let path of pathdata){
+      let recpath = createPath(path.point, path.tolerance, true)
+      Object.assign(recpath.style, path.style)
+      $('#canvas').append(recpath)
+    }
+  }
+  svgdataSize()
+})

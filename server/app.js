@@ -3,14 +3,28 @@ const http = require('http').Server(app)
 const io = require('socket.io').listen(http)
 const nedb_module = require ("../nedb_module")
 const async = require('async')
+const bodyParser = require('body-parser')
 
 let nedb = new nedb_module()
+let readid
+let writeid
 
 //set portnumber
 const PORTNUMBER = 6277
 
 http.listen(PORTNUMBER,() => {
   console.log('Open 6277')
+})
+
+app.use(bodyParser.urlencoded({
+    extended: true
+}))
+app.use(bodyParser.json())
+
+app.post('/api/save_tile',(req,res) => {
+  nedb.insert_tile(req.body,(save_doc) => {
+    res.send(save_doc._id)
+  })
 })
 
 app.get('/',(req,res) => {
@@ -41,20 +55,35 @@ app.get(/\/node_modules\/*/,(req,res) => {
 
 
 io.sockets.on('connection',(socket) => {
+
+  socket.emit("send_connect")
+
+  socket.on('send_writeconnect',() => {
+    writeid = socket.id
+  })
+
+  socket.on('send_readconnect',(rec) => {
+    readid = socket.id
+    nedb.find_tile_cidid(rec.cid,rec.tid,(tile) => {
+      io.to(writeid).emit('res_reloadevent',tile.con)
+    })
+  })
+
   //send pathdata
   socket.on('send_pathdata', (rec) => {
-    socket.broadcast.emit('res_pathdata', rec)
+    io.to(readid).emit('res_pathdata', rec)
   })
 
   //send before button push event
   socket.on('send_beforeevent', () => {
-    socket.broadcast.emit('res_beforeevent')
+    io.to(readid).emit('res_beforeevent')
   })
 
   //send after button push event
   socket.on('send_afterevent', (rec) => {
-    socket.broadcast.emit('res_afterevent', rec)
+    io.to(readid).emit('res_afterevent', rec)
   })
+
 
   //save clip data
   socket.on('save_clip',(rec) => {
@@ -69,6 +98,7 @@ io.sockets.on('connection',(socket) => {
   socket.on('save_tile',(rec) => {
     //tile data send database
     nedb.insert_tile(rec,(save_doc) => {
+      socket.emit('res_tid',save_doc._id)
     })
   })
 
@@ -124,6 +154,36 @@ io.sockets.on('connection',(socket) => {
           }
           socket.emit('res_tiles',tiles)
       })
+    })
+  })
+
+  socket.on('update_tiletag',(rec) => {
+    nedb.update_tiletags_cidid(rec.tag,rec.cid,rec.tid,() => {
+    })
+  })
+
+  socket.on('update_tilecon',(rec) => {
+    nedb.update_tilecon_cidid(rec.con,rec.cid,rec.tid,() => {
+    })
+  })
+
+  socket.on('update_tilecol',(rec) => {
+    nedb.update_tilecol_cidid(rec.col,tile.cid,rec.tid,() => {
+    })
+  })
+
+  socket.on('update_tileidx',(rec) => {
+    nedb.update_tileidx_cidid(rec.idx,rec.cid,rec.tid,() => {
+    })
+  })
+
+  socket.on('delete_clip',(rec) => {
+    nedb.delete_clip_id(rec,() => {
+    })
+  })
+
+  socket.on('delete_tile',(rec) => {
+    nedb.delete_tile_cidid(rec.cid,rec.tid,() => {
     })
   })
 

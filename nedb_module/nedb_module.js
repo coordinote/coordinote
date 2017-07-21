@@ -44,10 +44,7 @@ DBMethod.prototype.find_clip_id = function(id, callback){
     if(this.db[doc.tile_file] === undefined){
       this.db[doc.tile_file] = new nedb({filename: DB_DIR + doc.tile_file + '.db', autoload: true})
     }
-    this.db[doc.tile_file].find({cid: doc._id}, (err, tiledocs) => {
-      if(err){
-        console.error(err)
-      }
+    this.find_tiles_cid(id, (tiledocs) => {
       doc.tile = tiledocs
       callback(doc)
     })
@@ -180,11 +177,22 @@ DBMethod.prototype.find_clipids_tags = function(clip_tags, start_date = Date.now
   ])
 }
 
+/* find tile by cid and _id */
+DBMethod.prototype.find_tile_cidid = function(clip_id, tile_id, callback){
+  this.dbLoad(clip_id, (tile_file) => {
+    this.db[tile_file].findOne({$and: [{cid: clip_id}, {_id: tile_id}]}, (err, tiledoc) => {
+      if(err){
+        console.error(err)
+      }
+      callback(tiledoc)
+    })
+  })
+}
 
 /* find tiles by cid */
 DBMethod.prototype.find_tiles_cid = function(clip_id, callback){
   this.dbLoad(clip_id, (tile_file) => {
-    this.db[tile_file].find({cid: clip_id}, (err, tiledocs) => {
+    this.db[tile_file].find({cid: clip_id}).sort({idx: 1}).exec((err, tiledocs) => {
       if(err){
         console.error(err)
       }
@@ -276,7 +284,7 @@ DBMethod.prototype.find_tiles_cidtags = function(clip_id, tile_tags, callback_ar
     },
     (tile_tags, tile_file, callback) => {
       // search tags and cid
-      this.db[tile_file].find({$and: tile_tags.concat({cid: clip_id})}, (err, docs) => {
+      this.db[tile_file].find({$and: tile_tags.concat({cid: clip_id})}).sort({idx: 1}).exec((err, docs) => {
         if(err){
           console.error(err)
         }
@@ -438,21 +446,23 @@ DBMethod.prototype.update_tiletags_cidid = function(tags, clip_id, tile_id, call
 
 /* update con about tile by cid and _id */
 DBMethod.prototype.update_tilecon_cidid = function(con, clip_id, tile_id, callback){
-  tile_schema.con_valid(con, (result) => {
-    if(result.valid){
-      this.dbLoad(clip_id, (tile_file) => {
-        this.db[tile_file].update({_id: tile_id}, {$set: {con: con}}, {returnUpdatedDocs: true}, (err, numReplaced, affectedDocuments) => {
-          if(err){
-            console.error(err)
-          }
-          callback(affectedDocuments)
+  this.find_tile_cidid(clip_id, tile_id, (tile_doc) => {
+    tile_schema.con_valid(con, tile_doc.sty, (result) => {
+      if(result.valid){
+        this.dbLoad(clip_id, (tile_file) => {
+          this.db[tile_file].update({_id: tile_id}, {$set: {con: con}}, {returnUpdatedDocs: true}, (err, numReplaced, affectedDocuments) => {
+            if(err){
+              console.error(err)
+            }
+            callback(affectedDocuments)
+          })
         })
-      })
-    }
-    else{
-      // output
-      console.error(result.errors)
-    }
+      }
+      else{
+        // output
+        console.error(result.errors)
+      }
+    })
   })
 }
 

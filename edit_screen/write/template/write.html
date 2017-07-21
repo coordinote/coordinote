@@ -1,16 +1,29 @@
+<!--tileのdivタグ-->
+<span class="container tile-contents">
+  <span *ngFor="let tile of tiles">
+    <!--textの場合-->
+    <ng-container *ngIf='tile.sty === "txt"'>
+      <div [MathJax]="tile.con" [style.visibility]="tile.edited ? 'hidden' : 'visible'" id='tile{{tile.idx}}' class="col-sm-{{tile.col}} tile" (click)="visibleTextarea(tile); getPreTile(tile)"></div>
+    </ng-container>
+    <!--canvasの場合-->
+    <ng-container *ngIf='tile.sty === "svg"'>
+      <span class="col-sm-{{tile.col}} iframe-wrap">
+        <img tabIndex="0" style="position: absolute; width: 100%; height: 100%; border-style: none;" (click)="visibleTextarea(tile, iframe); save_svg(tile, iframe); getPreTile(tile)">
+        <iframe #iframe src="http://localhost:6277/html/read/" scrolling="auto"></iframe>
+      </span>
+    </ng-container>
+  </span>
+  <button type=button (click)="add_tile()">add tile</button>
+  <button type=button (click)="add_canvas()">add canvas</button>
+  <button type=button (click)="delete_clip()">delete_clip</button>
+  <button type=button (click)="test()">test</button>
+</span>
+<!--tileのtextarea-->
 <span class="container tile-input">
   <span *ngFor="let tile of tiles">
-    <textarea id='textarea{{tile.idx}}' [(ngModel)]="tile.con" class="col-sm-{{tile.col}} tile_textarea" wrap=hard></textarea>
-  </span>
-  <input type=button (click)="add_tile()" value="add tile">
-  <input type=button (click)="save_tile()" value="save_tile">
-  <input type=button (click)="load_clip()" value="load_clip">
-  <input type=button (click)="save_clip()" value="save_clip">
-</span>
-<span class="container tile-text">
-  <span *ngFor="let tile of tiles">
-    <div class="col-sm-{{tile.col}} tile">
-      {{tile.con}}
-    </div>
+    <ng-container *ngIf='tile.sty === "txt"'>
+      <textarea #textarea [style.visibility]="tile.edited ? 'visible' : 'hidden'" id='textarea{{tile.idx}}' class="col-sm-{{tile.col}}" (input)="resize(textarea)" [(ngModel)]="tile.con" (blur)="unvisibleTextarea(tile); save_tile(tile)" wrap=hard style="line-height: 20px; height: 24px;"></textarea>
+    </ng-container>
   </span>
 </span>
+

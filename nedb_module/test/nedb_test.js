@@ -31,22 +31,28 @@ let target_id = "9SOzR0peDyDw9e80"
    //*/
 
 /*
-   dbmethod.find_tiles_cidtags(target_cid, ['よくわからなかった'], (clips) => {
+   dbmethod.find_tiles_cidtags(target_cid, ['公式'], (clips) => {
    console.log(clips)
    })
    //*/
 
 /*
-dbmethod.find_clipids_tags(['helloworld'], new Date(1298834800000), new Date(1499770414512), (clips) => {
-  console.log(clips)
+dbmethod.find_tile_cidid(target_cid, target_id, (tile) => {
+  console.log(tile)
 })
 //*/
 
 /*
-dbmethod.find_clips_tags(['helloworld'], new Date(1298834800000), new Date(1499770414512), (clips) => {
-  console.log(clips)
-})
-//*/
+   dbmethod.find_clipids_tags(['helloworld'], new Date(1298834800000), new Date(1499770414512), (clips) => {
+   console.log(clips)
+   })
+   //*/
+
+/*
+   dbmethod.find_clips_tags(['test'], new Date(1298834800000), new Date(1500149361964), (clips) => {
+   console.log(clips)
+   })
+   //*/
 
 /*
    dbmethod.find_alltilestags_cid(target_cid, (tags) => {
@@ -61,7 +67,7 @@ dbmethod.find_clips_tags(['helloworld'], new Date(1298834800000), new Date(14997
    //*/
 
 /*
-// validation error
+   // validation error
    let instance = {
    "cid": target_cid,
    "idx": 0,
