@@ -24,25 +24,37 @@
     </script>
   </head>
   <body>
-    <div>
-      <p>clip tags</p>
-      <input class="clip-tags-form"  type="text" />
-    </div>
+    <nav class="menu-bar">
+      <article class="buttons">
+        <button class="button" title="Create Note"><i class="fa fa-file-text-o fa-2x"></i></button>
+        <button class="button" title="Print"><i class="fa fa-print fa-2x"></i></button>
+        <button class="button" title="Export"><i class="fa fa-upload fa-2x"></i></button>
+      </article>
+    </nav>
 
-    <div class="daterange">
-      <input type="text" class="form-inline start" placeholder="日付" />
-      <input type="text" class="form-inline end" placeholder="日付" />
-    </div>
-
-    <button id="search-button">search</button>
-
-    <div class="btn-group">
-      <button data-toggle="dropdown" class="btn dropdown-toggle" >TILE Tags<span class="caret"></span></button>
-      <ul class="dropdown-menu"></ul>
+    <div class="form">
+      <div>
+        <input class="clip-tags-form"  type="text" placeholder="CLIP Tags"/>
+      </div>
+      <div class="daterange">
+        <input type="text" class="form-inline start" placeholder="Start Date" />
+        <input type="text" class="form-inline end" placeholder="End Date" />
+      </div>
+      <div id="search-button">Search</div>
+      <div class="btn-group">
+        <button data-toggle="dropdown" class="btn dropdown-toggle" >TILE Tags<span class="caret"></span></button>
+        <ul class="dropdown-menu"></ul>
+      </div>
     </div>
 
     <div class="clip-form"></div>
     <div class="tile-form"></div>
+
+    <footer class="footer-bar">
+      <span id="clip-val-text">0 clip</span>
+      <span id="tile-val-text">0 tile</span>
+      <span id="date-val-text"></span>
+    </footer>
 
     <!-- socket io -->
     <script src="/__dirname/node_modules/socket.io-client/dist/socket.io.js"></script>
@@ -52,6 +64,7 @@
     <script type="text/javascript" src="/__dirname/node_modules/typeahead.js/dist/typeahead.bundle.min.js"></script>
     <script src="/__dirname/export_screen/js/tagform.js"></script>
     <script src="/__dirname/export_screen/js/dateform.js"></script>
+    <script src="/__dirname/export_screen/js/footer.js"></script>
     <script type="text/javascript" src="/__dirname/node_modules/bootstrap_dropdowns_enhancement/dist/js/dropdowns-enhancement.js"></script>
   </body>
 </html>
