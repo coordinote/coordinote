@@ -333,7 +333,7 @@ let AppComponent = class AppComponent {
         };
     }
     ngAfterViewInit() {
-        socket.emit('save_clip', ['clip_test', 'test']);
+        socket.emit('save_clip', []);
     }
     delete_clip() {
         //データベースのclip削除処理
