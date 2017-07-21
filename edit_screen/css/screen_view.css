@@ -63,7 +63,7 @@ body .write-nav nav {
 body .write-nav input {
   height: 20px;
 }
-body .write-nav tag-input {
+body .write-nav .tag-input {
   margin: 0;
   padding: 0;
 }
