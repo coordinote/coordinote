@@ -109,4 +109,12 @@ body article.write-field .tile-input span textarea {
   position: absolute;
   overflow: hidden;
   resize: none;
+<<<<<<< Updated upstream
+=======
+  outline: 0;
+}
+body article.write-field .tile-input span textarea:focus {
+  border: solid 1px #aaa;
+  outline: solid 1px #8886EE;
+>>>>>>> Stashed changes
 }

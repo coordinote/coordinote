@@ -6,6 +6,15 @@
   outline: auto 5px -webkit-focus-ring-color;
 }
 
+img{
+  outline: 0;
+  border: solid 1px #999;
+}
+
+img:focus{
+  outline: solid 1px #8886EE;
+}
+
 iframe{
   width: 100%;
   height: 100%;
