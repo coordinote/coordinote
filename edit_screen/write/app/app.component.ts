@@ -172,6 +172,7 @@ export class WriteClip{
   }
 
   test() {
+    console.log(TILE)
     console.log(Clip_Tag)
   }
 }
@@ -184,7 +185,7 @@ export class WriteClip{
         <option *ngFor="let number of [1,2,3,4,5,6,7,8,9,10,11,12]">{{number}}</option>
       </select>
       <tag-input class="tag-input col-sm-5" [(ngModel)]="select_tile.tag" [theme]="'bootstrap'" [placeholder]="'Enter a tile tag'" [secondaryPlaceholder]="'Enter a tile tag'" (click)="getPreTile(select_tile)" (onBlur)="save_tile(select_tile)"></tag-input>
-      <tag-input class="tag-input col-sm-5" [(ngModel)]="clip_tag" [theme]="'bootstrap'" [placeholder]="'Enter a clip tag'" [secondaryPlaceholder]="'Enter a clip tag'" (onBlur)="clip_tag_sub(clip_tag)"></tag-input>
+      <tag-input class="tag-input col-sm-5" [(ngModel)]="clip_tag" [theme]="'bootstrap'" [placeholder]="'Enter a clip tag'" [secondaryPlaceholder]="'Enter a clip tag'" (onBlur)="update_cliptag(clip_tag)"></tag-input>
     </nav>
   `,
   directives: WriteNav
@@ -197,11 +198,13 @@ export class WriteNav{
   @Output() save_tilenav = new EventEmitter<tile>()
   private clip_tag = Clip_Tag
 
-  clip_tag_sub(clip_tag): void{
-    console.log("hoge")
+  update_cliptag(clip_tag): void{
     clip_tag = tagsubstitute(clip_tag)
-    console.log(clip_tag)
     Clip_Tag = clip_tag
+    socket.emit('update_cliptag', {
+      clip_tags: clip_tag,
+      cid: clip_id
+    })
   }
 
   getPreTile(tile): void{
