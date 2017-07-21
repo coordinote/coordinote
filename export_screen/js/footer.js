@@ -1,4 +1,3 @@
-let footerdate = date_instance.getFullYear()+'/'+date_instance.getDate()+'/'+date_instance.getMonth()+1
 $('#date-val-text').text(currentdate)
 
 $('.clip-form').on('DOMSubtreeModified propertychange', () => {
@@ -6,4 +5,8 @@ $('.clip-form').on('DOMSubtreeModified propertychange', () => {
 })
 $('.tile-form').on('DOMSubtreeModified propertychange', () => {
   $('#tile-val-text').text($('.tile-field').length+" tile")
+})
+
+$('.move').click(() => {
+  ipcRenderer.send(PATH_DATA.event, PATH_DATA.edit_path)
 })

@@ -55,7 +55,7 @@ p {
   margin-left: 20px;
 }
 #search-button {
-  display: block;
+  display: inline-block;
   text-align: center;
   color: #000000;
   width: 110px;
@@ -67,10 +67,10 @@ p {
   cursor: pointer;
 }
 .btn-group {
-  margin-top: 20px;
+  margin-left: 20px;
 }
 .btn-group button {
-  width: 110px;
+  min-width: 110px;
 }
 
 .clip-form {
