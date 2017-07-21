@@ -122,11 +122,9 @@ body article.write-field .tile-contents ul li .add {
 }
 body article.write-field .tile-contents ul li .add:hover {
   background-color: #ddd;
-  border: solid 1px #999;
 }
 body article.write-field .tile-contents ul li .add:active {
   background-color: #ccc;
-  border: solid 1px #999;
 }
 body article.write-field .tile-contents ul li .add-tile {
   border-bottom-width: 0;
@@ -145,8 +143,14 @@ body article.write-field .tile-input span label {
   margin: 0;
 }
 body article.write-field .tile-input span textarea {
+  appearance: none;
+  -webkit-appearance: none;
   position: absolute;
   min-height: 8vw;
   overflow: hidden;
   resize: none;
+  outline: 0;
+}
+body article.write-field .tile-input span textarea:focus {
+  border: solid 1px #aaa;
 }

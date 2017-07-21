@@ -148,12 +148,10 @@ body{
 
           .add:hover{
             background-color: #ddd;
-            border: solid 1px #999;
           }
 
           .add:active{
             background-color: #ccc;
-            border: solid 1px #999;
           }
 
           .add-tile{
@@ -178,10 +176,17 @@ body{
         }
 
         textarea{
+          appearance: none;
+          -webkit-appearance: none;
           position: absolute;
           min-height: 8vw;
           overflow: hidden;
           resize: none;
+          outline: 0;
+        }
+
+        textarea:focus{
+          border: solid 1px #aaa;
         }
       }
     }
