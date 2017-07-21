@@ -51,6 +51,7 @@ let WriteClip = WriteClip_1 = class WriteClip {
         this.output = new core_1.EventEmitter();
         this.save_tileedit = new core_1.EventEmitter();
         this.getPreTileedit = new core_1.EventEmitter();
+        this.delete_clipedit = new core_1.EventEmitter();
         this.el = this.elementRef.nativeElement;
         this.renderer = this.Renderer;
     }
@@ -111,6 +112,9 @@ let WriteClip = WriteClip_1 = class WriteClip {
             cid: clip_id,
             tid: tile.tid
         });
+    }
+    delete_clip() {
+        this.delete_clipedit.emit();
     }
     resize(textarea) {
         let scrollHeight = this.el.querySelector("#" + textarea.id).scrollHeight;
@@ -179,6 +183,10 @@ __decorate([
     core_1.Output(),
     __metadata("design:type", Object)
 ], WriteClip.prototype, "getPreTileedit", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", Object)
+], WriteClip.prototype, "delete_clipedit", void 0);
 WriteClip = WriteClip_1 = __decorate([
     core_1.Component({
         selector: 'write-clip',
@@ -327,9 +335,9 @@ let AppComponent = class AppComponent {
     ngAfterViewInit() {
         socket.emit('save_clip', ['clip_test', 'test']);
     }
-    delete_clip(cid) {
+    delete_clip() {
         //データベースのclip削除処理
-        socket.emit('delete_clip', cid);
+        socket.emit('delete_clip', clip_id);
     }
 };
 AppComponent = __decorate([
@@ -338,7 +346,7 @@ AppComponent = __decorate([
         template: `
     <write-nav class="write-nav" [tiles]="tiles" [select_tile]="select_tile" (save_tilenav)="save_tile($event)" (getPreTilenav)="getPreTile($event)"></write-nav>
     <article class="write-field">
-      <write-clip [tiles]="tiles" [select_tile]="select_tile" (output)="select_tile=$event" (save_tileedit)="save_tile($event)" (getPreTileedit)="getPreTile($event)"></write-clip>
+      <write-clip [tiles]="tiles" [select_tile]="select_tile" (output)="select_tile=$event" (save_tileedit)="save_tile($event)" (getPreTileedit)="getPreTile($event)" (delete_clipedit)="delete_clip()"></write-clip>
     </article>
     `,
         directives: [WriteClip, WriteNav],

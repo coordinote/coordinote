@@ -58,6 +58,7 @@ export class WriteClip{
   @Output() output = new EventEmitter<select_tile>()
   @Output() save_tileedit = new EventEmitter<tile>()
   @Output() getPreTileedit = new EventEmitter<tile>()
+  @Output() delete_clipedit = new EventEmitter()
 
   constructor(private elementRef: ElementRef, private Renderer: Renderer, private http: Http){}
   el = this.elementRef.nativeElement
@@ -116,7 +117,7 @@ export class WriteClip{
     }
   }
 
-  delete_tile(tile) {
+  delete_tile(tile): void {
     TILE.splice(tile.idx, 1)
     tilesort(() => {})
     //データベースのtile削除処理
@@ -124,6 +125,10 @@ export class WriteClip{
       cid: clip_id,
       tid: tile.tid
     })
+  }
+
+  delete_clip(): void {
+    this.delete_clipedit.emit()
   }
 
   resize(textarea): void{
@@ -221,7 +226,7 @@ export class WriteNav{
   template: `
     <write-nav class="write-nav" [tiles]="tiles" [select_tile]="select_tile" (save_tilenav)="save_tile($event)" (getPreTilenav)="getPreTile($event)"></write-nav>
     <article class="write-field">
-      <write-clip [tiles]="tiles" [select_tile]="select_tile" (output)="select_tile=$event" (save_tileedit)="save_tile($event)" (getPreTileedit)="getPreTile($event)"></write-clip>
+      <write-clip [tiles]="tiles" [select_tile]="select_tile" (output)="select_tile=$event" (save_tileedit)="save_tile($event)" (getPreTileedit)="getPreTile($event)" (delete_clipedit)="delete_clip()"></write-clip>
     </article>
     `,
     directives: [WriteClip, WriteNav],
@@ -314,9 +319,9 @@ export class AppComponent{
     socket.emit('save_clip', ['clip_test', 'test'])
   }
 
-  delete_clip(cid): void{
+  delete_clip(): void{
     //データベースのclip削除処理
-    socket.emit('delete_clip', cid)
+    socket.emit('delete_clip', clip_id)
   }
 }
 
