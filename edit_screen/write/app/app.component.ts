@@ -1,6 +1,6 @@
-import { AterViewInit, Component, Directive, ElementRef, EventEmitter, Input, Output, Renderer }  from '@angular/core';
+import { AterViewInit, Component, Directive, ElementRef, EventEmitter, Input, Output, Renderer }  from '@angular/core'
 
-import { Http } from '@angular/http';
+import { Http } from '@angular/http'
 
 const socket = io.connect('http://localhost:6277')
 
@@ -15,15 +15,15 @@ export class Tile {
   tid: string;
 }
 
-let TILE: Tile[] = [];
+let TILE: Tile[] = []
 
-let clip_id = "null";
+let clip_id = "null"
 
 let Clip_Tag = []
 
-let Select_Tile: Tile = {};
+let Select_Tile: Tile = {}
 
-let preTile: Tile = {};
+let preTile: Tile = {}
 
 socket.on('res_cid', (cid) => {
   clip_id = cid
@@ -34,14 +34,14 @@ socket.on('res_cid', (cid) => {
 })
 
 export class MathJaxDirective {
-  @Input('MathJax') texExpression: string;
+  @Input('MathJax') texExpression: string
 
   constructor(private el: ElementRef) {
   }
 
   ngOnChanges() {
-   this.el.nativeElement.innerHTML = this.texExpression;
-   MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.el.nativeElement]);
+   this.el.nativeElement.innerHTML = this.texExpression
+   MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.el.nativeElement])
   }
 }
 
@@ -53,15 +53,15 @@ export class MathJaxDirective {
 })
 
 export class WriteClip{
-  @Input() tiles: Tile;
-  @Input() select_tile: tile_clip;
-  @Output() output = new EventEmitter<select_tile>();
+  @Input() tiles: Tile
+  @Input() select_tile: tile_clip
+  @Output() output = new EventEmitter<select_tile>()
   @Output() save_tileedit = new EventEmitter<tile>()
   @Output() getPreTileedit = new EventEmitter<tile>()
 
   constructor(private elementRef: ElementRef, private Renderer: Renderer, private http: Http){}
-  el = this.elementRef.nativeElement;
-  renderer = this.Renderer;
+  el = this.elementRef.nativeElement
+  renderer = this.Renderer
 
   add_tile(): void{
     tilesort(() => {
@@ -74,7 +74,7 @@ export class WriteClip{
         edited: false,
         saved: false,
         tid: null
-      });
+      })
     })
   }
 
@@ -88,7 +88,7 @@ export class WriteClip{
         con: '',
         saved: false,
         tid: null
-      });
+      })
     })
   }
 
@@ -108,16 +108,16 @@ export class WriteClip{
         con: []
       })
       .subscribe(res => {
-        tile.tid = res._body;
-        dom.contentWindow.save_cidtid(clip_id, tile.tid);
-        dom.contentWindow.sendReadID();
+        tile.tid = res._body
+        dom.contentWindow.save_cidtid(clip_id, tile.tid)
+        dom.contentWindow.sendReadID()
       })
       tile.saved = true
     }
   }
 
   delete_tile(tile) {
-    TILE.splice(tile.idx, 1);
+    TILE.splice(tile.idx, 1)
     tilesort(() => {})
     //データベースのtile削除処理
     socket.emit('delete_tile', {
@@ -127,14 +127,14 @@ export class WriteClip{
   }
 
   resize(textarea): void{
-    let scrollHeight = this.el.querySelector("#" + textarea.id).scrollHeight;
-    let height = this.el.querySelector("#" + textarea.id).offsetHeight;
-    let lineHeight = this.el.querySelector("#" + textarea.id).style.lineHeight;
-    lineHeight = parseInt(lineHeight.replace(/px/g, ""));
+    let scrollHeight = this.el.querySelector("#" + textarea.id).scrollHeight
+    let height = this.el.querySelector("#" + textarea.id).offsetHeight
+    let lineHeight = this.el.querySelector("#" + textarea.id).style.lineHeight
+    lineHeight = parseInt(lineHeight.replace(/px/g, ""))
     if(scrollHeight > height){
-      this.el.querySelector("#" + textarea.id).style.height = scrollHeight + "px";
+      this.el.querySelector("#" + textarea.id).style.height = scrollHeight + "px"
     }else if(scrollHeight < height){
-      this.el.querySelector("#" + textarea.id).style.height = height - lineHeight + "px";
+      this.el.querySelector("#" + textarea.id).style.height = height - lineHeight + "px"
     }
   }
 
@@ -142,12 +142,12 @@ export class WriteClip{
     // case of text
     if(tile.sty === "txt"){
       let div = this.el.querySelector("#tile" + tile.idx)
-    tile.edited = true;
-    this.el.querySelector("#textarea" + tile.idx).style.visibility = "visible";
-    this.renderer.invokeElementMethod(this.el.querySelector("#textarea" + tile.idx), 'focus');
+    tile.edited = true
+    this.el.querySelector("#textarea" + tile.idx).style.visibility = "visible"
+    this.renderer.invokeElementMethod(this.el.querySelector("#textarea" + tile.idx), 'focus')
     this.output.emit(tile)
-    this.el.querySelector("#textarea" + tile.idx).style.top = div.offsetTop + "px";
-    this.el.querySelector("#textarea" + tile.idx).style.left = div.offsetLeft + "px";
+    this.el.querySelector("#textarea" + tile.idx).style.top = div.offsetTop + "px"
+    this.el.querySelector("#textarea" + tile.idx).style.left = div.offsetLeft + "px"
     }
     // case of canvas
     else if(tile.sty === "svg"){
@@ -160,10 +160,10 @@ export class WriteClip{
 
   unvisibleTextarea(tile): void{
     if(tile.con.match(/^[ 　\r\n\t]*$/)){
-      TILE.splice(tile.idx, 1);
+      TILE.splice(tile.idx, 1)
       tilesort(() => {})
     }else{
-      tile.edited = false;
+      tile.edited = false
     }
   }
 
@@ -229,8 +229,8 @@ export class WriteNav{
 })
 
 export class AppComponent{
-  public tiles = TILE;
-  public select_tile = Select_Tile;
+  public tiles = TILE
+  public select_tile = Select_Tile
 
   constructor(private http: Http){}
 
@@ -248,7 +248,7 @@ export class AppComponent{
           con: tile.con
         })
         .subscribe(res => {
-          tile.tid = res._body;
+          tile.tid = res._body
         })
         tile.saved = true
       }else{
@@ -262,7 +262,7 @@ export class AppComponent{
                 cid: clip_id,
                 tid: tile.tid
               })
-              break;
+              break
             case "tag":
               let tag = tagsubstitute(tile.tag)
               socket.emit('update_tiletag', {
@@ -270,23 +270,23 @@ export class AppComponent{
                 cid: clip_id,
                 tid: tile.tid
               })
-              break;
+              break
             case "con":
               socket.emit('update_tilecon', {
                 con: tile[key],
                 cid: clip_id,
                 tid: tile.tid
               })
-              break;
+              break
             case "col":
               socket.emit('update_tilecol', {
                 col: tile[key],
                 cid: clip_id,
                 tid: tile.tid
               })
-              break;
+              break
             default:
-              break;
+              break
           }
         })
       }
@@ -307,7 +307,7 @@ export class AppComponent{
       sty: tile.sty,
       con: tile.con,
       tid: tile.tid
-    };
+    }
   }
 
   ngAfterViewInit(){
