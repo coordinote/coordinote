@@ -186,4 +186,9 @@ io.sockets.on('connection',(socket) => {
     })
   })
 
+  socket.on('update_cliptag',(rec) => {
+    nedb.update_cliptags_id(rec.clip_tags,rec.cid,(clip) => {
+    })
+  })
+
 })
