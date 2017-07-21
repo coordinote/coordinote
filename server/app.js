@@ -27,6 +27,12 @@ app.post('/api/save_tile',(req,res) => {
   })
 })
 
+app.get('/api/rec_tilecon'(req,res) => {
+  nedb.find_tile_cidid(req.cid,req.tid,(tile) => {
+    res.send(tile.con)
+  })
+})
+
 app.get('/',(req,res) => {
   res.sendfile('./server/index.html')
 })
