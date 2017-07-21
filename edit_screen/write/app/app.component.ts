@@ -17,7 +17,7 @@ export class Tile {
 
 let TILE: Tile[] = []
 
-let clip_id = "null"
+let clip_id = null
 
 let Clip_Tag = []
 

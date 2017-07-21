@@ -16,7 +16,7 @@ class Tile {
 }
 exports.Tile = Tile;
 let TILE = [];
-let clip_id = "null";
+let clip_id = null;
 let Clip_Tag = [];
 let Select_Tile = {};
 let preTile = {};
