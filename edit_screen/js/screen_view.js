@@ -6,7 +6,3 @@ $('#sidebar_toggle').click(() => {
 $('#export_button').click(() => {
   ipcRenderer.send(PATH_DATA.event, PATH_DATA.pdf_path)
 })
-
-$('#preview').click(() => {
-  ipcRenderer.send(PATH_DATA.event, PATH_DATA.main_path)
-})
