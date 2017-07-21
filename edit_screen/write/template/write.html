@@ -13,11 +13,18 @@
       </span>
     </ng-container>
   </span>
-  <button type=button (click)="add_tile()">add tile</button>
-  <button type=button (click)="add_canvas()">add canvas</button>
+  <ul class="col-sm-3">
+    <li class="col-sm-12"><button class="add add-tile col-sm-12" type=button (click)="add_tile()">
+        <i class="fa fa-plus-square-o fa-2x" aria-hidden="true"></i><br>add tile
+      </button></li>
+    <li class="col-sm-12"><button class="add add-canvas col-sm-12"type=button (click)="add_canvas()">
+        <i class="fa fa-plus-square-o fa-2x" aria-hidden="true"></i><br>add canvas
+      </button></li>
+  </ul>
   <button type=button (click)="delete_clip()">delete_clip</button>
   <button type=button (click)="test()">test</button>
 </span>
+
 <!--tileのtextarea-->
 <span class="container tile-input">
   <span *ngFor="let tile of tiles">

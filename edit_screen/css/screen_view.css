@@ -85,12 +85,51 @@ body article.write-field .tile-contents {
   z-index: 10;
 }
 body article.write-field .tile-contents .tile {
-  min-height: 24px;
+  min-height: 8vw;
   overflow: hidden;
   word-wrap: break-word;
   white-space: pre-wrap;
   user-select: none;
   cursor: pointer;
+}
+body article.write-field .tile-contents ul {
+  list-style-type: none;
+  height: 10vh;
+  margin: 0;
+  padding: 0;
+}
+body article.write-field .tile-contents ul li {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  float: left;
+}
+body article.write-field .tile-contents ul li .add {
+  appearance: none;
+  -webkit-appearance: none;
+  display: block;
+  height: 8vh;
+  padding: 0;
+  margin: 0;
+  border: solid 2px #999;
+  background-color: #eee;
+  color: #666;
+  vertical-align: middle;
+  font-size: 2vh;
+  box-shadow: none;
+  text-decoration: none;
+  outline: none;
+}
+body article.write-field .tile-contents ul li .add:hover {
+  background-color: #ddd;
+  border: solid 1px #999;
+}
+body article.write-field .tile-contents ul li .add:active {
+  background-color: #ccc;
+  border: solid 1px #999;
+}
+body article.write-field .tile-contents ul li .add-tile {
+  border-bottom-width: 0;
 }
 body article.write-field .tile-input {
   padding: 0;
@@ -107,6 +146,7 @@ body article.write-field .tile-input span label {
 }
 body article.write-field .tile-input span textarea {
   position: absolute;
+  min-height: 8vw;
   overflow: hidden;
   resize: none;
 }
