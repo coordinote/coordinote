@@ -23,6 +23,8 @@ body{
   nav.menu-bar{
     width: 100vw;
     height: 5vh;
+    position: fixed;
+    z-index: 2000;
     background-color: @menu-color;
     box-shadow: 0px 3px 3px @shadow-color;
   }
@@ -55,12 +57,40 @@ body{
 
   article.clip-bar{
     width: 0vw;
-    height: 94vh;
+    height: 95vh;
+    position: fixed;
+    z-index: 1000;
+    margin-top: 5vh;
     background-color: @clip-color;
     .all-transition();
     &.active{
       width: 15vw;
       box-shadow: 3px 0px 1px @shadow-color;
+    }
+  }
+
+  .write-nav{
+    position: absolute;
+    height: 5vh;
+    left: 38vw;
+    top: 10vh;
+
+    nav{
+      padding: 0;
+      margin: 0;
+    }
+
+    input{
+      height: 20px;
+    }
+
+    .tag-input{
+      margin: 0;
+      padding: 0;
+    }
+
+    select{
+      height: 40px;
     }
   }
 
@@ -70,31 +100,45 @@ body{
     width: @write-field-width;
     height: @write-field-width * 1.414;
     left: 38vw;
-    top: 10vh;
+    top: 15vh;
+
+    .tile-contents{
+      position: relative;
+      padding: 0;
+      margin: 0;
+      z-index: 10;
+
+      .tile{
+        min-height: 24px;
+        overflow: hidden;
+        word-wrap: break-word;
+        white-space: pre-wrap;
+        user-select: none;
+        cursor: pointer;
+      }
+    }
+
+    .tile-input{
+      padding: 0;
+      margin: 0;
+      z-index: 20;
+
+      span{
+        padding: 0;
+        margin: 0;
+
+        label{
+          padding: 0;
+          margin: 0;
+        }
+
+        textarea{
+          position: absolute;
+          overflow: hidden;
+          resize: none;
+        }
+      }
+    }
   }
 }
 
-.tile-text{
-  //display: none;
-  z-index: 10;
-  padding: 0;
-  margin: 0;
-
-  .tile{
-    overflow: hidden;
-  }
-}
-
-.tile-input{
-  //position: absolute;
-  //left: 0px;
-  //top: 0px;
-  padding: 0;
-  margin: 0;
-  z-index: 20;
-
-  textarea{
-    overflow: hidden;
-  //resize: none;
-  }
-}
