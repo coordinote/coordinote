@@ -63,8 +63,12 @@ body .write-nav nav {
 body .write-nav input {
   height: 20px;
 }
+body .write-nav tag-input {
+  margin: 0;
+  padding: 0;
+}
 body .write-nav select {
-  height: 20px;
+  height: 40px;
 }
 body article.write-field {
   background-color: #fff;

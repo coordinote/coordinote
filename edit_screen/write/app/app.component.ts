@@ -19,6 +19,8 @@ let TILE: Tile[] = [];
 
 let clip_id = "null";
 
+let Clip_Tag = []
+
 let Select_Tile: Tile = {};
 
 let preTile: Tile = {};
@@ -170,7 +172,7 @@ export class WriteClip{
   }
 
   test() {
-    console.log(TILE)
+    console.log(Clip_Tag)
   }
 }
 
@@ -178,10 +180,11 @@ export class WriteClip{
   selector: 'write-nav',
   template: `
     <nav class="col-sm-12">
-      <tag-input class="tag-input" [(ngModel)]="select_tile.tag" [theme]="'bootstrap'" (click)="getPreTile(select_tile)" (onBlur)="save_tile(select_tile)"></tag-input>
-      <select id="col-select" class="col-sm-3" [(ngModel)]="select_tile.col">
+      <select id="col-select" class="col-sm-2" [(ngModel)]="select_tile.col">
         <option *ngFor="let number of [1,2,3,4,5,6,7,8,9,10,11,12]">{{number}}</option>
       </select>
+      <tag-input class="tag-input col-sm-5" [(ngModel)]="select_tile.tag" [theme]="'bootstrap'" [placeholder]="'Enter a tile tag'" [secondaryPlaceholder]="'Enter a tile tag'" (click)="getPreTile(select_tile)" (onBlur)="save_tile(select_tile)"></tag-input>
+      <tag-input class="tag-input col-sm-5" [(ngModel)]="clip_tag" [theme]="'bootstrap'" [placeholder]="'Enter a clip tag'" [secondaryPlaceholder]="'Enter a clip tag'" (onBlur)="clip_tag_sub(clip_tag)"></tag-input>
     </nav>
   `,
   directives: WriteNav
@@ -192,6 +195,14 @@ export class WriteNav{
   @Input() select_tile
   @Output() getPreTilenav = new EventEmitter<tile>()
   @Output() save_tilenav = new EventEmitter<tile>()
+  private clip_tag = Clip_Tag
+
+  clip_tag_sub(clip_tag): void{
+    console.log("hoge")
+    clip_tag = tagsubstitute(clip_tag)
+    console.log(clip_tag)
+    Clip_Tag = clip_tag
+  }
 
   getPreTile(tile): void{
     this.getPreTilenav.emit(tile)
