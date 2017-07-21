@@ -62,9 +62,11 @@ io.sockets.on('connection',(socket) => {
     writeid = socket.id
   })
 
-  socket.on('send_readconnect',() => {
+  socket.on('send_readconnect',(rec) => {
     readid = socket.id
-    io.to(writeid).emit('res_reloadevent')
+    nedb.find_tile_cidid(rec.cid,rec.tid,(tile) => {
+      io.to(writeid).emit('res_reloadevent',tile.con)
+    })
   })
 
   //send pathdata
@@ -171,6 +173,16 @@ io.sockets.on('connection',(socket) => {
 
   socket.on('update_tileidx',(rec) => {
     nedb.update_tileidx_cidid(rec.idx,rec.cid,rec.tid,() => {
+    })
+  })
+
+  socket.on('delete_clip',(rec) => {
+    nedb.delete_clip_id(rec,() => {
+    })
+  })
+
+  socket.on('delete_tile',(rec) => {
+    nedb.delete_tile_cidid(rec.cid,rec.tid,() => {
     })
   })
 

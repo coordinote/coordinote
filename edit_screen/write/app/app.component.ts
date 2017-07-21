@@ -95,7 +95,6 @@ export class WriteClip{
   }
 
   save_svg(tile, dom): void{
-    dom.contentWindow.sendReadID()
     if(!tile.saved){
       let tag = tagsubstitute(tile.tag)
       this.http.post('http://localhost:6277/api/save_tile', {
@@ -104,11 +103,12 @@ export class WriteClip{
         col: tile.col,
         tag: tag,
         sty: tile.sty,
-        con: ''
+        con: []
       })
       .subscribe(res => {
         tile.tid = res._body;
-        //dom.contentWindow.save_cidttid(clip_id, tile.tid)
+        dom.contentWindow.save_cidtid(clip_id, tile.tid);
+        dom.contentWindow.sendReadID();
       })
       tile.saved = true
     }
@@ -149,7 +149,9 @@ export class WriteClip{
     }
     // case of canvas
     else if(tile.sty === "svg"){
-      dom.contentWindow.sendReadID()
+      if(tile.saved){
+        dom.contentWindow.sendReadID()
+      }
       this.output.emit(tile)
     }
   }

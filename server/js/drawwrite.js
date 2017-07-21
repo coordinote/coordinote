@@ -178,6 +178,15 @@ function svgdataSize(){
   $('#datasize').append(pathsize + "Byte")
 }
 
-socket.on('res_reloadevent', () => {
-  location.reload()
+// reload and draw selected tile
+socket.on('res_reloadevent', (pathdata) => {
+  $('#canvas').empty()
+  if(pathdata !== undefined){
+    for(let path of pathdata){
+      let recpath = createPath(path.point, path.tolerance, true)
+      Object.assign(recpath.style, path.style)
+      $('#canvas').append(recpath)
+    }
+  }
+  svgdataSize()
 })
