@@ -49,6 +49,8 @@ socket.on('res_allcliptags', (rec) => {
 
 //search button event
 $('#search-button').click(() => {
+  $('.clip-form').css('overflow', 'scroll')
+  cflag = true
   $('.aleart-text').empty()
   incliptags = $('.clip-tags-form').tagsinput('items')
   //select dropdown item to array
@@ -58,7 +60,9 @@ $('#search-button').click(() => {
     }
   }
   if(incliptags.length == 0){
+    $('.clip-form').css('overflow', 'hidden')
     incliptags = undefined
+    stacktile = []
     $('.dropdown-menu').empty()
     $('.aleart-text').append('<p>CLIP NOT FOUND</p>')
   }
@@ -92,11 +96,12 @@ $('#search-button').click(() => {
 
 //tile tags dropdown
 socket.on('res_alltiletags', (rec) => {
+  console.log(rec.join(',') +'||'+ stacktile.join(','))
   if(rec.join(',') != stacktile.join(',')){
     $('.dropdown-menu').empty()
-  }
-  for(i = 0; i < rec.length; i++){
-    $('.dropdown-menu').append('<li><input id="'+i+'" type="checkbox" value="'+rec[i]+'"><label for="'+i+'">'+rec[i]+'</label></li>')
+    for(i = 0; i < rec.length; i++){
+      $('.dropdown-menu').append('<li><input id="'+i+'" type="checkbox" value="'+rec[i]+'"><label for="'+i+'">'+rec[i]+'</label></li>')
+    }
   }
   stacktile = rec
 })
@@ -143,7 +148,6 @@ socket.on('res_clips', (rec) => {
         }
       }
     }
-    cflag = true
   }
 })
 
