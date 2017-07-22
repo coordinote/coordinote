@@ -116,3 +116,16 @@ p {
   position: absolute;
   bottom: 0;
 }
+
+.iframe-wrap{
+  height: 155px;
+  padding: 0;
+  -webkit-user-select: none;
+}
+
+iframe{
+  width: 100%;
+  height: 100%;
+  border-style: none;
+}
+
