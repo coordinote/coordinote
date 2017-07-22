@@ -181,7 +181,9 @@ export class WriteClip{
   selector: 'write-nav',
   template: `
     <nav class="col-sm-12">
-      <button class="col-sm-1" (ngModel)="select_tile" (click)="delete_tile(select_tile)">X</button>
+      <button class="col-sm-1" (ngModel)="select_tile" (click)="delete_tile(select_tile)">
+        <i class="fa fa-times" aria-hidden="true"></i>
+      </button>
       <select id="col-select" class="col-sm-1" [(ngModel)]="select_tile.col">
         <option *ngFor="let number of [1,2,3,4,5,6,7,8,9,10,11,12]">{{number}}</option>
       </select>
