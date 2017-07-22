@@ -164,12 +164,12 @@ export class WriteClip{
   }
 
   unvisibleTextarea(tile): void{
-    if(tile.con.match(/^[ 　\r\n\t]*$/)){
+    /*if(tile.con.match(/^[ 　\r\n\t]*$/)){
       TILE.splice(tile.idx, 1)
       tilesort(() => {})
-    }else{
+    }else{*/
       tile.edited = false
-    }
+    //}
   }
 
   getPreTile(tile): void{
@@ -240,7 +240,7 @@ export class AppComponent{
   constructor(private http: Http){}
 
   save_tile(tile): void{
-    if(!tile.con.match(/^[ 　\r\n\t]*$/) || tile.sty !== "txt"){
+    //if(!tile.con.match(/^[ 　\r\n\t]*$/) || tile.sty !== "txt"){
       //tileの新規保存
       if(!tile.saved){
         let tag = tagsubstitute(tile.tag)
@@ -295,13 +295,13 @@ export class AppComponent{
           }
         })
       }
-    }else{
+    /*}else{
       //データベースのtile削除処理
       socket.emit('delete_tile', {
         cid: clip_id,
         tid: tile.tid
       })
-    }
+    }*/
   }
 
   getPreTile(tile){

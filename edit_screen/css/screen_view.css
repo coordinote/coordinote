@@ -68,13 +68,27 @@ body .write-nav .tag-input {
   padding: 0;
 }
 body .write-nav select {
-  height: 40px;
+  appearance: none;
+  -webkit-appearance: none;
+  border: solid 1px #999;
+  background-color: #eee;
+  height: 5vh;
+  outline: 0;
+}
+body .write-nav select option {
+  background-color: #eee;
+}
+body .write-nav select:hover {
+  background-color: #ddd;
+}
+body .write-nav select:active {
+  background-color: #ccc;
 }
 body article.write-field {
   background-color: #fff;
   position: absolute;
   width: 40vw;
-  height: 56.56vw;
+  min-height: 56.56vw;
   left: 38vw;
   top: 15vh;
 }
@@ -85,12 +99,49 @@ body article.write-field .tile-contents {
   z-index: 10;
 }
 body article.write-field .tile-contents .tile {
-  min-height: 24px;
+  min-height: 8vw;
   overflow: hidden;
   word-wrap: break-word;
   white-space: pre-wrap;
   user-select: none;
   cursor: pointer;
+}
+body article.write-field .tile-contents ul {
+  list-style-type: none;
+  height: 10vh;
+  margin: 0;
+  padding: 0;
+}
+body article.write-field .tile-contents ul li {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  float: left;
+}
+body article.write-field .tile-contents ul li .add {
+  appearance: none;
+  -webkit-appearance: none;
+  display: block;
+  height: 8vh;
+  padding: 0;
+  margin: 0;
+  border: solid 2px #999;
+  background-color: #eee;
+  color: #666;
+  vertical-align: middle;
+  font-size: 2vh;
+  box-shadow: none;
+  text-decoration: none;
+  outline: none;
+}
+body article.write-field .tile-contents ul li .add:hover {
+  background-color: #ddd;
+}
+body article.write-field .tile-contents ul li .add:active {
+  background-color: #ccc;
+}
+body article.write-field .tile-contents ul li .add-tile {
+  border-bottom-width: 0;
 }
 body article.write-field .tile-input {
   padding: 0;
@@ -106,15 +157,15 @@ body article.write-field .tile-input span label {
   margin: 0;
 }
 body article.write-field .tile-input span textarea {
+  appearance: none;
+  -webkit-appearance: none;
   position: absolute;
+  min-height: 8vw;
   overflow: hidden;
   resize: none;
-<<<<<<< Updated upstream
-=======
   outline: 0;
 }
 body article.write-field .tile-input span textarea:focus {
   border: solid 1px #aaa;
   outline: solid 1px #8886EE;
->>>>>>> Stashed changes
 }

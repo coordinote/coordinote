@@ -147,13 +147,12 @@ let WriteClip = WriteClip_1 = class WriteClip {
         }
     }
     unvisibleTextarea(tile) {
-        if (tile.con.match(/^[ 　\r\n\t]*$/)) {
-            TILE.splice(tile.idx, 1);
-            tilesort(() => { });
-        }
-        else {
-            tile.edited = false;
-        }
+        /*if(tile.con.match(/^[ 　\r\n\t]*$/)){
+          TILE.splice(tile.idx, 1)
+          tilesort(() => {})
+        }else{*/
+        tile.edited = false;
+        //}
     }
     getPreTile(tile) {
         this.getPreTileedit.emit(tile);
@@ -257,70 +256,69 @@ let AppComponent = class AppComponent {
         this.select_tile = Select_Tile;
     }
     save_tile(tile) {
-        if (!tile.con.match(/^[ 　\r\n\t]*$/) || tile.sty !== "txt") {
-            //tileの新規保存
-            if (!tile.saved) {
-                let tag = tagsubstitute(tile.tag);
-                this.http.post('http://localhost:6277/api/save_tile', {
-                    cid: clip_id,
-                    idx: tile.idx,
-                    col: tile.col,
-                    tag: tag,
-                    sty: tile.sty,
-                    con: tile.con
-                })
-                    .subscribe(res => {
-                    tile.tid = res._body;
-                });
-                tile.saved = true;
-            }
-            else {
-                //tileの更新処理
-                let diffkey = tilediff(tile, preTile);
-                diffkey.forEach((key) => {
-                    switch (key) {
-                        case "idx":
-                            socket.emit('update_tileidx', {
-                                idx: tile[key],
-                                cid: clip_id,
-                                tid: tile.tid
-                            });
-                            break;
-                        case "tag":
-                            let tag = tagsubstitute(tile.tag);
-                            socket.emit('update_tiletag', {
-                                tag: tag,
-                                cid: clip_id,
-                                tid: tile.tid
-                            });
-                            break;
-                        case "con":
-                            socket.emit('update_tilecon', {
-                                con: tile[key],
-                                cid: clip_id,
-                                tid: tile.tid
-                            });
-                            break;
-                        case "col":
-                            socket.emit('update_tilecol', {
-                                col: tile[key],
-                                cid: clip_id,
-                                tid: tile.tid
-                            });
-                            break;
-                        default:
-                            break;
-                    }
-                });
-            }
+        //if(!tile.con.match(/^[ 　\r\n\t]*$/) || tile.sty !== "txt"){
+        //tileの新規保存
+        if (!tile.saved) {
+            let tag = tagsubstitute(tile.tag);
+            this.http.post('http://localhost:6277/api/save_tile', {
+                cid: clip_id,
+                idx: tile.idx,
+                col: tile.col,
+                tag: tag,
+                sty: tile.sty,
+                con: tile.con
+            })
+                .subscribe(res => {
+                tile.tid = res._body;
+            });
+            tile.saved = true;
         }
         else {
-            //データベースのtile削除処理
-            socket.emit('delete_tile', {
-                cid: clip_id,
-                tid: tile.tid
+            //tileの更新処理
+            let diffkey = tilediff(tile, preTile);
+            diffkey.forEach((key) => {
+                switch (key) {
+                    case "idx":
+                        socket.emit('update_tileidx', {
+                            idx: tile[key],
+                            cid: clip_id,
+                            tid: tile.tid
+                        });
+                        break;
+                    case "tag":
+                        let tag = tagsubstitute(tile.tag);
+                        socket.emit('update_tiletag', {
+                            tag: tag,
+                            cid: clip_id,
+                            tid: tile.tid
+                        });
+                        break;
+                    case "con":
+                        socket.emit('update_tilecon', {
+                            con: tile[key],
+                            cid: clip_id,
+                            tid: tile.tid
+                        });
+                        break;
+                    case "col":
+                        socket.emit('update_tilecol', {
+                            col: tile[key],
+                            cid: clip_id,
+                            tid: tile.tid
+                        });
+                        break;
+                    default:
+                        break;
+                }
             });
         }
+        /*}else{
+          //データベースのtile削除処理
+          socket.emit('delete_tile', {
+            cid: clip_id,
+            tid: tile.tid
+          })
+        }*/
     }
     getPreTile(tile) {
         preTile = {
