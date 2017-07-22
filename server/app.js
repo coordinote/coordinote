@@ -27,6 +27,12 @@ app.post('/api/save_tile',(req,res) => {
   })
 })
 
+app.get('/api/rec_tilecon'(req,res) => {
+  nedb.find_tile_cidid(req.cid,req.tid,(tile) => {
+    res.send(tile.con)
+  })
+})
+
 app.get('/',(req,res) => {
   res.sendfile('./server/index.html')
 })
@@ -183,6 +189,11 @@ io.sockets.on('connection',(socket) => {
 
   socket.on('delete_tile',(rec) => {
     nedb.delete_tile_cidid(rec.cid,rec.tid,() => {
+    })
+  })
+
+  socket.on('update_cliptag',(rec) => {
+    nedb.update_cliptags_id(rec.clip_tags,rec.cid,(clip) => {
     })
   })
 
