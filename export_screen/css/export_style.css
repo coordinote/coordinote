@@ -83,7 +83,7 @@ p {
 .clip-field {
   background-color: #fff;
   width: 40vw;
-  height: 56.56vw;
+  min-height: 56.56vw;
   margin: 20px;
   padding: 5px;
   box-shadow:0px 0px 4px rgba(136, 134, 238,0.4);
