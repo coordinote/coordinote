@@ -1,5 +1,5 @@
 // adjust window size
-$(window).on('load', function(){
+$(window).on('load', () => {
   $('body').width($(window).width())
   $('body').height($(window).height() * 0.99)
 })
