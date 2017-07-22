@@ -217,11 +217,10 @@ export class WriteNav{
   }
 
   delete_tile(tile){
-    console.log(tile)
-    /*socket.emit('delete_tile', {
+    socket.emit('delete_tile', {
       cid: clip_id,
       tid: tile.tid
-    })*/
+    })
   }
 }
 

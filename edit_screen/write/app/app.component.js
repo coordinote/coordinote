@@ -212,11 +212,10 @@ let WriteNav = WriteNav_1 = class WriteNav {
         this.save_tilenav.emit(tile);
     }
     delete_tile(tile) {
-        console.log(tile);
-        /*socket.emit('delete_tile', {
-          cid: clip_id,
-          tid: tile.tid
-        })*/
+        socket.emit('delete_tile', {
+            cid: clip_id,
+            tid: tile.tid
+        });
     }
 };
 __decorate([
