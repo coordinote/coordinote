@@ -11,8 +11,10 @@ let writeid
 
 //set portnumber
 const PORTNUMBER = 6277
+//set host
+const HOST = 'localhost'
 
-http.listen(PORTNUMBER,() => {
+http.listen(PORTNUMBER,HOST,() => {
   console.log('Open 6277')
 })
 
