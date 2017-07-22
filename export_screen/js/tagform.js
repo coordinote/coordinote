@@ -49,7 +49,7 @@ socket.on('res_allcliptags', (rec) => {
 
 //search button event
 $('#search-button').click(() => {
-  $('.clip-form').css('overflow', 'scroll')
+  $('.clip-form').css('overflow-y', 'scroll')
   cflag = true
   $('.aleart-text').empty()
   incliptags = $('.clip-tags-form').tagsinput('items')
