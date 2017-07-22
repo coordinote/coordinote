@@ -1,3 +1,12 @@
+// adjust window size
+$(window).on('load', function(){
+  $('body').width($(window).width())
+  $('body').height($(window).height() * 0.99)
+})
+
+// ban scroll
+$(window).off('.noScroll')
+
 $('#omit').change(() => {
   $('#omit-label').html($('#omit').val())
 })
@@ -83,6 +92,18 @@ $('#canvas').mousedown((e) => {
   pathinfo = []
 })
 
+$('#canvas').on('touchstart', (e) => {
+  //judge true
+  isdraw = true
+  //history array delete
+  history_array.length = 0
+  reset = true
+  //point array definition
+  drawpoints = []
+  //socket send data array
+  pathinfo = []
+})
+
 //mouse move
 $('#canvas').mousemove((e) => {
   //draw true
@@ -105,8 +126,50 @@ $('#canvas').mousemove((e) => {
   }
 })
 
+$('#canvas').on('touchmove', (e) => {
+  //draw true
+  if (isdraw) {
+    //add mouse point
+    drawpoints.push({
+      x: e.touches[0].clientX,
+      y: e.touches[0].clientY
+    })
+    //drawingPath check existence
+    if (drawpath) {
+      drawpath.remove()
+    }
+    //create path
+    drawpath = createPath(drawpoints, parseFloat($('#omit').val()), true)
+    //path style setting
+    Object.assign(drawpath.style, pathstyle)
+    //add svg path to canvas
+    $('#canvas').append(drawpath)
+  }
+})
+
 //mouse up
 $('#canvas').mouseup((e) => {
+  svgdataSize()
+  //push svg data of html & path style & size & mouse point array & path tolerance
+  pathinfo.push({
+    allpath: $('#canvas').html(),
+    style: pathstyle,
+    size: pathsize,
+    point: drawpoints,
+    tolerance: parseFloat($('#omit').val())
+  })
+  //judge false
+  isdraw = false
+  //drawingPath null or undefined
+  if (!drawpath) {
+    return
+  }
+  drawpath = null
+  //send path infomation
+  socket.emit('send_pathdata', pathinfo[0])
+})
+
+$('#canvas').on('touchend', (e) => {
   svgdataSize()
   //push svg data of html & path style & size & mouse point array & path tolerance
   pathinfo.push({
