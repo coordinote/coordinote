@@ -8,6 +8,7 @@ let incliptags
 let intiletags = []
 // svg con stack(not loaded)
 let svg_con_stack_clip = {}
+let svg_con_stack_tile = {}
 //recieve tags stack
 let stacktile = []
 //send to get all tags
@@ -137,8 +138,39 @@ socket.on('res_clips', (rec) => {
 //tile form
 socket.on('res_tiles', (rec) => {
   for(i = 0; i < rec.length; i++){
-      $('.tile-form').append('<div class="tile-field">'+rec[i].con+'</div>')
-      MathJax.Hub.Queue(["Typeset", MathJax.Hub, "tile-field"])
+    switch(rec[i].sty){
+      case "txt":
+        $('.tile-form').append('<div class="tile-field">'+rec[i].con+'</div>')
+        MathJax.Hub.Queue(["Typeset", MathJax.Hub, "tile-field"])
+        break
+      case "svg":
+        let $span = $('<div></div>', {
+          class: 'iframe-wrap tile-field'
+        })
+        let $iframe = $('<iframe></iframe>', {
+          id: rec[i]._id,
+          src: "http://localhost:6277/html/read_nu/",
+          scrolling: "auto"
+        })
+        $('.tile-form').append(
+          $span.append($iframe)
+        )
+
+        // stack to var
+        svg_con_stack_tile[rec[i]._id] = rec[i].con
+
+        // onload
+        $iframe.on('load', function(){
+          // write path
+          $(this)[0].contentWindow.loadPath(svg_con_stack_tile[$(this).attr("id")])
+          // delete from stack
+          delete svg_con_stack_tile[$(this).attr("id")]
+        })
+        break
+      default:
+        console.error('sty error')
+        break
+    }
   }
 })
 
