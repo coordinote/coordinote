@@ -43,6 +43,7 @@ socket.on('res_allcliptags', (rec) => {
 
 //search button event
 $('#search-button').click(() => {
+  $('.aleart-text').empty()
   incliptags = $('.clip-tags-form').tagsinput('items')
   //select dropdown item to array
   for(i = 0; i < $('.dropdown-menu li').length; i++){
@@ -52,6 +53,7 @@ $('#search-button').click(() => {
   }
   if(incliptags.length == 0){
     incliptags = undefined
+    $('.aleart-text').append('<p>CLIP NOT FOUND</p>')
   }
   if(intiletags.length == 0){
     intiletags = undefined

@@ -21,18 +21,6 @@ p {
   background-color: #fff;
   border: 0;
 }
-#clip-val-text {
-  color: #fff;
-  margin-left: 20px;
-}
-#tile-val-text {
-  color: #fff;
-  margin-left: 20px;
-}
-#date-val-text {
-  color: #fff;
-  margin-left: 85vw;
-}
 .bootstrap-tagsinput {
   border-radius: 0;
   border: 1px solid #999999;
@@ -71,6 +59,16 @@ p {
 }
 .btn-group button {
   min-width: 110px;
+}
+
+.aleart-text {
+  text-align: center;
+  width: 50vw;
+}
+.aleart-text p {
+  margin-top: 30vh;
+  color: #FF0D47;
+  font-size: 20px;
 }
 
 .clip-form {
@@ -115,4 +113,17 @@ p {
   background-color: #8886EE;
   position: absolute;
   bottom: 0;
+}
+#clip-val-text {
+  color: #fff;
+  margin-left: 20px;
+}
+#tile-val-text {
+  color: #fff;
+  margin-left: 20px;
+}
+#date-val-text {
+  color: #fff;
+  margin-right: 20px;
+  float: right;
 }
