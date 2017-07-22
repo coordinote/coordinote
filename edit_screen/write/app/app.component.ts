@@ -202,12 +202,19 @@ export class WriteNav{
   private clip_tag = Clip_Tag
 
   update_cliptag(clip_tag): void{
-    clip_tag = tagsubstitute(clip_tag)
-    Clip_Tag = clip_tag
-    socket.emit('update_cliptag', {
-      clip_tags: clip_tag,
-      cid: clip_id
-    })
+    if(clip_tag.length > 0){
+      clip_tag = tagsubstitute(clip_tag)
+      Clip_Tag = clip_tag
+      socket.emit('update_cliptag', {
+        clip_tags: clip_tag,
+        cid: clip_id
+      })
+    }else{
+      socket.emit('update_cliptag', {
+        clip_tags: ['ない'],
+        cid: clip_id
+      })
+    }
   }
 
   getPreTile(tile): void{
@@ -249,18 +256,32 @@ export class AppComponent{
   save_tile(tile): void{
     //tileの新規保存
     if(!tile.saved){
-      let tag = tagsubstitute(tile.tag)
-      this.http.post('http://localhost:6277/api/save_tile', {
-        cid: clip_id,
-        idx: tile.idx,
-        col: tile.col,
-        tag: tag,
-        sty: tile.sty,
-        con: tile.con
-      })
-      .subscribe(res => {
-        tile.tid = res._body
-      })
+      if(tile.tag.length > 0){
+        let tag = tagsubstitute(tile.tag)
+        this.http.post('http://localhost:6277/api/save_tile', {
+          cid: clip_id,
+          idx: tile.idx,
+          col: tile.col,
+          tag: tag,
+          sty: tile.sty,
+          con: tile.con
+        })
+        .subscribe(res => {
+          tile.tid = res._body
+        })
+      }else{
+        this.http.post('http://localhost:6277/api/save_tile', {
+          cid: clip_id,
+          idx: tile.idx,
+          col: tile.col,
+          tag: ['なし'],
+          sty: tile.sty,
+          con: tile.con
+        })
+        .subscribe(res => {
+          tile.tid = res._body
+        })
+      }
       tile.saved = true
     }else{
       //tileの更新処理
@@ -275,12 +296,20 @@ export class AppComponent{
             })
             break
           case "tag":
-            let tag = tagsubstitute(tile.tag)
-            socket.emit('update_tiletag', {
-              tag: tag,
-              cid: clip_id,
-              tid: tile.tid
-            })
+            if(tile.tag.length > 0){
+              let tag = tagsubstitute(tile.tag)
+              socket.emit('update_tiletag', {
+                tag: tag,
+                cid: clip_id,
+                tid: tile.tid
+              })
+            }else{
+              socket.emit('update_tiletag', {
+                tag: ['ない'],
+                cid: clip_id,
+                tid: tile.tid
+              })
+            }
             break
           case "con":
             socket.emit('update_tilecon', {
