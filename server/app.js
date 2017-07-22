@@ -15,7 +15,7 @@ const PORTNUMBER = 6277
 const HOST = 'localhost'
 
 http.listen(PORTNUMBER,HOST,() => {
-  console.log('Open 6277')
+  console.log('Open %s,%s',PORTNUMBER,HOST)
 })
 
 app.use(bodyParser.urlencoded({
