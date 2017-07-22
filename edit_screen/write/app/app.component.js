@@ -147,12 +147,7 @@ let WriteClip = WriteClip_1 = class WriteClip {
         }
     }
     unvisibleTextarea(tile) {
-        /*if(tile.con.match(/^[ 　\r\n\t]*$/)){
-          TILE.splice(tile.idx, 1)
-          tilesort(() => {})
-        }else{*/
         tile.edited = false;
-        //}
     }
     getPreTile(tile) {
         this.getPreTileedit.emit(tile);
@@ -216,6 +211,13 @@ let WriteNav = WriteNav_1 = class WriteNav {
     save_tile(tile) {
         this.save_tilenav.emit(tile);
     }
+    delete_tile(tile) {
+        console.log(tile);
+        /*socket.emit('delete_tile', {
+          cid: clip_id,
+          tid: tile.tid
+        })*/
+    }
 };
 __decorate([
     core_1.Input(),
@@ -238,7 +240,8 @@ WriteNav = WriteNav_1 = __decorate([
         selector: 'write-nav',
         template: `
     <nav class="col-sm-12">
-      <select id="col-select" class="col-sm-2" [(ngModel)]="select_tile.col">
+      <button class="col-sm-1" (ngModel)="select_tile" (click)="delete_tile(select_tile)">X</button>
+      <select id="col-select" class="col-sm-1" [(ngModel)]="select_tile.col">
         <option *ngFor="let number of [1,2,3,4,5,6,7,8,9,10,11,12]">{{number}}</option>
       </select>
       <tag-input class="tag-input col-sm-5" [(ngModel)]="select_tile.tag" [theme]="'bootstrap'" [placeholder]="'Enter a tile tag'" [secondaryPlaceholder]="'Enter a tile tag'" (click)="getPreTile(select_tile)" (onBlur)="save_tile(select_tile)"></tag-input>
@@ -256,7 +259,6 @@ let AppComponent = class AppComponent {
         this.select_tile = Select_Tile;
     }
     save_tile(tile) {
-        //if(!tile.con.match(/^[ 　\r\n\t]*$/) || tile.sty !== "txt"){
         //tileの新規保存
         if (!tile.saved) {
             let tag = tagsubstitute(tile.tag);
@@ -312,13 +314,6 @@ let AppComponent = class AppComponent {
                 }
             });
         }
-        /*}else{
-          //データベースのtile削除処理
-          socket.emit('delete_tile', {
-            cid: clip_id,
-            tid: tile.tid
-          })
-        }*/
     }
     getPreTile(tile) {
         preTile = {

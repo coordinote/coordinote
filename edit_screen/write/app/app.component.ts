@@ -164,12 +164,7 @@ export class WriteClip{
   }
 
   unvisibleTextarea(tile): void{
-    /*if(tile.con.match(/^[ 　\r\n\t]*$/)){
-      TILE.splice(tile.idx, 1)
-      tilesort(() => {})
-    }else{*/
-      tile.edited = false
-    //}
+    tile.edited = false
   }
 
   getPreTile(tile): void{
@@ -186,7 +181,8 @@ export class WriteClip{
   selector: 'write-nav',
   template: `
     <nav class="col-sm-12">
-      <select id="col-select" class="col-sm-2" [(ngModel)]="select_tile.col">
+      <button class="col-sm-1" (ngModel)="select_tile" (click)="delete_tile(select_tile)">X</button>
+      <select id="col-select" class="col-sm-1" [(ngModel)]="select_tile.col">
         <option *ngFor="let number of [1,2,3,4,5,6,7,8,9,10,11,12]">{{number}}</option>
       </select>
       <tag-input class="tag-input col-sm-5" [(ngModel)]="select_tile.tag" [theme]="'bootstrap'" [placeholder]="'Enter a tile tag'" [secondaryPlaceholder]="'Enter a tile tag'" (click)="getPreTile(select_tile)" (onBlur)="save_tile(select_tile)"></tag-input>
@@ -219,6 +215,14 @@ export class WriteNav{
   save_tile(tile): void{
     this.save_tilenav.emit(tile)
   }
+
+  delete_tile(tile){
+    console.log(tile)
+    /*socket.emit('delete_tile', {
+      cid: clip_id,
+      tid: tile.tid
+    })*/
+  }
 }
 
 @Component({
@@ -240,68 +244,60 @@ export class AppComponent{
   constructor(private http: Http){}
 
   save_tile(tile): void{
-    //if(!tile.con.match(/^[ 　\r\n\t]*$/) || tile.sty !== "txt"){
-      //tileの新規保存
-      if(!tile.saved){
-        let tag = tagsubstitute(tile.tag)
-        this.http.post('http://localhost:6277/api/save_tile', {
-          cid: clip_id,
-          idx: tile.idx,
-          col: tile.col,
-          tag: tag,
-          sty: tile.sty,
-          con: tile.con
-        })
-        .subscribe(res => {
-          tile.tid = res._body
-        })
-        tile.saved = true
-      }else{
-        //tileの更新処理
-        let diffkey = tilediff(tile, preTile)
-        diffkey.forEach((key) => {
-          switch(key){
-            case "idx":
-              socket.emit('update_tileidx', {
-                idx: tile[key],
-                cid: clip_id,
-                tid: tile.tid
-              })
-              break
-            case "tag":
-              let tag = tagsubstitute(tile.tag)
-              socket.emit('update_tiletag', {
-                tag: tag,
-                cid: clip_id,
-                tid: tile.tid
-              })
-              break
-            case "con":
-              socket.emit('update_tilecon', {
-                con: tile[key],
-                cid: clip_id,
-                tid: tile.tid
-              })
-              break
-            case "col":
-              socket.emit('update_tilecol', {
-                col: tile[key],
-                cid: clip_id,
-                tid: tile.tid
-              })
-              break
-            default:
-              break
-          }
-        })
-      }
-    /*}else{
-      //データベースのtile削除処理
-      socket.emit('delete_tile', {
+    //tileの新規保存
+    if(!tile.saved){
+      let tag = tagsubstitute(tile.tag)
+      this.http.post('http://localhost:6277/api/save_tile', {
         cid: clip_id,
-        tid: tile.tid
+        idx: tile.idx,
+        col: tile.col,
+        tag: tag,
+        sty: tile.sty,
+        con: tile.con
       })
-    }*/
+      .subscribe(res => {
+        tile.tid = res._body
+      })
+      tile.saved = true
+    }else{
+      //tileの更新処理
+      let diffkey = tilediff(tile, preTile)
+      diffkey.forEach((key) => {
+        switch(key){
+          case "idx":
+            socket.emit('update_tileidx', {
+              idx: tile[key],
+              cid: clip_id,
+              tid: tile.tid
+            })
+            break
+          case "tag":
+            let tag = tagsubstitute(tile.tag)
+            socket.emit('update_tiletag', {
+              tag: tag,
+              cid: clip_id,
+              tid: tile.tid
+            })
+            break
+          case "con":
+            socket.emit('update_tilecon', {
+              con: tile[key],
+              cid: clip_id,
+              tid: tile.tid
+            })
+            break
+          case "col":
+            socket.emit('update_tilecol', {
+              col: tile[key],
+              cid: clip_id,
+              tid: tile.tid
+            })
+            break
+          default:
+            break
+        }
+      })
+    }
   }
 
   getPreTile(tile){
