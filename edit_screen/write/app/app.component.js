@@ -263,6 +263,24 @@ WriteNav = WriteNav_1 = __decorate([
     })
 ], WriteNav);
 exports.WriteNav = WriteNav;
+let ClipView = ClipView_1 = class ClipView {
+    constructor() {
+        this.find_tag = [];
+    }
+};
+ClipView = ClipView_1 = __decorate([
+    core_1.Component({
+        selector: 'clip-view',
+        template: `
+    <!-- サイドバー(クリップ) -->
+    <article class="clip-bar col-sm-12">
+      <tag-input class="load-clip-tag sol-sm-12" [(ngModel)]="find_tag"></tag-input>
+    </article>
+  `,
+        directives: ClipView_1
+    })
+], ClipView);
+exports.ClipView = ClipView;
 let AppComponent = class AppComponent {
     constructor(http) {
         this.http = http;
@@ -372,12 +390,13 @@ AppComponent = __decorate([
     core_1.Component({
         selector: 'write-view',
         template: `
+    <clip-view></clip-view>
     <write-nav class="write-nav" [tiles]="tiles" [select_tile]="select_tile" (save_tilenav)="save_tile($event)" (getPreTilenav)="getPreTile($event)"></write-nav>
     <article class="write-field">
       <write-clip [tiles]="tiles" [select_tile]="select_tile" (output)="select_tile=$event" (save_tileedit)="save_tile($event)" (getPreTileedit)="getPreTile($event)" (delete_clipedit)="delete_clip()"></write-clip>
     </article>
     `,
-        directives: [WriteClip, WriteNav],
+        directives: [WriteClip, WriteNav, ClipView],
         inputs: ['tiles', 'select_tile']
     }),
     __metadata("design:paramtypes", [http_1.Http])
@@ -409,5 +428,5 @@ let tagsubstitute = (tag) => {
     });
     return tag_array;
 };
-var WriteClip_1, WriteNav_1;
+var WriteClip_1, WriteNav_1, ClipView_1;
 //# sourceMappingURL=app.component.js.map

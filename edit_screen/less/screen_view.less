@@ -56,16 +56,21 @@ body{
   }
 
   article.clip-bar{
-    width: 0vw;
+    width: 15vw;
     height: 95vh;
     position: fixed;
+    left: -15vw;
     z-index: 1000;
     margin-top: 5vh;
     background-color: @clip-color;
     .all-transition();
     &.active{
-      width: 15vw;
+      left: 0vw;
       box-shadow: 3px 0px 1px @shadow-color;
+    }
+
+    .load-clip-tag{
+      width: 15vw;
     }
   }
 
@@ -147,7 +152,6 @@ body{
           float: left;
 
           .add{
-            appearance: none;
             -webkit-appearance: none;
             display: block;
             height: 8vh;

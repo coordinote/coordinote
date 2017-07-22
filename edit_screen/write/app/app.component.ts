@@ -236,14 +236,31 @@ export class WriteNav{
 }
 
 @Component({
+  selector: 'clip-view',
+  template:`
+    <!-- サイドバー(クリップ) -->
+    <article class="clip-bar col-sm-12">
+      <tag-input class="load-clip-tag sol-sm-12" [(ngModel)]="find_tag"></tag-input>
+    </article>
+  `,
+  directives: ClipView
+})
+
+export class ClipView{
+  find_tag = []
+
+}
+
+@Component({
   selector: 'write-view',
   template: `
+    <clip-view></clip-view>
     <write-nav class="write-nav" [tiles]="tiles" [select_tile]="select_tile" (save_tilenav)="save_tile($event)" (getPreTilenav)="getPreTile($event)"></write-nav>
     <article class="write-field">
       <write-clip [tiles]="tiles" [select_tile]="select_tile" (output)="select_tile=$event" (save_tileedit)="save_tile($event)" (getPreTileedit)="getPreTile($event)" (delete_clipedit)="delete_clip()"></write-clip>
     </article>
     `,
-    directives: [WriteClip, WriteNav],
+    directives: [WriteClip, WriteNav, ClipView],
     inputs: ['tiles', 'select_tile']
 })
 

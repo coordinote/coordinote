@@ -7,7 +7,7 @@ import { HttpModule } from '@angular/http';
 
 import { TagInputModule } from 'ng2-tag-input';
 
-import { AppComponent, WriteClip, WriteNav, MathJaxDirective } from './app.component.js';
+import { AppComponent, WriteClip, WriteNav, ClipView, MathJaxDirective } from './app.component.js';
 
 @NgModule({
   imports:      [
@@ -21,6 +21,7 @@ import { AppComponent, WriteClip, WriteNav, MathJaxDirective } from './app.compo
     AppComponent,
     WriteClip,
     WriteNav,
+    ClipView,
     MathJaxDirective
   ],
   bootstrap:    [ AppComponent ]

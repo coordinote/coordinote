@@ -36,9 +36,10 @@ body article {
   display: inline-block;
 }
 body article.clip-bar {
-  width: 0vw;
+  width: 15vw;
   height: 95vh;
   position: fixed;
+  left: -15vw;
   z-index: 1000;
   margin-top: 5vh;
   background-color: #333;
@@ -47,8 +48,11 @@ body article.clip-bar {
   transition-duration: 0.3s;
 }
 body article.clip-bar.active {
-  width: 15vw;
+  left: 0vw;
   box-shadow: 3px 0px 1px rgba(0, 0, 0, 0.3);
+}
+body article.clip-bar .load-clip-tag {
+  width: 15vw;
 }
 body .write-nav {
   position: absolute;
@@ -119,7 +123,6 @@ body article.write-field .tile-contents ul li {
   float: left;
 }
 body article.write-field .tile-contents ul li .add {
-  appearance: none;
   -webkit-appearance: none;
   display: block;
   height: 8vh;
