@@ -120,6 +120,7 @@ socket.on('res_clips', (rec) => {
           svg_con_stack_clip[rec[i].tile[j]._id] = rec[i].tile[j].con
 
           // onload
+          // caution: can not use arrow func
           $iframe.on('load', function(){
             // write path
             $(this)[0].contentWindow.loadPath(svg_con_stack_clip[$(this).attr("id")])
@@ -160,6 +161,7 @@ socket.on('res_tiles', (rec) => {
         svg_con_stack_tile[rec[i]._id] = rec[i].con
 
         // onload
+        // caution: can not use arrow func
         $iframe.on('load', function(){
           // write path
           $(this)[0].contentWindow.loadPath(svg_con_stack_tile[$(this).attr("id")])
