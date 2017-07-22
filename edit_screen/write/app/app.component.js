@@ -212,6 +212,8 @@ let WriteNav = WriteNav_1 = class WriteNav {
         this.save_tilenav.emit(tile);
     }
     delete_tile(tile) {
+        TILE.splice(tile.idx, 1);
+        tilesort(() => { });
         socket.emit('delete_tile', {
             cid: clip_id,
             tid: tile.tid

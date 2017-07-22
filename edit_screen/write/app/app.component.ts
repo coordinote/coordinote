@@ -219,6 +219,8 @@ export class WriteNav{
   }
 
   delete_tile(tile){
+    TILE.splice(tile.idx, 1)
+    tilesort(() => {})
     socket.emit('delete_tile', {
       cid: clip_id,
       tid: tile.tid
