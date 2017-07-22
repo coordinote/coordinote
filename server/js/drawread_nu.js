@@ -1,6 +1,3 @@
-//svg path data size
-let pathsize
-
 // svg path data
 let pathdata = []
 
@@ -18,13 +15,6 @@ function createPath(points, tolerance, highestQuality) {
   return path
 }
 
-//svg data size of html
-function svgdataSize(){
-  $('#datasize').empty()
-  pathsize = encodeURIComponent($('#canvas').html()).replace(/%../g,"x").length
-  $('#datasize').append(pathsize + "Byte")
-}
-
 // load path
 function loadPath(load_pathdata){
   $('#canvas').empty()
@@ -37,6 +27,5 @@ function loadPath(load_pathdata){
   }
   // load to variable
   pathdata = load_pathdata
-  svgdataSize()
 }
 
