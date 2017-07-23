@@ -1,4 +1,5 @@
 import { AterViewInit, Component, Directive, ElementRef, EventEmitter, Input, Output, Renderer, ViewChild }  from '@angular/core'
+import * as moment from 'moment'
 
 import { Http } from '@angular/http'
 
@@ -19,21 +20,28 @@ let TILE: Tile[] = []
 
 let clip_id = null
 
+let clip_ids = []
+
 let Clip_Tag = []
 
 let Select_Tile: Tile = {}
 
 let preTile: Tile = {}
 
-let FindTag
+let FindTag = []
 
 let DATE = {
-  start: null,
-  end: null
+  start: moment(),
+  end: moment()
 }
 
 socket.on('res_cid', (cid) => {
   clip_id = cid
+})
+
+socket.on('res_clips', (cids) => {
+  console.log(cids)
+  clip_ids = cids
 })
 
 @Directive({
@@ -247,10 +255,10 @@ export class WriteNav{
   template:`
     <!-- サイドバー(クリップ) -->
     <article class="clip-bar col-sm-12">
-      <tag-input class="load-clip-tag col-sm-12" [(ngModel)]="find_tag" (onBlur)="load_clip(find_tag)"></tag-input>
-      <dp-date-picker [(ngModel)]="date.start"></dp-date-picker>
-      <dp-date-picker [(ngModel)]="date.end"></dp-date-picker>
-      <button (click)="hoge()">search</button>
+      <tag-input class="load-clip-tag col-sm-12" [(ngModel)]="find_tag" (onBlur)="cliptagsubstitute(find_tag)"></tag-input>
+      <dp-date-picker [(ngModel)]="date.start" [config]="datePickerConfig"></dp-date-picker>
+      <dp-date-picker [(ngModel)]="date.end" [config]="datePickerConfig"></dp-date-picker>
+      <button (click)="search(); hoge()">search</button>
     </article>
   `,
   directives: ClipView
@@ -261,21 +269,41 @@ export class ClipView{
   date = DATE
   @ViewChild('dayPicker') dayPicker: DpDayPickerComponent;
 
+  datePickerConfig = {
+    format: "MM/DD/YYYY"
+  }
+
   open() {
-      this.dayPicker.api.open();
+    this.dayPicker.api.open();
   }
 
   close() {
-       this.dayPicker.api.close();
+    this.dayPicker.api.close();
   }
 
-  load_clip(find_tag): void{
+  cliptagsubstitute(find_tag): void{
     FindTag = tagsubstitute(find_tag)
   }
 
+  search(): void{
+    if(FindTag.length>0){
+      socket.emit('send_clipsearchdata', {
+        cliptags: FindTag,
+        startdate: Date.parse(moment(DATE.start._d).format('MM/DD/YYYY')),
+        enddate: Date.parse(moment(DATE.end._d).format('MM/DD/YYYY'))
+      })
+    }else{
+      socket.emit('send_clipsearchdata', {
+        cliptags: ['なし'],
+        startdate: Date.parse(moment(DATE.start._d).format('MM/DD/YYYY')),
+        enddate: Date.parse(moment(DATE.end._d).format('MM/DD/YYYY'))
+      })
+    }
+  }
+
   hoge(): void{
-    console.log(DATE.start)
-    console.log(DATE.end)
+    console.log()
+    console.log()
     console.log(FindTag)
   }
 

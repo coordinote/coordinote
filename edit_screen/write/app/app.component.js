@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const core_1 = require("@angular/core");
+const moment = require("moment");
 const http_1 = require("@angular/http");
 const socket = io.connect('http://localhost:6277');
 class Tile {
@@ -17,16 +18,21 @@ class Tile {
 exports.Tile = Tile;
 let TILE = [];
 let clip_id = null;
+let clip_ids = [];
 let Clip_Tag = [];
 let Select_Tile = {};
 let preTile = {};
-let FindTag;
+let FindTag = [];
 let DATE = {
-    start: null,
-    end: null
+    start: moment(),
+    end: moment()
 };
 socket.on('res_cid', (cid) => {
     clip_id = cid;
+});
+socket.on('res_clips', (cids) => {
+    console.log(cids);
+    clip_ids = cids;
 });
 let MathJaxDirective = class MathJaxDirective {
     constructor(el) {
@@ -272,6 +278,9 @@ let ClipView = ClipView_1 = class ClipView {
     constructor() {
         this.find_tag = FindTag;
         this.date = DATE;
+        this.datePickerConfig = {
+            format: "MM/DD/YYYY"
+        };
     }
     open() {
         this.dayPicker.api.open();
@@ -279,12 +288,28 @@ let ClipView = ClipView_1 = class ClipView {
     close() {
         this.dayPicker.api.close();
     }
-    load_clip(find_tag) {
+    cliptagsubstitute(find_tag) {
         FindTag = tagsubstitute(find_tag);
     }
+    search() {
+        if (FindTag.length > 0) {
+            socket.emit('send_clipsearchdata', {
+                cliptags: FindTag,
+                startdate: Date.parse(moment(DATE.start._d).format('MM/DD/YYYY')),
+                enddate: Date.parse(moment(DATE.end._d).format('MM/DD/YYYY'))
+            });
+        }
+        else {
+            socket.emit('send_clipsearchdata', {
+                cliptags: ['なし'],
+                startdate: Date.parse(moment(DATE.start._d).format('MM/DD/YYYY')),
+                enddate: Date.parse(moment(DATE.end._d).format('MM/DD/YYYY'))
+            });
+        }
+    }
     hoge() {
-        console.log(DATE.start);
-        console.log(DATE.end);
+        console.log();
+        console.log();
         console.log(FindTag);
     }
 };
@@ -298,10 +323,10 @@ ClipView = ClipView_1 = __decorate([
         template: `
     <!-- サイドバー(クリップ) -->
     <article class="clip-bar col-sm-12">
-      <tag-input class="load-clip-tag col-sm-12" [(ngModel)]="find_tag" (onBlur)="load_clip(find_tag)"></tag-input>
-      <dp-date-picker [(ngModel)]="date.start"></dp-date-picker>
-      <dp-date-picker [(ngModel)]="date.end"></dp-date-picker>
-      <button (click)="hoge()">search</button>
+      <tag-input class="load-clip-tag col-sm-12" [(ngModel)]="find_tag" (onBlur)="cliptagsubstitute(find_tag)"></tag-input>
+      <dp-date-picker [(ngModel)]="date.start" [config]="datePickerConfig"></dp-date-picker>
+      <dp-date-picker [(ngModel)]="date.end" [config]="datePickerConfig"></dp-date-picker>
+      <button (click)="search(); hoge()">search</button>
     </article>
   `,
         directives: ClipView_1

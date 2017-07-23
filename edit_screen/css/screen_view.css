@@ -123,6 +123,10 @@ body article.write-field .tile-contents ul li {
   float: left;
 }
 body article.write-field .tile-contents ul li .add {
+<<<<<<< HEAD
+=======
+  appearance: none;
+>>>>>>> edit_screen
   -webkit-appearance: none;
   display: block;
   height: 8vh;
@@ -170,5 +174,8 @@ body article.write-field .tile-input span textarea {
 }
 body article.write-field .tile-input span textarea:focus {
   border: solid 1px #aaa;
+<<<<<<< HEAD
   outline: solid 1px #8886EE;
+=======
+>>>>>>> edit_screen
 }
