@@ -6,6 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpModule } from '@angular/http';
 
 import { TagInputModule } from 'ng2-tag-input';
+import { DpDatePickerModule } from 'ng2-date-picker'
 
 import { AppComponent, WriteClip, WriteNav, ClipView, MathJaxDirective } from './app.component.js';
 
@@ -15,7 +16,8 @@ import { AppComponent, WriteClip, WriteNav, ClipView, MathJaxDirective } from '.
     BrowserAnimationsModule,
     FormsModule,
     HttpModule,
-    TagInputModule
+    TagInputModule,
+    DpDatePickerModule
   ],
   declarations: [
     AppComponent,

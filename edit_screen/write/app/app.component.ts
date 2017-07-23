@@ -1,4 +1,4 @@
-import { AterViewInit, Component, Directive, ElementRef, EventEmitter, Input, Output, Renderer }  from '@angular/core'
+import { AterViewInit, Component, Directive, ElementRef, EventEmitter, Input, Output, Renderer, ViewChild }  from '@angular/core'
 
 import { Http } from '@angular/http'
 
@@ -24,6 +24,13 @@ let Clip_Tag = []
 let Select_Tile: Tile = {}
 
 let preTile: Tile = {}
+
+let FindTag
+
+let DATE = {
+  start: null,
+  end: null
+}
 
 socket.on('res_cid', (cid) => {
   clip_id = cid
@@ -240,14 +247,37 @@ export class WriteNav{
   template:`
     <!-- サイドバー(クリップ) -->
     <article class="clip-bar col-sm-12">
-      <tag-input class="load-clip-tag sol-sm-12" [(ngModel)]="find_tag"></tag-input>
+      <tag-input class="load-clip-tag col-sm-12" [(ngModel)]="find_tag" (onBlur)="load_clip(find_tag)"></tag-input>
+      <dp-date-picker [(ngModel)]="date.start"></dp-date-picker>
+      <dp-date-picker [(ngModel)]="date.end"></dp-date-picker>
+      <button (click)="hoge()">search</button>
     </article>
   `,
   directives: ClipView
 })
 
 export class ClipView{
-  find_tag = []
+  find_tag = FindTag
+  date = DATE
+  @ViewChild('dayPicker') dayPicker: DpDayPickerComponent;
+
+  open() {
+      this.dayPicker.api.open();
+  }
+
+  close() {
+       this.dayPicker.api.close();
+  }
+
+  load_clip(find_tag): void{
+    FindTag = tagsubstitute(find_tag)
+  }
+
+  hoge(): void{
+    console.log(DATE.start)
+    console.log(DATE.end)
+    console.log(FindTag)
+  }
 
 }
 

@@ -30,8 +30,11 @@
       'rxjs':                      'npm:rxjs',
       'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js',
 
+      'ng2-bootstrap': 'npm:ng2-bootstrap',
       'ng2-tag-input': 'npm:ng2-tag-input',
-      'ng2-material-dropdown': 'npm:ng2-material-dropdown'
+      'ng2-material-dropdown': 'npm:ng2-material-dropdown',
+      'ng2-date-picker': 'npm:ng2-date-picker',
+      'moment': 'npm:moment'
 
     },
     // packages tells the System loader how to load when no filename and/or no extension
@@ -53,6 +56,24 @@
       },
       'ng2-tag-input/modules/components/tag-input.template.html': {
         defaultJSExtension: false
+      },
+      'moment': {
+        main: 'moment.js',
+        defaultExtension: 'js'
+      },
+      'ng2-bootstrap': {
+        main: 'bundles/ng2-bootstrap.umd.js',
+        defaultExtension: 'js'
+      },
+      'ng2-date-picker': {
+        defaultExtension: 'js',
+        main: 'index.js',
+        format: 'cjs'
+      },
+      'moment': {
+        defaultExtension: 'js',
+        main: 'moment.js',
+        format: 'cjs'
       }
     }
   });

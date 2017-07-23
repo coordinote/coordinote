@@ -20,6 +20,11 @@ let clip_id = null;
 let Clip_Tag = [];
 let Select_Tile = {};
 let preTile = {};
+let FindTag;
+let DATE = {
+    start: null,
+    end: null
+};
 socket.on('res_cid', (cid) => {
     clip_id = cid;
 });
@@ -265,16 +270,38 @@ WriteNav = WriteNav_1 = __decorate([
 exports.WriteNav = WriteNav;
 let ClipView = ClipView_1 = class ClipView {
     constructor() {
-        this.find_tag = [];
+        this.find_tag = FindTag;
+        this.date = DATE;
+    }
+    open() {
+        this.dayPicker.api.open();
+    }
+    close() {
+        this.dayPicker.api.close();
+    }
+    load_clip(find_tag) {
+        FindTag = tagsubstitute(find_tag);
+    }
+    hoge() {
+        console.log(DATE.start);
+        console.log(DATE.end);
+        console.log(FindTag);
     }
 };
+__decorate([
+    core_1.ViewChild('dayPicker'),
+    __metadata("design:type", Object)
+], ClipView.prototype, "dayPicker", void 0);
 ClipView = ClipView_1 = __decorate([
     core_1.Component({
         selector: 'clip-view',
         template: `
     <!-- サイドバー(クリップ) -->
     <article class="clip-bar col-sm-12">
-      <tag-input class="load-clip-tag sol-sm-12" [(ngModel)]="find_tag"></tag-input>
+      <tag-input class="load-clip-tag col-sm-12" [(ngModel)]="find_tag" (onBlur)="load_clip(find_tag)"></tag-input>
+      <dp-date-picker [(ngModel)]="date.start"></dp-date-picker>
+      <dp-date-picker [(ngModel)]="date.end"></dp-date-picker>
+      <button (click)="hoge()">search</button>
     </article>
   `,
         directives: ClipView_1
