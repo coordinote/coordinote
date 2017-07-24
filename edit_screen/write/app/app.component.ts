@@ -16,6 +16,8 @@ export class Tile {
   _id: string;
 }
 
+const undefindtag = ['undefind']
+
 let TILE: Tile[] = []
 
 let clip_id = null
@@ -227,7 +229,7 @@ export class WriteNav{
       })
     }else{
       socket.emit('update_cliptag', {
-        clip_tags: ['defined'],
+        clip_tags: undefindtag,
         cid: clip_id
       })
     }
@@ -300,7 +302,7 @@ export class ClipView{
       })
     }else{
       socket.emit('send_clipsearchdata', {
-        cliptags: ['defined'],
+        cliptags: undefindtag,
         startdate: Date.parse(moment(DATE.start._d).format('MM/DD/YYYY')),
         enddate: Date.parse(moment(DATE.end._d).format('MM/DD/YYYY'))
       })
@@ -386,7 +388,7 @@ export class AppComponent{
               })
             }else{
               socket.emit('update_tiletag', {
-                tag: ['defined'],
+                tag: undefindtag,
                 cid: clip_id,
                 tid: tile._id
               })
@@ -425,7 +427,7 @@ export class AppComponent{
   }
 
   ngAfterViewInit(){
-    socket.emit('save_clip', ['defined'])
+    socket.emit('save_clip', undefintag)
   }
 
   delete_clip(): void{
