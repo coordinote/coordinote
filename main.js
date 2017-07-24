@@ -58,9 +58,9 @@ function splashWindow(){
   spwin = new BrowserWindow({
     'width': 510,
     'height': 620,
-    'transparent': true,
+ /* 'transparent': true,
     'frame': false,
-    "resizable": false
+    "resizable": false */
   })
 
   spwin.loadURL(url.format({
