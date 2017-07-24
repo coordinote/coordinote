@@ -96,7 +96,6 @@ $('#search-button').click(() => {
 
 //tile tags dropdown
 socket.on('res_alltiletags', (rec) => {
-  console.log(rec.join(',') +'||'+ stacktile.join(','))
   if(rec.join(',') != stacktile.join(',')){
     $('.dropdown-menu').empty()
     for(i = 0; i < rec.length; i++){

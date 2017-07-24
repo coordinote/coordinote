@@ -49,10 +49,13 @@ p {
   width: 110px;
   height: 32px;
   padding-top: 5px;
-  background-color: #C4C4C4;
+  background-color: #CCCCCC;
   border-radius: 3px;
   margin-top: 20px;
   cursor: pointer;
+}
+#search-button:hover {
+  background-color: #AAAAAA;
 }
 .btn-group {
   margin-left: 20px;
@@ -98,10 +101,6 @@ p {
   bottom: 0;
 }
 #clip-val-text {
-  color: #fff;
-  margin-left: 20px;
-}
-#tile-val-text {
   color: #fff;
   margin-left: 20px;
 }
