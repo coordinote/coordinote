@@ -475,7 +475,6 @@ let initTile = (clip, callback) => {
   for(let i=0; i<clip.tile.length; i++){
     clip.tile[i].saved = true
     clip.tile[i].edited = false
-    console.log((clip.tile[i]))
   }
   callback()
 }
