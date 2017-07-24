@@ -1,6 +1,6 @@
 //socket io
 const URL = 'http://localhost:6277'
-const socket = io.connect(url)
+const socket = io.connect(URL)
 //user input all infomation
 let inclipinfo = []
 let intileinfo = []
