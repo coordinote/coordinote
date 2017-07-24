@@ -109,7 +109,7 @@ socket.on('res_alltiletags', (rec) => {
 socket.on('res_clips', (rec) => {
   if(cflag){
     for(i = 0; i < rec.length; i++){
-      $('.clip-form').append('<div class="clip-field '+i+'" ></div>')
+      $('.clip-form').append('<div class="clip-field '+i+' clearfix" ></div>')
       for(j = 0; j < rec[i].tile.length; j++){
         switch(rec[i].tile[j].sty){
           case "txt":
@@ -152,7 +152,7 @@ socket.on('res_clips', (rec) => {
 
 //tile form
 socket.on('res_tiles', (rec) => {
-  $('.clip-form').append('<div class="clip-field with_tile"></div>')
+  $('.clip-form').append('<div class="clip-field clearfix with_tile"></div>')
   for(i = 0; i < rec.length; i++){
     switch(rec[i].sty){
       case "txt":

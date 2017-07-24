@@ -85,13 +85,23 @@ p {
   transform: translateX(-50%);
 }
 .clip-field {
-  display: flex;
   background-color: #fff;
   width: 40vw;
-  min-height: 56.56vw;
   margin: 10px;
   box-shadow:0px 0px 4px rgba(136, 134, 238,0.4);
 }
+/*float clearfix of bootstrap grid system*/
+.clearfix:after {
+	display:block;
+	clear:both;
+	height:0px;
+	visibility:hidden;
+	content:".";
+}
+.clearfix {
+  min-height: 56.56vw;
+}
+
 .tile {
   min-height: 8vw;
   overflow: hidden;
