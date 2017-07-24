@@ -18,6 +18,8 @@ export class Tile {
 
 const undefindtag = ['undefind']
 
+const saveTileURL = 'http://localhost:6277/api/save_tile'
+
 let TILE: Tile[] = []
 
 let clip_id = null
@@ -117,8 +119,10 @@ export class WriteClip{
 
   save_svg(tile, dom): void{
     if(!tile.saved){
+
+      const save_tile = 
       let tag = tagsubstitute(tile.tag)
-      this.http.post('http://localhost:6277/api/save_tile', {
+      this.http.post(saveTileURL, {
         cid: clip_id,
         idx: tile.idx,
         col: tile.col,
@@ -341,7 +345,7 @@ export class AppComponent{
     if(!tile.saved){
       if(tile.tag.length > 0){
         let tag = tagsubstitute(tile.tag)
-        this.http.post('http://localhost:6277/api/save_tile', {
+        this.http.post(saveTileURL, {
           cid: clip_id,
           idx: tile.idx,
           col: tile.col,
@@ -353,7 +357,7 @@ export class AppComponent{
           tile._id = res._body
         })
       }else{
-        this.http.post('http://localhost:6277/api/save_tile', {
+        this.http.post(saveTileURL, {
           cid: clip_id,
           idx: tile.idx,
           col: tile.col,
