@@ -51,6 +51,16 @@ DBMethod.prototype.find_clip_id = function(id, callback){
   })
 }
 
+/* find clip(without tile) by _id */
+DBMethod.prototype.find_cliponly_id = function(id, callback){
+  this.db.clips.findOne({_id: id}, (err, doc) => {
+    if(err){
+      console.error(err)
+    }
+    callback(doc)
+  })
+}
+
 /* find all type of tag in clips */
 DBMethod.prototype.find_allclipstags = function(callback_arg){
   async.waterfall([
