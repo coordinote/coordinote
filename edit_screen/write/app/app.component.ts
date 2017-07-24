@@ -13,7 +13,7 @@ export class Tile {
   con: string;
   edited: boolean;
   saved: boolean;
-  tid: string;
+  _id: string;
 }
 
 let TILE: Tile[] = []
@@ -40,7 +40,9 @@ socket.on('res_cid', (cid) => {
 })
 
 socket.on('res_clips', (clips) => {
-  Array.prototype.push.apply(CLIP, clips)
+  initClip(() => {
+    Array.prototype.push.apply(CLIP, clips)
+  })
 })
 
 @Directive({
@@ -88,7 +90,7 @@ export class WriteClip{
         con: '',
         edited: false,
         saved: false,
-        tid: null
+        _id: null
       })
     })
   }
@@ -102,7 +104,7 @@ export class WriteClip{
         sty: "svg",
         con: '',
         saved: false,
-        tid: null
+        _id: null
       })
     })
   }
@@ -123,8 +125,8 @@ export class WriteClip{
         con: []
       })
       .subscribe(res => {
-        tile.tid = res._body
-        dom.contentWindow.save_cidtid(clip_id, tile.tid)
+        tile._id = res._body
+        dom.contentWindow.save_cid_id(clip_id, tile._id)
         dom.contentWindow.sendReadID()
       })
       tile.saved = true
@@ -137,12 +139,13 @@ export class WriteClip{
     //データベースのtile削除処理
     socket.emit('delete_tile', {
       cid: clip_id,
-      tid: tile.tid
+      tid: tile._id
     })
   }
 
   delete_clip(): void {
     this.delete_clipedit.emit()
+    TILE.length = 0
   }
 
   resize(textarea): void{
@@ -187,7 +190,6 @@ export class WriteClip{
 
   test() {
     console.log(TILE)
-    console.log(Clip_Tag)
   }
 }
 
@@ -198,7 +200,7 @@ export class WriteClip{
       <button class="col-sm-1" (ngModel)="select_tile" (click)="delete_tile(select_tile)">
         <i class="fa fa-times" aria-hidden="true"></i>
       </button>
-      <select id="col-select" class="col-sm-1" [(ngModel)]="select_tile.col">
+      <select id="col-select" class="col-sm-1" [(ngModel)]="select_tile.col" (click)="getPreTile(select_tile)" (change)="save_tile(select_tile)">
         <option *ngFor="let number of [1,2,3,4,5,6,7,8,9,10,11,12]">{{number}}</option>
       </select>
       <tag-input class="tag-input col-sm-5" [(ngModel)]="select_tile.tag" [theme]="'bootstrap'" [placeholder]="'Enter a tile tag'" [secondaryPlaceholder]="'Enter a tile tag'" (click)="getPreTile(select_tile)" (onBlur)="save_tile(select_tile)"></tag-input>
@@ -225,7 +227,7 @@ export class WriteNav{
       })
     }else{
       socket.emit('update_cliptag', {
-        clip_tags: ['ない'],
+        clip_tags: ['defined'],
         cid: clip_id
       })
     }
@@ -244,7 +246,7 @@ export class WriteNav{
     tilesort(() => {})
     socket.emit('delete_tile', {
       cid: clip_id,
-      tid: tile.tid
+      tid: tile._id
     })
   }
 }
@@ -254,7 +256,7 @@ export class WriteNav{
   template:`
     <!-- サイドバー(クリップ) -->
     <article class="clip-bar col-sm-12">
-      <tag-input class="load-clip-tag col-sm-12" [(ngModel)]="find_tag" (onBlur)="cliptagsubstitute(find_tag)"></tag-input>
+      <tag-input class="load-clip-tag col-sm-12" [(ngModel)]="find_tag" [theme]="'bootstrap'" (onBlur)="cliptagsubstitute(find_tag)"></tag-input>
       <dp-date-picker [(ngModel)]="date.start" [config]="datePickerConfig"></dp-date-picker>
       <dp-date-picker [(ngModel)]="date.end" [config]="datePickerConfig"></dp-date-picker>
       <button (click)="search()">search</button>
@@ -298,7 +300,7 @@ export class ClipView{
       })
     }else{
       socket.emit('send_clipsearchdata', {
-        cliptags: ['なし'],
+        cliptags: ['defined'],
         startdate: Date.parse(moment(DATE.start._d).format('MM/DD/YYYY')),
         enddate: Date.parse(moment(DATE.end._d).format('MM/DD/YYYY'))
       })
@@ -306,9 +308,10 @@ export class ClipView{
   }
 
   load_tile(clip): void{
-    TILE.length = 0
-    Array.prototype.push.apply(TILE, clip.tile)
-    clip_id = clip._id
+    initTile(clip, () => {
+      Array.prototype.push.apply(TILE, clip.tile)
+      clip_id = clip._id
+    })
   }
 }
 
@@ -345,7 +348,7 @@ export class AppComponent{
           con: tile.con
         })
         .subscribe(res => {
-          tile.tid = res._body
+          tile._id = res._body
         })
       }else{
         this.http.post('http://localhost:6277/api/save_tile', {
@@ -357,7 +360,7 @@ export class AppComponent{
           con: tile.con
         })
         .subscribe(res => {
-          tile.tid = res._body
+          tile._id = res._body
         })
       }
       tile.saved = true
@@ -370,7 +373,7 @@ export class AppComponent{
             socket.emit('update_tileidx', {
               idx: tile[key],
               cid: clip_id,
-              tid: tile.tid
+              tid: tile._id
             })
             break
           case "tag":
@@ -379,13 +382,13 @@ export class AppComponent{
               socket.emit('update_tiletag', {
                 tag: tag,
                 cid: clip_id,
-                tid: tile.tid
+                tid: tile._id
               })
             }else{
               socket.emit('update_tiletag', {
-                tag: ['ない'],
+                tag: ['defined'],
                 cid: clip_id,
-                tid: tile.tid
+                tid: tile._id
               })
             }
             break
@@ -393,14 +396,14 @@ export class AppComponent{
             socket.emit('update_tilecon', {
               con: tile[key],
               cid: clip_id,
-              tid: tile.tid
+              tid: tile._id
             })
             break
           case "col":
             socket.emit('update_tilecol', {
               col: tile[key],
               cid: clip_id,
-              tid: tile.tid
+              tid: tile._id
             })
             break
           default:
@@ -417,12 +420,12 @@ export class AppComponent{
       tag: tile.tag,
       sty: tile.sty,
       con: tile.con,
-      tid: tile.tid
+      _id: tile._id
     }
   }
 
   ngAfterViewInit(){
-    socket.emit('save_clip', ['ない'])
+    socket.emit('save_clip', ['defined'])
   }
 
   delete_clip(): void{
@@ -459,4 +462,19 @@ let tagsubstitute = (tag) => {
     tag_array.push(input_tag.value)
   })
   return tag_array
+}
+
+let initTile = (clip, callback) => {
+  TILE.length = 0
+  for(let i=0; i<clip.tile.length; i++){
+    clip.tile[i].saved = true
+    clip.tile[i].edited = false
+    console.log((clip.tile[i]))
+  }
+  callback()
+}
+
+let initClip = (callback) => {
+  CLIP.length = 0
+  callback()
 }
