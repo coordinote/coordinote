@@ -1,14 +1,14 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgModule } from '@angular/core'
+import { BrowserModule } from '@angular/platform-browser'
+import { FormsModule } from '@angular/forms'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 
-import { HttpModule } from '@angular/http';
+import { HttpModule } from '@angular/http'
 
-import { TagInputModule } from 'ng2-tag-input';
+import { TagInputModule } from 'ng2-tag-input'
 import { DpDatePickerModule } from 'ng2-date-picker'
 
-import { AppComponent, WriteClip, WriteNav, ClipView, MathJaxDirective } from './app.component.js';
+import { AppComponent, WriteClip, WriteNav, ClipView, MathJaxDirective, SafePipe } from './app.component.js'
 
 @NgModule({
   imports:      [
@@ -24,7 +24,8 @@ import { AppComponent, WriteClip, WriteNav, ClipView, MathJaxDirective } from '.
     WriteClip,
     WriteNav,
     ClipView,
-    MathJaxDirective
+    MathJaxDirective,
+    SafePipe
   ],
   bootstrap:    [ AppComponent ]
 })

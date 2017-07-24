@@ -1,4 +1,5 @@
-import { AterViewInit, Component, Directive, ElementRef, EventEmitter, Input, Output, Renderer, ViewChild }  from '@angular/core'
+import { AterViewInit, Component, Directive, ElementRef, EventEmitter, Input, Output, Pipe, PipeTransform, Renderer, ViewChild }  from '@angular/core'
+import { DomSanitizer} from '@angular/platform-browser';
 import * as moment from 'moment'
 
 import { Http } from '@angular/http'
@@ -15,6 +16,10 @@ export class Tile {
   saved: boolean;
   _id: string;
 }
+
+const undefindtag = ['undefind']
+
+const saveTileURL = 'http://localhost:6277/api/save_tile'
 
 let TILE: Tile[] = []
 
@@ -61,6 +66,15 @@ export class MathJaxDirective {
   }
 }
 
+@Pipe({ name: 'safe' })
+
+export class SafePipe implements PipeTransform {
+  constructor(private sanitizer: DomSanitizer) {}
+  transform(url) {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+  }
+}
+
 @Component({
   selector: 'write-clip',
   templateUrl: 'write/template/write.html',
@@ -75,6 +89,7 @@ export class WriteClip{
   @Output() save_tileedit = new EventEmitter<tile>()
   @Output() getPreTileedit = new EventEmitter<tile>()
   @Output() delete_clipedit = new EventEmitter()
+  private CanvasURL: string = "http://localhost:6277/html/read/"
 
   constructor(private elementRef: ElementRef, private Renderer: Renderer, private http: Http){}
   el = this.elementRef.nativeElement
@@ -116,7 +131,7 @@ export class WriteClip{
   save_svg(tile, dom): void{
     if(!tile.saved){
       let tag = tagsubstitute(tile.tag)
-      this.http.post('http://localhost:6277/api/save_tile', {
+      this.http.post(saveTileURL, {
         cid: clip_id,
         idx: tile.idx,
         col: tile.col,
@@ -126,7 +141,7 @@ export class WriteClip{
       })
       .subscribe(res => {
         tile._id = res._body
-        dom.contentWindow.save_cid_id(clip_id, tile._id)
+        dom.contentWindow.save_cidtid(clip_id, tile._id)
         dom.contentWindow.sendReadID()
       })
       tile.saved = true
@@ -227,7 +242,7 @@ export class WriteNav{
       })
     }else{
       socket.emit('update_cliptag', {
-        clip_tags: ['defined'],
+        clip_tags: undefindtag,
         cid: clip_id
       })
     }
@@ -300,7 +315,7 @@ export class ClipView{
       })
     }else{
       socket.emit('send_clipsearchdata', {
-        cliptags: ['defined'],
+        cliptags: undefindtag,
         startdate: Date.parse(moment(DATE.start._d).format('MM/DD/YYYY')),
         enddate: Date.parse(moment(DATE.end._d).format('MM/DD/YYYY'))
       })
@@ -339,7 +354,7 @@ export class AppComponent{
     if(!tile.saved){
       if(tile.tag.length > 0){
         let tag = tagsubstitute(tile.tag)
-        this.http.post('http://localhost:6277/api/save_tile', {
+        this.http.post(saveTileURL, {
           cid: clip_id,
           idx: tile.idx,
           col: tile.col,
@@ -351,7 +366,7 @@ export class AppComponent{
           tile._id = res._body
         })
       }else{
-        this.http.post('http://localhost:6277/api/save_tile', {
+        this.http.post(saveTileURL, {
           cid: clip_id,
           idx: tile.idx,
           col: tile.col,
@@ -386,7 +401,7 @@ export class AppComponent{
               })
             }else{
               socket.emit('update_tiletag', {
-                tag: ['defined'],
+                tag: undefindtag,
                 cid: clip_id,
                 tid: tile._id
               })
@@ -425,7 +440,7 @@ export class AppComponent{
   }
 
   ngAfterViewInit(){
-    socket.emit('save_clip', ['defined'])
+    socket.emit('save_clip', undefindtag)
   }
 
   delete_clip(): void{
@@ -469,7 +484,6 @@ let initTile = (clip, callback) => {
   for(let i=0; i<clip.tile.length; i++){
     clip.tile[i].saved = true
     clip.tile[i].edited = false
-    console.log((clip.tile[i]))
   }
   callback()
 }

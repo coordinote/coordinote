@@ -10,12 +10,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const core_1 = require("@angular/core");
+const platform_browser_1 = require("@angular/platform-browser");
 const moment = require("moment");
 const http_1 = require("@angular/http");
 const socket = io.connect('http://localhost:6277');
 class Tile {
 }
 exports.Tile = Tile;
+const undefindtag = ['undefind'];
+const saveTileURL = 'http://localhost:6277/api/save_tile';
 let TILE = [];
 let clip_id = null;
 let CLIP = [];
@@ -55,6 +58,19 @@ MathJaxDirective = __decorate([
     __metadata("design:paramtypes", [core_1.ElementRef])
 ], MathJaxDirective);
 exports.MathJaxDirective = MathJaxDirective;
+let SafePipe = class SafePipe {
+    constructor(sanitizer) {
+        this.sanitizer = sanitizer;
+    }
+    transform(url) {
+        return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+    }
+};
+SafePipe = __decorate([
+    core_1.Pipe({ name: 'safe' }),
+    __metadata("design:paramtypes", [platform_browser_1.DomSanitizer])
+], SafePipe);
+exports.SafePipe = SafePipe;
 let WriteClip = WriteClip_1 = class WriteClip {
     constructor(elementRef, Renderer, http) {
         this.elementRef = elementRef;
@@ -64,6 +80,7 @@ let WriteClip = WriteClip_1 = class WriteClip {
         this.save_tileedit = new core_1.EventEmitter();
         this.getPreTileedit = new core_1.EventEmitter();
         this.delete_clipedit = new core_1.EventEmitter();
+        this.CanvasURL = "http://localhost:6277/html/read/";
         this.el = this.elementRef.nativeElement;
         this.renderer = this.Renderer;
     }
@@ -100,7 +117,7 @@ let WriteClip = WriteClip_1 = class WriteClip {
     save_svg(tile, dom) {
         if (!tile.saved) {
             let tag = tagsubstitute(tile.tag);
-            this.http.post('http://localhost:6277/api/save_tile', {
+            this.http.post(saveTileURL, {
                 cid: clip_id,
                 idx: tile.idx,
                 col: tile.col,
@@ -110,7 +127,7 @@ let WriteClip = WriteClip_1 = class WriteClip {
             })
                 .subscribe(res => {
                 tile._id = res._body;
-                dom.contentWindow.save_cid_id(clip_id, tile._id);
+                dom.contentWindow.save_cidtid(clip_id, tile._id);
                 dom.contentWindow.sendReadID();
             });
             tile.saved = true;
@@ -220,7 +237,7 @@ let WriteNav = WriteNav_1 = class WriteNav {
         }
         else {
             socket.emit('update_cliptag', {
-                clip_tags: ['defined'],
+                clip_tags: undefindtag,
                 cid: clip_id
             });
         }
@@ -304,7 +321,7 @@ let ClipView = ClipView_1 = class ClipView {
         }
         else {
             socket.emit('send_clipsearchdata', {
-                cliptags: ['defined'],
+                cliptags: undefindtag,
                 startdate: Date.parse(moment(DATE.start._d).format('MM/DD/YYYY')),
                 enddate: Date.parse(moment(DATE.end._d).format('MM/DD/YYYY'))
             });
@@ -351,7 +368,7 @@ let AppComponent = class AppComponent {
         if (!tile.saved) {
             if (tile.tag.length > 0) {
                 let tag = tagsubstitute(tile.tag);
-                this.http.post('http://localhost:6277/api/save_tile', {
+                this.http.post(saveTileURL, {
                     cid: clip_id,
                     idx: tile.idx,
                     col: tile.col,
@@ -364,7 +381,7 @@ let AppComponent = class AppComponent {
                 });
             }
             else {
-                this.http.post('http://localhost:6277/api/save_tile', {
+                this.http.post(saveTileURL, {
                     cid: clip_id,
                     idx: tile.idx,
                     col: tile.col,
@@ -401,7 +418,7 @@ let AppComponent = class AppComponent {
                         }
                         else {
                             socket.emit('update_tiletag', {
-                                tag: ['defined'],
+                                tag: undefindtag,
                                 cid: clip_id,
                                 tid: tile._id
                             });
@@ -438,7 +455,7 @@ let AppComponent = class AppComponent {
         };
     }
     ngAfterViewInit() {
-        socket.emit('save_clip', ['defined']);
+        socket.emit('save_clip', undefindtag);
     }
     delete_clip() {
         //データベースのclip削除処理
@@ -492,7 +509,6 @@ let initTile = (clip, callback) => {
     for (let i = 0; i < clip.tile.length; i++) {
         clip.tile[i].saved = true;
         clip.tile[i].edited = false;
-        console.log((clip.tile[i]));
     }
     callback();
 };
