@@ -119,8 +119,6 @@ export class WriteClip{
 
   save_svg(tile, dom): void{
     if(!tile.saved){
-
-      const save_tile = 
       let tag = tagsubstitute(tile.tag)
       this.http.post(saveTileURL, {
         cid: clip_id,
@@ -431,7 +429,7 @@ export class AppComponent{
   }
 
   ngAfterViewInit(){
-    socket.emit('save_clip', undefintag)
+    socket.emit('save_clip', undefindtag)
   }
 
   delete_clip(): void{

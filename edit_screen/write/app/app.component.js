@@ -16,6 +16,8 @@ const socket = io.connect('http://localhost:6277');
 class Tile {
 }
 exports.Tile = Tile;
+const undefindtag = ['undefind'];
+const saveTileURL = 'http://localhost:6277/api/save_tile';
 let TILE = [];
 let clip_id = null;
 let CLIP = [];
@@ -100,7 +102,7 @@ let WriteClip = WriteClip_1 = class WriteClip {
     save_svg(tile, dom) {
         if (!tile.saved) {
             let tag = tagsubstitute(tile.tag);
-            this.http.post('http://localhost:6277/api/save_tile', {
+            this.http.post(saveTileURL, {
                 cid: clip_id,
                 idx: tile.idx,
                 col: tile.col,
@@ -220,7 +222,7 @@ let WriteNav = WriteNav_1 = class WriteNav {
         }
         else {
             socket.emit('update_cliptag', {
-                clip_tags: ['defined'],
+                clip_tags: undefindtag,
                 cid: clip_id
             });
         }
@@ -304,7 +306,7 @@ let ClipView = ClipView_1 = class ClipView {
         }
         else {
             socket.emit('send_clipsearchdata', {
-                cliptags: ['defined'],
+                cliptags: undefindtag,
                 startdate: Date.parse(moment(DATE.start._d).format('MM/DD/YYYY')),
                 enddate: Date.parse(moment(DATE.end._d).format('MM/DD/YYYY'))
             });
@@ -351,7 +353,7 @@ let AppComponent = class AppComponent {
         if (!tile.saved) {
             if (tile.tag.length > 0) {
                 let tag = tagsubstitute(tile.tag);
-                this.http.post('http://localhost:6277/api/save_tile', {
+                this.http.post(saveTileURL, {
                     cid: clip_id,
                     idx: tile.idx,
                     col: tile.col,
@@ -364,7 +366,7 @@ let AppComponent = class AppComponent {
                 });
             }
             else {
-                this.http.post('http://localhost:6277/api/save_tile', {
+                this.http.post(saveTileURL, {
                     cid: clip_id,
                     idx: tile.idx,
                     col: tile.col,
@@ -401,7 +403,7 @@ let AppComponent = class AppComponent {
                         }
                         else {
                             socket.emit('update_tiletag', {
-                                tag: ['defined'],
+                                tag: undefindtag,
                                 cid: clip_id,
                                 tid: tile._id
                             });
@@ -438,7 +440,7 @@ let AppComponent = class AppComponent {
         };
     }
     ngAfterViewInit() {
-        socket.emit('save_clip', ['defined']);
+        socket.emit('save_clip', undefindtag);
     }
     delete_clip() {
         //データベースのclip削除処理
@@ -492,7 +494,6 @@ let initTile = (clip, callback) => {
     for (let i = 0; i < clip.tile.length; i++) {
         clip.tile[i].saved = true;
         clip.tile[i].edited = false;
-        console.log((clip.tile[i]));
     }
     callback();
 };
