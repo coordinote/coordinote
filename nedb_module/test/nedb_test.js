@@ -37,10 +37,10 @@ let target_id = "9SOzR0peDyDw9e80"
    //*/
 
 /*
-dbmethod.find_tile_cidid(target_cid, target_id, (tile) => {
-  console.log(tile)
-})
-//*/
+   dbmethod.find_tile_cidid(target_cid, target_id, (tile) => {
+   console.log(tile)
+   })
+   //*/
 
 /*
    dbmethod.find_clipids_tags(['helloworld'], new Date(1298834800000), new Date(1499770414512), (clips) => {
@@ -96,7 +96,13 @@ dbmethod.find_tile_cidid(target_cid, target_id, (tile) => {
    //*/
 
 /*
-   dbmethod.insert_clip(['helloworld', 'coordinote'], (newdocs) => {
+dbmethod.find_cliponly_id(target_cid, (doc) => {
+  console.log(doc)
+})
+//*/
+
+/*
+dbmethod.insert_clip(['helloworld', 'coordinote'], (newdocs) => {
    console.log(newdocs)
    })
    //*/
