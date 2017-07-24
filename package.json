@@ -39,6 +39,9 @@
     "async": "^2.4.0",
     "body-parser": "^1.17.2",
     "bootstrap": "^3.3.7",
+    "bootstrap-datepicker": "^1.6.4",
+    "bootstrap-tagsinput": "^0.7.1",
+    "bootstrap_dropdowns_enhancement": "^3.1.2",
     "concurrently": "^3.4.0",
     "core-js": "^2.4.1",
     "electron": "^1.6.2",
@@ -59,6 +62,7 @@
     "socket.io": "^2.0.3",
     "svg-catmull-rom-spline": "0.0.1",
     "systemjs": "^0.20.12",
+    "typeahead.js": "^0.11.1",
     "zone.js": "^0.8.4"
   },
   "private": true
