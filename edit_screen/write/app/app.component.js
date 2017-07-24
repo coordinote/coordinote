@@ -31,7 +31,6 @@ socket.on('res_cid', (cid) => {
     clip_id = cid;
 });
 socket.on('res_clips', (clips) => {
-    CLIP.length = 0;
     Array.prototype.push.apply(CLIP, clips);
 });
 let MathJaxDirective = class MathJaxDirective {
@@ -293,6 +292,7 @@ let ClipView = ClipView_1 = class ClipView {
         FindTag = tagsubstitute(find_tag);
     }
     search() {
+        CLIP.length = 0;
         if (FindTag.length > 0) {
             socket.emit('send_clipsearchdata', {
                 cliptags: FindTag,
@@ -307,6 +307,11 @@ let ClipView = ClipView_1 = class ClipView {
                 enddate: Date.parse(moment(DATE.end._d).format('MM/DD/YYYY'))
             });
         }
+    }
+    load_tile(clip) {
+        TILE.length = 0;
+        Array.prototype.push.apply(TILE, clip.tile);
+        clip_id = clip._id;
     }
 };
 __decorate([
@@ -324,8 +329,7 @@ ClipView = ClipView_1 = __decorate([
       <dp-date-picker [(ngModel)]="date.end" [config]="datePickerConfig"></dp-date-picker>
       <button (click)="search()">search</button>
       <div *ngFor="let clip of clips">
-        <button>{{clip._id}}</button>
-        <div>{{clip._id}}</div>
+        <button (click)="load_tile(clip)">{{clip._id}}</button>
       </div>
     </article>
   `,
