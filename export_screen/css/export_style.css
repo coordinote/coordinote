@@ -85,12 +85,19 @@ p {
   transform: translateX(-50%);
 }
 .clip-field {
+  display: flex;
   background-color: #fff;
   width: 40vw;
   min-height: 56.56vw;
-  margin: 20px;
-  padding: 5px;
+  margin: 10px;
   box-shadow:0px 0px 4px rgba(136, 134, 238,0.4);
+}
+.tile {
+  min-height: 8vw;
+  overflow: hidden;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  user-select: none;
 }
 
 .footer-bar {
