@@ -112,7 +112,7 @@ let WriteClip = WriteClip_1 = class WriteClip {
             })
                 .subscribe(res => {
                 tile._id = res._body;
-                dom.contentWindow.save_cid_id(clip_id, tile._id);
+                dom.contentWindow.save_cidtid(clip_id, tile._id);
                 dom.contentWindow.sendReadID();
             });
             tile.saved = true;
