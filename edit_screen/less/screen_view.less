@@ -8,6 +8,10 @@
 @shadow-color: rgba(0, 0, 0, 0.3);
 @icon-color: #555;
 @write-field-width: 40vw;
+@bordercolor: #999;
+@buttoncolor: #eee;
+@buttoncolor-hover: #ddd;
+@buttoncolor-active: #ccc;
 
 // mixin
 .all-transition(@time: 0.3s){ // transition for all property
@@ -97,7 +101,7 @@ body{
     select{
       appearance: none;
       -webkit-appearance: none;
-      border: solid 1px #999;
+      border: solid 1px @bordercolor;
       background-color: #eee;
       height: 5vh;
       outline: 0;
@@ -158,8 +162,8 @@ body{
             height: 8vh;
             padding: 0;
             margin: 0;
-            border: solid 2px #999;
-            background-color: #eee;
+            border: solid 2px @bordercolor;
+            background-color: @buttoncolor;
             color: #666;
             vertical-align: middle;
             font-size: 2vh;
@@ -169,11 +173,11 @@ body{
           }
 
           .add:hover{
-            background-color: #ddd;
+            background-color: @buttoncolor-hover;
           }
 
           .add:active{
-            background-color: #ccc;
+            background-color: @buttoncolor-active;
           }
 
           .add-tile{
