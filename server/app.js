@@ -175,7 +175,7 @@ io.sockets.on('connection',(socket) => {
   })
 
   socket.on('update_tilecol',(rec) => {
-    nedb.update_tilecol_cidid(rec.col,rec.cid,rec.tid,() => {
+    nedb.update_tilecol_cidid(rec.col,tile.cid,rec.tid,() => {
     })
   })
 
