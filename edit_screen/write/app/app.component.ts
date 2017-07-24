@@ -1,4 +1,5 @@
-import { AterViewInit, Component, Directive, ElementRef, EventEmitter, Input, Output, Renderer, ViewChild }  from '@angular/core'
+import { AterViewInit, Component, Directive, ElementRef, EventEmitter, Input, Output, Pipe, PipeTransform, Renderer, ViewChild }  from '@angular/core'
+import { DomSanitizer} from '@angular/platform-browser';
 import * as moment from 'moment'
 
 import { Http } from '@angular/http'
@@ -65,6 +66,15 @@ export class MathJaxDirective {
   }
 }
 
+@Pipe({ name: 'safe' })
+
+export class SafePipe implements PipeTransform {
+  constructor(private sanitizer: DomSanitizer) {}
+  transform(url) {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+  }
+}
+
 @Component({
   selector: 'write-clip',
   templateUrl: 'write/template/write.html',
@@ -79,6 +89,7 @@ export class WriteClip{
   @Output() save_tileedit = new EventEmitter<tile>()
   @Output() getPreTileedit = new EventEmitter<tile>()
   @Output() delete_clipedit = new EventEmitter()
+  private CanvasURL: string = "http://localhost:6277/html/read/"
 
   constructor(private elementRef: ElementRef, private Renderer: Renderer, private http: Http){}
   el = this.elementRef.nativeElement

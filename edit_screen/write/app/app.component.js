@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const core_1 = require("@angular/core");
+const platform_browser_1 = require("@angular/platform-browser");
 const moment = require("moment");
 const http_1 = require("@angular/http");
 const socket = io.connect('http://localhost:6277');
@@ -57,6 +58,19 @@ MathJaxDirective = __decorate([
     __metadata("design:paramtypes", [core_1.ElementRef])
 ], MathJaxDirective);
 exports.MathJaxDirective = MathJaxDirective;
+let SafePipe = class SafePipe {
+    constructor(sanitizer) {
+        this.sanitizer = sanitizer;
+    }
+    transform(url) {
+        return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+    }
+};
+SafePipe = __decorate([
+    core_1.Pipe({ name: 'safe' }),
+    __metadata("design:paramtypes", [platform_browser_1.DomSanitizer])
+], SafePipe);
+exports.SafePipe = SafePipe;
 let WriteClip = WriteClip_1 = class WriteClip {
     constructor(elementRef, Renderer, http) {
         this.elementRef = elementRef;
@@ -66,6 +80,7 @@ let WriteClip = WriteClip_1 = class WriteClip {
         this.save_tileedit = new core_1.EventEmitter();
         this.getPreTileedit = new core_1.EventEmitter();
         this.delete_clipedit = new core_1.EventEmitter();
+        this.CanvasURL = "http://localhost:6277/html/read/";
         this.el = this.elementRef.nativeElement;
         this.renderer = this.Renderer;
     }

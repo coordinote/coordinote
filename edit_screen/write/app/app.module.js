@@ -31,7 +31,8 @@ AppModule = __decorate([
             app_component_js_1.WriteClip,
             app_component_js_1.WriteNav,
             app_component_js_1.ClipView,
-            app_component_js_1.MathJaxDirective
+            app_component_js_1.MathJaxDirective,
+            app_component_js_1.SafePipe
         ],
         bootstrap: [app_component_js_1.AppComponent]
     })
