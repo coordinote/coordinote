@@ -101,8 +101,9 @@ dbmethod.find_tile_cidid(target_cid, target_id, (tile) => {
    })
    //*/
 
+/*
    let instance = {
-   "cid": 'LzwqcEcNq8ZlgBiK',
+   "cid": target_cid,
    "idx": 0,
    "col": 321,
    "tag": ["公式", "よくわかった"],

@@ -1,5 +1,6 @@
 //socket io
-const socket = io.connect('http://localhost:6277')
+const URL = 'http://localhost:6277'
+const socket = io.connect(url)
 //user input all infomation
 let inclipinfo = []
 let intileinfo = []
@@ -99,7 +100,18 @@ socket.on('res_alltiletags', (rec) => {
   if(rec.join(',') != stacktile.join(',')){
     $('.dropdown-menu').empty()
     for(i = 0; i < rec.length; i++){
-      $('.dropdown-menu').append('<li><input id="'+i+'" type="checkbox" value="'+rec[i]+'"><label for="'+i+'">'+rec[i]+'</label></li>')
+      let $li = $('<li></li>')
+      let $input = $('<input></input>', {
+        id: i,
+        type: "checkbox",
+        value: rec[i]
+      })
+      let $label = $('<label></label>', {
+        for: i,
+        text: rec[i]
+      })
+      $('.dropdown-menu').append($li.append($input))
+      $('.dropdown-menu').append($li.append($label))
     }
   }
   stacktile = rec
@@ -109,11 +121,19 @@ socket.on('res_alltiletags', (rec) => {
 socket.on('res_clips', (rec) => {
   if(cflag){
     for(i = 0; i < rec.length; i++){
-      $('.clip-form').append('<div class="clip-field '+i+' clearfix" ></div>')
+      let $div = $('<div></div>', {
+        class: 'clip-field ' + i + ' clearfix'
+      })
+      $('.clip-form').append($div)
       for(j = 0; j < rec[i].tile.length; j++){
         switch(rec[i].tile[j].sty){
           case "txt":
-            $('.'+i).append('<div class="col-sm-'+rec[i].tile[j].col+' tile">'+rec[i].tile[j].con+'</div>')
+            let $div = $('<div></div>', {
+              class: 'col-sm-' + rec[i].tile[j].col + ' tile',
+              text: rec[i].tile[j].con
+            })
+            $('.'+i).append($div)
+
             MathJax.Hub.Queue(["Typeset", MathJax.Hub, "clip-field"])
             break
           case "svg":
@@ -122,7 +142,7 @@ socket.on('res_clips', (rec) => {
             })
             let $iframe = $('<iframe></iframe>', {
               id: rec[i].tile[j]._id,
-              src: "http://localhost:6277/html/read_nu/",
+              src: URL + "/html/read_nu/",
               scrolling: "auto"
             })
             $('.'+i).append(
@@ -152,11 +172,19 @@ socket.on('res_clips', (rec) => {
 
 //tile form
 socket.on('res_tiles', (rec) => {
-  $('.clip-form').append('<div class="clip-field clearfix with_tile"></div>')
+  let $div = $('<div></div>', {
+    class: 'clip-field clearfix with_tile'
+  })
+  $('.clip-form').append($div)
   for(i = 0; i < rec.length; i++){
     switch(rec[i].sty){
       case "txt":
-        $('.with_tile').append('<div class="col-sm-'+rec[i].col+' tile">'+rec[i].con+'</div>')
+        let $div = $('<div></div>', {
+          class: 'col-sm-' + rec[i].col + ' tile',
+          text: rec[i].con
+        })
+        $('.with_tile').append($div)
+
         MathJax.Hub.Queue(["Typeset", MathJax.Hub, "clip-field"])
         break
       case "svg":
@@ -165,7 +193,7 @@ socket.on('res_tiles', (rec) => {
         })
         let $iframe = $('<iframe></iframe>', {
           id: rec[i]._id,
-          src: "http://localhost:6277/html/read_nu/",
+          src: URL + "/html/read_nu/",
           scrolling: "auto"
         })
         $('.with_tile').append(
