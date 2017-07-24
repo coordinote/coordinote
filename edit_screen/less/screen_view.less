@@ -8,6 +8,10 @@
 @shadow-color: rgba(0, 0, 0, 0.3);
 @icon-color: #555;
 @write-field-width: 40vw;
+@bordercolor: #999;
+@buttoncolor: #eee;
+@buttoncolor-hover: #ddd;
+@buttoncolor-active: #ccc;
 
 // mixin
 .all-transition(@time: 0.3s){ // transition for all property
@@ -56,16 +60,21 @@ body{
   }
 
   article.clip-bar{
-    width: 0vw;
+    width: 15vw;
     height: 95vh;
     position: fixed;
+    left: -15vw;
     z-index: 1000;
     margin-top: 5vh;
     background-color: @clip-color;
     .all-transition();
     &.active{
-      width: 15vw;
+      left: 0vw;
       box-shadow: 3px 0px 1px @shadow-color;
+    }
+
+    .load-clip-tag{
+      width: 15vw;
     }
   }
 
@@ -90,7 +99,24 @@ body{
     }
 
     select{
-      height: 40px;
+      appearance: none;
+      -webkit-appearance: none;
+      border: solid 1px @bordercolor;
+      background-color: #eee;
+      height: 5vh;
+      outline: 0;
+
+      option{
+        background-color: #eee;
+      }
+    }
+
+    select:hover{
+      background-color: #ddd;
+    }
+
+    select:active{
+      background-color: #ccc;
     }
   }
 
@@ -98,7 +124,7 @@ body{
     background-color: @menu-color;
     position: absolute;
     width: @write-field-width;
-    height: @write-field-width * 1.414;
+    min-height: @write-field-width * 1.414;
     left: 38vw;
     top: 15vh;
 
@@ -109,12 +135,62 @@ body{
       z-index: 10;
 
       .tile{
-        min-height: 24px;
+        min-height: 8vw;
         overflow: hidden;
         word-wrap: break-word;
         white-space: pre-wrap;
         user-select: none;
         cursor: pointer;
+      }
+
+      img{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border-style: none;
+      }
+
+      ul{
+        list-style-type: none;
+        height: 10vh;
+        margin: 0;
+        padding: 0;
+
+        li{
+          display: inline;
+          margin: 0;
+          padding: 0;
+          float: left;
+
+          .add{
+            appearance: none;
+            -webkit-appearance: none;
+            display: block;
+            height: 8vh;
+            padding: 0;
+            margin: 0;
+            border: solid 2px @bordercolor;
+            background-color: @buttoncolor;
+            color: #666;
+            vertical-align: middle;
+            font-size: 2vh;
+            box-shadow: none;
+            text-decoration: none;
+            outline: none
+          }
+
+          .add:hover{
+            background-color: @buttoncolor-hover;
+          }
+
+          .add:active{
+            background-color: @buttoncolor-active;
+          }
+
+          .add-tile{
+            border-bottom-width: 0;
+          }
+        }
       }
     }
 
@@ -133,12 +209,20 @@ body{
         }
 
         textarea{
+          appearance: none;
+          -webkit-appearance: none;
           position: absolute;
+          min-height: 8vw;
           overflow: hidden;
           resize: none;
+          outline: 0;
+        }
+
+        textarea:focus{
+          border: solid 1px #aaa;
+          outline: solid 1px #8886EE;
         }
       }
     }
   }
 }
-
