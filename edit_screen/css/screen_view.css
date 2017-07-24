@@ -124,6 +124,10 @@ body article.write-field .tile-contents ul li {
 }
 body article.write-field .tile-contents ul li .add {
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+  appearance: none;
+>>>>>>> edit_screen
 =======
   appearance: none;
 >>>>>>> edit_screen
@@ -175,7 +179,10 @@ body article.write-field .tile-input span textarea {
 body article.write-field .tile-input span textarea:focus {
   border: solid 1px #aaa;
 <<<<<<< HEAD
+<<<<<<< HEAD
   outline: solid 1px #8886EE;
+=======
+>>>>>>> edit_screen
 =======
 >>>>>>> edit_screen
 }

@@ -18,7 +18,7 @@ class Tile {
 exports.Tile = Tile;
 let TILE = [];
 let clip_id = null;
-let clip_ids = [];
+let CLIP = [];
 let Clip_Tag = [];
 let Select_Tile = {};
 let preTile = {};
@@ -30,9 +30,9 @@ let DATE = {
 socket.on('res_cid', (cid) => {
     clip_id = cid;
 });
-socket.on('res_clips', (cids) => {
-    console.log(cids);
-    clip_ids = cids;
+socket.on('res_clips', (clips) => {
+    CLIP.length = 0;
+    Array.prototype.push.apply(CLIP, clips);
 });
 let MathJaxDirective = class MathJaxDirective {
     constructor(el) {
@@ -276,6 +276,7 @@ WriteNav = WriteNav_1 = __decorate([
 exports.WriteNav = WriteNav;
 let ClipView = ClipView_1 = class ClipView {
     constructor() {
+        this.clips = CLIP;
         this.find_tag = FindTag;
         this.date = DATE;
         this.datePickerConfig = {
@@ -307,11 +308,6 @@ let ClipView = ClipView_1 = class ClipView {
             });
         }
     }
-    hoge() {
-        console.log();
-        console.log();
-        console.log(FindTag);
-    }
 };
 __decorate([
     core_1.ViewChild('dayPicker'),
@@ -326,7 +322,11 @@ ClipView = ClipView_1 = __decorate([
       <tag-input class="load-clip-tag col-sm-12" [(ngModel)]="find_tag" (onBlur)="cliptagsubstitute(find_tag)"></tag-input>
       <dp-date-picker [(ngModel)]="date.start" [config]="datePickerConfig"></dp-date-picker>
       <dp-date-picker [(ngModel)]="date.end" [config]="datePickerConfig"></dp-date-picker>
-      <button (click)="search(); hoge()">search</button>
+      <button (click)="search()">search</button>
+      <div *ngFor="let clip of clips">
+        <button>{{clip._id}}</button>
+        <div>{{clip._id}}</div>
+      </div>
     </article>
   `,
         directives: ClipView_1
@@ -431,7 +431,7 @@ let AppComponent = class AppComponent {
         };
     }
     ngAfterViewInit() {
-        socket.emit('save_clip', ['clip_test', 'test']);
+        socket.emit('save_clip', ['ない']);
     }
     delete_clip() {
         //データベースのclip削除処理

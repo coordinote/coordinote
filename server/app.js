@@ -11,9 +11,11 @@ let writeid
 
 //set portnumber
 const PORTNUMBER = 6277
+//set host
+const HOST = 'localhost'
 
-http.listen(PORTNUMBER,() => {
-  console.log('Open 6277')
+http.listen(PORTNUMBER,HOST,() => {
+  console.log('Open %s,%s',PORTNUMBER,HOST)
 })
 
 app.use(bodyParser.urlencoded({
@@ -24,6 +26,12 @@ app.use(bodyParser.json())
 app.post('/api/save_tile',(req,res) => {
   nedb.insert_tile(req.body,(save_doc) => {
     res.send(save_doc._id)
+  })
+})
+
+app.get('/api/rec_tilecon',(req,res) => {
+  nedb.find_tile_cidid(req.cid,req.tid,(tile) => {
+    res.send(tile.con)
   })
 })
 
@@ -183,6 +191,11 @@ io.sockets.on('connection',(socket) => {
 
   socket.on('delete_tile',(rec) => {
     nedb.delete_tile_cidid(rec.cid,rec.tid,() => {
+    })
+  })
+
+  socket.on('update_cliptag',(rec) => {
+    nedb.update_cliptags_id(rec.clip_tags,rec.cid,(clip) => {
     })
   })
 

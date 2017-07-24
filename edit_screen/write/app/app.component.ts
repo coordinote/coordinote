@@ -20,7 +20,7 @@ let TILE: Tile[] = []
 
 let clip_id = null
 
-let clip_ids = []
+let CLIP = []
 
 let Clip_Tag = []
 
@@ -39,9 +39,9 @@ socket.on('res_cid', (cid) => {
   clip_id = cid
 })
 
-socket.on('res_clips', (cids) => {
-  console.log(cids)
-  clip_ids = cids
+socket.on('res_clips', (clips) => {
+  CLIP.length = 0
+  Array.prototype.push.apply(CLIP, clips)
 })
 
 @Directive({
@@ -258,13 +258,18 @@ export class WriteNav{
       <tag-input class="load-clip-tag col-sm-12" [(ngModel)]="find_tag" (onBlur)="cliptagsubstitute(find_tag)"></tag-input>
       <dp-date-picker [(ngModel)]="date.start" [config]="datePickerConfig"></dp-date-picker>
       <dp-date-picker [(ngModel)]="date.end" [config]="datePickerConfig"></dp-date-picker>
-      <button (click)="search(); hoge()">search</button>
+      <button (click)="search()">search</button>
+      <div *ngFor="let clip of clips">
+        <button>{{clip._id}}</button>
+        <div>{{clip._id}}</div>
+      </div>
     </article>
   `,
   directives: ClipView
 })
 
 export class ClipView{
+  clips = CLIP
   find_tag = FindTag
   date = DATE
   @ViewChild('dayPicker') dayPicker: DpDayPickerComponent;
@@ -300,13 +305,6 @@ export class ClipView{
       })
     }
   }
-
-  hoge(): void{
-    console.log()
-    console.log()
-    console.log(FindTag)
-  }
-
 }
 
 @Component({
@@ -419,7 +417,7 @@ export class AppComponent{
   }
 
   ngAfterViewInit(){
-    socket.emit('save_clip', ['clip_test', 'test'])
+    socket.emit('save_clip', ['ない'])
   }
 
   delete_clip(): void{
