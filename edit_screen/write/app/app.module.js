@@ -9,6 +9,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const core_1 = require("@angular/core");
 const platform_browser_1 = require("@angular/platform-browser");
 const forms_1 = require("@angular/forms");
+const animations_1 = require("@angular/platform-browser/animations");
+const http_1 = require("@angular/http");
+const ng2_tag_input_1 = require("ng2-tag-input");
+const ng2_date_picker_1 = require("ng2-date-picker");
 const app_component_js_1 = require("./app.component.js");
 let AppModule = class AppModule {
 };
@@ -16,9 +20,20 @@ AppModule = __decorate([
     core_1.NgModule({
         imports: [
             platform_browser_1.BrowserModule,
-            forms_1.FormsModule
+            animations_1.BrowserAnimationsModule,
+            forms_1.FormsModule,
+            http_1.HttpModule,
+            ng2_tag_input_1.TagInputModule,
+            ng2_date_picker_1.DpDatePickerModule
         ],
-        declarations: [app_component_js_1.AppComponent],
+        declarations: [
+            app_component_js_1.AppComponent,
+            app_component_js_1.WriteClip,
+            app_component_js_1.WriteNav,
+            app_component_js_1.ClipView,
+            app_component_js_1.MathJaxDirective,
+            app_component_js_1.SafePipe
+        ],
         bootstrap: [app_component_js_1.AppComponent]
     })
 ], AppModule);

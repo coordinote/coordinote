@@ -5,7 +5,7 @@ const async = require('async')
 const validate = require('jsonschema').validate
 
 // define schema
-const tile_schema = {
+const tile_schema_txt = {
   "type": "object",
   "required": ["cid", "idx", "col", "tag", "sty", "con"],
   "additionalProperties": false,
@@ -19,22 +19,53 @@ const tile_schema = {
   }
 }
 
+const tile_schema_svg = {
+  "type": "object",
+  "required": ["cid", "idx", "col", "tag", "sty", "con"],
+  "additionalProperties": false,
+  "properties": {
+    "cid": {"type": "string"},
+    "idx": {"type": "integer"},
+    "col": {"type": "integer"},
+    "tag": {"type": "array"},
+    "sty": {"type": {"enum": ["txt", "svg", "fig"]}},
+    "con": {"type": "array"}
+  }
+}
+
+const cid_schema = {
+  "type": "string",
+  "required": true,
+  "additionalProperties": false
+}
+
 const idx_schema = {
   "type": "integer",
+  "required": true,
   "additionalProperties": false
 }
 
 const col_schema = {
   "type": "integer",
+  "required": true,
   "additionalProperties": false
 }
 
 const tag_schema = {
-  "type": "array"
+  "type": "array",
+  "required": true,
+  "additionalProperties": false
 }
 
-const con_schema = {
+const con_schema_txt = {
   "type": "string",
+  "required": true,
+  "additionalProperties": false
+}
+
+const con_schema_svg = {
+  "type": "array",
+  "required": true,
   "additionalProperties": false
 }
 
@@ -46,7 +77,32 @@ function tileSchema(){
 tileSchema.tile_valid = function(instance, callback_arg){
   async.waterfall([
     (callback) => {
-      let result = validate(instance, tile_schema)
+      let result
+      switch(instance.sty){
+        case "txt":
+          result = validate(instance, tile_schema_txt)
+          callback(null, result)
+          break
+        case "svg":
+          result = validate(instance, tile_schema_svg)
+          callback(null, result)
+          break
+        default:
+          result = validate(instance, tile_schema_txt)
+          callback(null, result)
+      }
+    },
+    (result, callback) => {
+      callback_arg(result)
+      callback(null)
+    }
+  ])
+}
+
+tileSchema.cid_valid = function(cid, callback_arg){
+  async.waterfall([
+    (callback) => {
+      let result = validate(cid, cid_schema)
       callback(null, result)
     },
     (result, callback) => {
@@ -95,11 +151,23 @@ tileSchema.tag_valid = function(tag, callback_arg){
   ])
 }
 
-tileSchema.con_valid = function(con, callback_arg){
+tileSchema.con_valid = function(con, sty, callback_arg){
   async.waterfall([
     (callback) => {
-      let result = validate(con, con_schema)
-      callback(null, result)
+      let result
+      switch(sty){
+        case "txt":
+          result = validate(con, con_schema_txt)
+          callback(null, result)
+          break
+        case "svg":
+          result = validate(con, con_schema_svg)
+          callback(null, result)
+          break
+        default:
+          result = validate(con, con_schema_txt)
+          callback(null, result)
+      }
     },
     (result, callback) => {
       callback_arg(result)

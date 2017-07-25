@@ -4,6 +4,7 @@ const { app, BrowserWindow, protocol, ipcMain } = require('electron')
 const path = require('path')
 const url = require('url')
 const fs = require('fs')
+
 //open server
 require('./server/app.js')
 
@@ -43,10 +44,6 @@ function createWindow(path){
     protocol: 'file:',
     slashes: true,
   }))
-
-  win.webContents.on('did-finish-load', () => {
-    win.webContents.send('load_clip', 'load_test')
-  })
 
   win.on('closed', () => {
     win = null
@@ -152,3 +149,4 @@ ipcMain.on('move_from_splash', (event, path) => {
       break
   }
 })
+

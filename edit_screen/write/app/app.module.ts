@@ -1,15 +1,32 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule }  from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { NgModule } from '@angular/core'
+import { BrowserModule } from '@angular/platform-browser'
+import { FormsModule } from '@angular/forms'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 
-import { AppComponent }   from './app.component.js';
+import { HttpModule } from '@angular/http'
+
+import { TagInputModule } from 'ng2-tag-input'
+import { DpDatePickerModule } from 'ng2-date-picker'
+
+import { AppComponent, WriteClip, WriteNav, ClipView, MathJaxDirective, SafePipe } from './app.component.js'
 
 @NgModule({
   imports:      [
     BrowserModule,
-    FormsModule
+    BrowserAnimationsModule,
+    FormsModule,
+    HttpModule,
+    TagInputModule,
+    DpDatePickerModule
   ],
-  declarations: [ AppComponent ],
+  declarations: [
+    AppComponent,
+    WriteClip,
+    WriteNav,
+    ClipView,
+    MathJaxDirective,
+    SafePipe
+  ],
   bootstrap:    [ AppComponent ]
 })
 export class AppModule { }
