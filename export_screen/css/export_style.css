@@ -92,11 +92,11 @@ p {
 }
 /*float clearfix of bootstrap grid system*/
 .clearfix:after {
-	display:block;
-	clear:both;
-	height:0px;
-	visibility:hidden;
-	content:".";
+  display:block;
+  clear:both;
+  height:0px;
+  visibility:hidden;
+  content:".";
 }
 .clearfix {
   min-height: 56.56vw;
