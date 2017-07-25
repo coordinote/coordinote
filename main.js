@@ -36,13 +36,13 @@ function createWindow(path){
   win = new BrowserWindow({
     'width': 1200,
     'height': 800,
-    'icon': __dirname + '/resource/img/icon@128px.png',
+    'icon': __dirname + '/resource/img/icon@128px.png'
   })
 
   win.loadURL(url.format({
     pathname: __dirname + path,
     protocol: 'file:',
-    slashes: true,
+    slashes: true
   }))
 
   win.on('closed', () => {
@@ -91,28 +91,28 @@ ipcMain.on(PATH_DATA.event, (event, req) => {
       win.loadURL(url.format({
         pathname: __dirname + PATH_DATA.edit_path,
         protocol: 'file:',
-        slashes: true,
+        slashes: true
       }))
       break
     case PATH_DATA.main_path:
       win.loadURL(url.format({
         pathname: __dirname + PATH_DATA.main_path,
         protocol: 'file:',
-        slashes: true,
+        slashes: true
       }))
       break
     case PATH_DATA.pdf_path:
       win.loadURL(url.format({
         pathname: __dirname + PATH_DATA.pdf_path,
         protocol: 'file:',
-        slashes: true,
+        slashes: true
       }))
       break
     case PATH_DATA.settings_path:
       win.loadURL(url.format({
         pathname: __dirname + PATH_DATA.settings_path,
         protocol: 'file:',
-        slashes: true,
+        slashes: true
     }))
     break
   }
