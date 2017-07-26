@@ -54,7 +54,7 @@ function createWindow(path){
 function splashWindow(){
   spwin = new BrowserWindow({
     'width': 510,
-    'height': 620,
+    'height': 629,
     'transparent': true,
     'frame': false,
     "resizable": false
