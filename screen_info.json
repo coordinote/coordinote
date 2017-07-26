@@ -1,8 +1,8 @@
 {
-    "splash_path": "/splash_screen/index.html",
+    "splash_path": "/splash_screen/splash.html",
     "edit_path": "/edit_screen/edit.html",
     "main_path": "/main_screen/main.html",
-    "pdf_path": "/pdf_screen/pdf_export.html",
+    "pdf_path": "/export_screen/export.html",
     "settings_path": "/settings_screen/settings.html",
     "event": "screen-move"
 }

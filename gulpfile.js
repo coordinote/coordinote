@@ -1,7 +1,6 @@
 // require
 const gulp = require('gulp')
 const less = require('gulp-less')
-const webserver = require('gulp-webserver')
 
 // paths
 const edit_screen = {
@@ -16,19 +15,8 @@ gulp.task('less_edit_screen', () => {
       .pipe(gulp.dest(edit_screen.css_build))
 })
 
-// angular2 server
-gulp.task('webserver', () => {
-  gulp.src('edit_screen')
-      .pipe(webserver({
-        host: 'localhost',
-        port: 8000,
-        livereload: true,
-        fallback: 'edit.html'
-      }))
-})
-
 // default
-gulp.task('default', ['webserver'], () => {
+gulp.task('default', () => {
   gulp.watch(edit_screen.less + '/*.less', ['less_edit_screen'])
 })
 

@@ -1,0 +1,36 @@
+<!--tileのdivタグ-->
+<span class="container tile-contents">
+  <span *ngFor="let tile of tiles">
+    <!--textの場合-->
+    <ng-container *ngIf='tile.sty === "txt"'>
+      <div [MathJax]="tile.con" [style.visibility]="tile.edited ? 'hidden' : 'visible'" id='tile{{tile.idx}}' class="col-sm-{{tile.col}} tile" (click)="visibleTextarea(tile); getPreTile(tile)"></div>
+    </ng-container>
+    <!--canvasの場合-->
+    <ng-container *ngIf='tile.sty === "svg"'>
+      <span class="col-sm-{{tile.col}} iframe-wrap">
+        <img tabIndex="0" (click)="visibleTextarea(tile, iframe); save_svg(tile, iframe); getPreTile(tile)">
+        <iframe #iframe [src]="CanvasURL | safe" scrolling="auto"></iframe>
+      </span>
+    </ng-container>
+  </span>
+  <ul class="col-sm-3">
+    <li class="col-sm-12"><button class="add add-tile col-sm-12" type=button (click)="add_tile()">
+        <i class="fa fa-plus-square-o fa-2x" aria-hidden="true"></i><br>Text
+      </button></li>
+    <li class="col-sm-12"><button class="add add-canvas col-sm-12"type=button (click)="add_canvas()">
+        <i class="fa fa-plus-square-o fa-2x" aria-hidden="true"></i><br>Canvas
+      </button></li>
+  </ul>
+  <button type=button (click)="delete_clip()">delete_clip</button>
+  <button type=button (click)="test()">test</button>
+</span>
+
+<!--tileのtextarea-->
+<span class="container tile-input">
+  <span *ngFor="let tile of tiles">
+    <ng-container *ngIf='tile.sty === "txt"'>
+      <textarea #textarea [style.visibility]="tile.edited ? 'visible' : 'hidden'" id='textarea{{tile.idx}}' class="col-sm-{{tile.col}}" (input)="resize(textarea)" [(ngModel)]="tile.con" (blur)="unvisibleTextarea(tile); save_tile(tile)" wrap=hard style="line-height: 20px; height: 24px;"></textarea>
+    </ng-container>
+  </span>
+</span>
+

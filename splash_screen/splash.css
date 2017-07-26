@@ -1,6 +1,84 @@
 body{
+  overflow: hidden;
+  text-align: center;
+/*font-family: 'Roboto', sans-serif;*/
   animation: fadeIn 2s ease 0s 1 normal;
-  -webkit-animation: fadeIn 2s ease 0s normal;
+}
+
+.splash-img {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background-image: url('/__dirname/resource/img/splash01.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+.edit {
+    margin: 0;
+    border: 0;
+    font-size: 18px;
+    position: relative;
+    top: 70%;
+    left: 50%;
+    margin-top: -25px;
+    margin-left: -100px;
+    width: 200px;
+    height: 50px;
+    text-align: center;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+.export {
+    margin: 0;
+    border: 0;
+    font-size: 18px;
+    position: relative;
+    top: 76%;
+    left: 50%;
+    margin-top: -25px;
+    margin-left: -100px;
+    width: 200px;
+    height: 50px;
+    text-align: center;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.btn {
+  overflow: hidden;
+  border: #8886EE solid 1px;
+}
+.btn div {
+    position: absolute;
+    width: 100%;
+    height: 50px;
+    box-sizing: border-box;
+    padding-top: 14px;
+}
+.btn div:nth-child(1) {
+    color: #8886EE;
+    background-color: rgba(255, 255, 255, 0);
+}
+.btn div:nth-child(2) {
+    background-color: #8886EE;
+    width: 230px;
+    transition: all 0.2s ease;
+    transform: translate(-250px, 0px) skewX(-30deg);
+}
+.btn div:nth-child(3) {
+    color: #ffffff;
+    left: -200px;
+    transition: left 0.2s ease;
+}
+.btn:hover div:nth-child(2) {
+    transition: all 0.5s ease;
+    transform: translate(-15px, 0px) skewX(-30deg);
+}
+.btn:hover div:nth-child(3) {
+    left: 0px;
+    transition: left 0.30000000000000004s ease;
 }
 
 @keyframes fadeIn{
@@ -13,6 +91,3 @@ body{
   100% {opacity: 1}
 }
 
-body::-webkit-scrollbar {
-  display: none;
-}

@@ -14,6 +14,7 @@ const PATH_DATA = JSON.parse(fs.readFileSync('./screen_info.json', 'utf-8'))
 
 // global
 let win
+let spwin
 
 app.on('ready', () => {
   protocol.interceptFileProtocol('file', (req, callback) => {
@@ -31,17 +32,17 @@ app.on('ready', () => {
   })
 })
 
-function createWindow(){
+function createWindow(path){
   win = new BrowserWindow({
     'width': 1200,
     'height': 800,
-    'icon': __dirname + '/resource/img/icon@128px.png',
+    'icon': __dirname + '/resource/img/icon@128px.png'
   })
 
   win.loadURL(url.format({
-    pathname: __dirname + PATH_DATA.splash_path,
+    pathname: __dirname + path,
     protocol: 'file:',
-    slashes: true,
+    slashes: true
   }))
 
   win.on('closed', () => {
@@ -49,7 +50,28 @@ function createWindow(){
   })
 }
 
-app.on('ready', createWindow)
+//splash window
+function splashWindow(){
+  spwin = new BrowserWindow({
+    'width': 510,
+    'height': 620,
+ /* 'transparent': true,
+    'frame': false,
+    "resizable": false */
+  })
+
+  spwin.loadURL(url.format({
+    pathname: __dirname + PATH_DATA.splash_path,
+    protocol: 'file:',
+    slashes: true
+  }))
+
+  spwin.on('closed', () => {
+    spwin = null
+  })
+}
+
+app.on('ready', splashWindow)
 
 app.on('window-all-closed', () => {
   if(process.platform !== 'darwin'){
@@ -69,29 +91,41 @@ ipcMain.on(PATH_DATA.event, (event, req) => {
       win.loadURL(url.format({
         pathname: __dirname + PATH_DATA.edit_path,
         protocol: 'file:',
-        slashes: true,
+        slashes: true
       }))
       break
     case PATH_DATA.main_path:
       win.loadURL(url.format({
         pathname: __dirname + PATH_DATA.main_path,
         protocol: 'file:',
-        slashes: true,
+        slashes: true
       }))
       break
     case PATH_DATA.pdf_path:
       win.loadURL(url.format({
         pathname: __dirname + PATH_DATA.pdf_path,
         protocol: 'file:',
-        slashes: true,
+        slashes: true
       }))
       break
     case PATH_DATA.settings_path:
       win.loadURL(url.format({
         pathname: __dirname + PATH_DATA.settings_path,
         protocol: 'file:',
-        slashes: true,
+        slashes: true
     }))
     break
   }
 })
+
+ipcMain.on('move_from_splash', (event, path) => {
+  switch(path){
+    case PATH_DATA.edit_path:
+      createWindow(path)
+      break
+    case PATH_DATA.pdf_path:
+      createWindow(path)
+      break
+  }
+})
+

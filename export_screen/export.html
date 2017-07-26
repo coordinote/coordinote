@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <title>export_screen</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" CONTENT="IE=EmulateIE7" />
+    <link rel="stylesheet" href="/__dirname/node_modules/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/__dirname/node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/__dirname/node_modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.css" />
+    <link rel="stylesheet" href="/__dirname/export_screen/css/export_style.css">
+    <link rel="stylesheet" href="/__dirname/node_modules/bootstrap-tagsinput/examples/assets/app.css" />
+    <link rel="stylesheet" href="/__dirname/node_modules/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css" />
+    <link rel="stylesheet" href="/__dirname/node_modules/bootstrap_dropdowns_enhancement/dist/css/dropdowns-enhancement.min.css" />
+    <script src="/__dirname/require.js"></script>
+    <script src="/__dirname/common.js"></script>
+    <script type="text/javascript" async src="/__dirname/node_modules/mathjax/MathJax.js?config=TeX-AMS_CHTML"></script>
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+          displayMath: [ ['$$','$$'], ["\\[","\\]"] ]
+        }
+      })
+    </script>
+  </head>
+  <body>
+    <nav class="menu-bar">
+      <article class="buttons">
+        <button id="edit_move" class="button" title="Create Note"><i class="fa fa-file-text-o fa-2x"></i></button>
+        <button class="button" title="Print"><i class="fa fa-print fa-2x"></i></button>
+        <button class="button" title="Export"><i class="fa fa-upload fa-2x"></i></button>
+      </article>
+    </nav>
+
+    <div class="form">
+      <div>
+        <input class="clip-tags-form"  type="text" placeholder="CLIP Tags"/>
+      </div>
+      <div class="daterange">
+        <input type="text" class="form-inline start" placeholder="Start Date" />
+        <input type="text" class="form-inline end" placeholder="End Date" />
+      </div>
+      <div id="search-button">Search</div>
+      <div class="btn-group">
+        <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" data-placeholder="false" >TILE Tags<span class="caret"></span></button>
+        <ul class="dropdown-menu"></ul>
+      </div>
+    </div>
+
+    <span class="aleart-text"></span>
+    <div class="clip-form"></div>
+
+    <footer class="footer-bar">
+      <span id="clip-val-text">0 clip</span>
+      <span id="date-val-text"></span>
+    </footer>
+
+    <!-- socket io -->
+    <script src="/__dirname/node_modules/socket.io-client/dist/socket.io.js"></script>
+    <!-- auto complete to tagsform -->
+    <script type="text/javascript" src="/__dirname/node_modules/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+    <script type="text/javascript" src="/__dirname/node_modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js"></script>
+    <script type="text/javascript" src="/__dirname/node_modules/typeahead.js/dist/typeahead.bundle.min.js"></script>
+    <script src="/__dirname/export_screen/js/tagform.js"></script>
+    <script src="/__dirname/export_screen/js/dateform.js"></script>
+    <script src="/__dirname/export_screen/js/footer.js"></script>
+    <script src="/__dirname/export_screen/js/menu_bar.js"></script>
+    <script type="text/javascript" src="/__dirname/node_modules/bootstrap_dropdowns_enhancement/dist/js/dropdowns-enhancement.js"></script>
+  </body>
+</html>

@@ -3,14 +3,15 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width,initial-scale=1">
-        <title>coordinote Canvas</title>
+        <title>coordinote canvas</title>
         <script src="/node_modules/svg-catmull-rom-spline/bundle.js"></script>
         <script src="/node_modules/jquery/dist/jquery.min.js"></script>
-        <link rel="stylesheet" href="/css/style.css">
+        <link rel="stylesheet" href="/css/stylewrite.css">
+        <!-- Web App Manifest -->
+        <link rel="manifest" href="/js/manifest.json">
     </head>
     <body>
         <div class="tools">
-            <p id="datasize">0Byte</p>
             <label>tolerance</label>
             <input type="range" min="0" max="7" id="omit" name="omit" step="0.1" value="3" />
             <label id="omit-label"></label>
@@ -18,6 +19,7 @@
             <button id="red">red</button>
             <button id="before">before</button>
             <button id="after">after</button>
+            <p id="datasize">0Byte</p>
         </div>
         <svg id="canvas" />
         <script src="/node_modules/socket.io-client/dist/socket.io.js"></script>
