@@ -10,7 +10,7 @@ require('./server/app.js')
 
 // const
 const dirname = '__dirname'
-const PATH_DATA = JSON.parse(fs.readFileSync('./screen_info.json', 'utf-8'))
+const PATH_DATA = require('./common.js').PATH_DATA
 
 // global
 let win
@@ -55,9 +55,9 @@ function splashWindow(){
   spwin = new BrowserWindow({
     'width': 510,
     'height': 620,
- /* 'transparent': true,
+    'transparent': true,
     'frame': false,
-    "resizable": false */
+    "resizable": false
   })
 
   spwin.loadURL(url.format({
@@ -101,9 +101,9 @@ ipcMain.on(PATH_DATA.event, (event, req) => {
         slashes: true
       }))
       break
-    case PATH_DATA.pdf_path:
+    case PATH_DATA.export_path:
       win.loadURL(url.format({
-        pathname: __dirname + PATH_DATA.pdf_path,
+        pathname: __dirname + PATH_DATA.export_path,
         protocol: 'file:',
         slashes: true
       }))
@@ -123,7 +123,7 @@ ipcMain.on('move_from_splash', (event, path) => {
     case PATH_DATA.edit_path:
       createWindow(path)
       break
-    case PATH_DATA.pdf_path:
+    case PATH_DATA.export_path:
       createWindow(path)
       break
   }
