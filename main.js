@@ -3,7 +3,6 @@
 const { app, BrowserWindow, protocol, ipcMain } = require('electron')
 const path = require('path')
 const url = require('url')
-const fs = require('fs')
 
 //open server
 require('./server/app.js')
