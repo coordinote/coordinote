@@ -12,8 +12,10 @@
     "build": "tsc -p ./",
     "build:watch": "tsc -p ./ -w",
     "build:watch:allowJs": "tsc -p ./ -w -allowJs",
-    "package": "electron-packager .  --icon=./resource/icon/icon.icns --overwrite",
-    "package:all": "electron-packager . --platform=linux,darwin,win32 --icon=./resource/icon/icon.icns --overwrite"
+    "package": "electron-packager . --out ./dist/ --overwrite",
+    "package:win": "electron-packager . --out ./dist --icon=./resource/icon/icon.ico --overwrite",
+    "package:mac": "electron-packager . --out ./dist --icon=./resource/icon/icon.icns --overwrite",
+    "package:all": "electron-packager . --out ./dist --platform=linux,darwin,win32 --overwrite"
   },
   "keywords": [],
   "author": "",

@@ -13,5 +13,5 @@ devdocs/
 .DS_Store
 
 # ビルドパッケージ
-coordinote-darwin-x64/
+dist/
 
