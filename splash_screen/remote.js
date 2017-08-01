@@ -11,3 +11,7 @@ $('.export').click(() => {
   let window = remote.getCurrentWindow()
   window.close()
 })
+
+// version 書き出し
+$('#version').text('ver ' + require('../package.json').version)
+
