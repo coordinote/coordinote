@@ -4,5 +4,5 @@ $('#sidebar_toggle').click(() => {
 })
 
 $('#export_button').click(() => {
-  ipcRenderer.send(PATH_DATA.event, PATH_DATA.pdf_path)
+  ipcRenderer.send(PATH_DATA.event, PATH_DATA.export_path)
 })

@@ -11,3 +11,7 @@ devdocs/
 
 # OS
 .DS_Store
+
+# ビルドパッケージ
+dist/
+

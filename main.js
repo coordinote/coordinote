@@ -3,14 +3,13 @@
 const { app, BrowserWindow, protocol, ipcMain } = require('electron')
 const path = require('path')
 const url = require('url')
-const fs = require('fs')
 
 //open server
 require('./server/app.js')
 
 // const
 const dirname = '__dirname'
-const PATH_DATA = JSON.parse(fs.readFileSync('./screen_info.json', 'utf-8'))
+const PATH_DATA = require('./common.js').PATH_DATA
 
 // global
 let win
@@ -18,17 +17,27 @@ let spwin
 
 app.on('ready', () => {
   protocol.interceptFileProtocol('file', (req, callback) => {
-    let requrl = req.url.substr(7)
+    let requrl
+    switch (process.platform){
+      case "win32":
+        requrl = req.url.substr(8)
 
-    // ルート以下の1番目を抽出
-    if(requrl.split('/')[1] === dirname) {
-      // /__dirnameをパース
-      requrl = requrl.replace(/\/__dirname/, __dirname)
-      // URLパラメータを除去
-      requrl = requrl.replace(/\?.*/, '')
+        // ルート以下の1番目を抽出
+        requrl = requrl.replace(/.:\/__dirname/, __dirname)
+        requrl = requrl.replace(/__dirname/, __dirname)
+        // URLパラメータを除去
+        requrl = requrl.replace(/\?.*/, '')
+        console.log(requrl)
+        break
+      default:
+        requrl = req.url.substr(7)
+
+        // ルート以下の1番目を抽出
+        requrl = requrl.replace(/\/__dirname/, __dirname)
+        // URLパラメータを除去
+        requrl = requrl.replace(/\?.*/, '')
     }
-    // ノーマライズして返す
-    callback(path.normalize(requrl))
+    callback(requrl)
   })
 })
 
@@ -54,10 +63,10 @@ function createWindow(path){
 function splashWindow(){
   spwin = new BrowserWindow({
     'width': 510,
-    'height': 620,
- /* 'transparent': true,
+    'height': 629,
+    'transparent': true,
     'frame': false,
-    "resizable": false */
+    "resizable": false
   })
 
   spwin.loadURL(url.format({
@@ -101,9 +110,9 @@ ipcMain.on(PATH_DATA.event, (event, req) => {
         slashes: true
       }))
       break
-    case PATH_DATA.pdf_path:
+    case PATH_DATA.export_path:
       win.loadURL(url.format({
-        pathname: __dirname + PATH_DATA.pdf_path,
+        pathname: __dirname + PATH_DATA.export_path,
         protocol: 'file:',
         slashes: true
       }))
@@ -123,7 +132,7 @@ ipcMain.on('move_from_splash', (event, path) => {
     case PATH_DATA.edit_path:
       createWindow(path)
       break
-    case PATH_DATA.pdf_path:
+    case PATH_DATA.export_path:
       createWindow(path)
       break
   }

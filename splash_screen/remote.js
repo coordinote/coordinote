@@ -7,7 +7,11 @@ $('.edit').click(() => {
 })
 
 $('.export').click(() => {
-  ipcRenderer.send('move_from_splash', PATH_DATA.pdf_path)
+  ipcRenderer.send('move_from_splash', PATH_DATA.export_path)
   let window = remote.getCurrentWindow()
   window.close()
 })
+
+// version 書き出し
+$('#version').text('ver ' + require('../package.json').version)
+

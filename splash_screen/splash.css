@@ -3,10 +3,10 @@ body{
   text-align: center;
 /*font-family: 'Roboto', sans-serif;*/
   animation: fadeIn 2s ease 0s 1 normal;
+  margin: 0;
 }
 
 .splash-img {
-  position: absolute;
   width: 100vw;
   height: 100vh;
   background-image: url('/__dirname/resource/img/splash01.png');
@@ -89,5 +89,13 @@ body{
 @-webkit-keyframes fadeIn{
   0% {opacity: 0}
   100% {opacity: 1}
+}
+
+footer{
+  color: #8886EE;
+  font-size: 12px;
+  position: absolute;
+  top: 92vh;
+  margin-left: 2vw;
 }
 
