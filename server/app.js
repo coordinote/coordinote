@@ -175,12 +175,12 @@ io.sockets.on('connection',(socket) => {
   })
 
   socket.on('update_tilecol',(rec) => {
-    nedb.update_tilecol_cidid(rec.col,rec.cid,rec.tid,() => {
+    nedb.update_tilecol_cidid(parseInt(rec.col),rec.cid,rec.tid,() => {
     })
   })
 
   socket.on('update_tileidx',(rec) => {
-    nedb.update_tileidx_cidid(rec.idx,rec.cid,rec.tid,() => {
+    nedb.update_tileidx_cidid(parseInt(rec.idx),rec.cid,rec.tid,() => {
     })
   })
 
