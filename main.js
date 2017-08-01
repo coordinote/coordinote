@@ -17,17 +17,27 @@ let spwin
 
 app.on('ready', () => {
   protocol.interceptFileProtocol('file', (req, callback) => {
-    let requrl = req.url.substr(7)
+    let requrl
+    switch (process.platform){
+      case "win32":
+        requrl = req.url.substr(8)
 
-    // ルート以下の1番目を抽出
-    if(requrl.split('/')[1] === dirname) {
-      // /__dirnameをパース
-      requrl = requrl.replace(/\/__dirname/, __dirname)
-      // URLパラメータを除去
-      requrl = requrl.replace(/\?.*/, '')
+        // ルート以下の1番目を抽出
+        requrl = requrl.replace(/.:\/__dirname/, __dirname)
+        requrl = requrl.replace(/__dirname/, __dirname)
+        // URLパラメータを除去
+        requrl = requrl.replace(/\?.*/, '')
+        console.log(requrl)
+        break
+      default:
+        requrl = req.url.substr(7)
+
+        // ルート以下の1番目を抽出
+        requrl = requrl.replace(/\/__dirname/, __dirname)
+        // URLパラメータを除去
+        requrl = requrl.replace(/\?.*/, '')
     }
-    // ノーマライズして返す
-    callback(path.normalize(requrl))
+    callback(requrl)
   })
 })
 
