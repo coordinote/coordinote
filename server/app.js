@@ -57,7 +57,7 @@ app.get(/\/js\/*/,(req,res) => {
 
 app.get(/\/node_modules\/*/,(req,res) => {
   let redir = __dirname
-  redir = redir.replace(/\/server$/,"")
+  redir = redir.replace(/.server$/,"")
   res.sendfile(redir + req.url)
 })
 
