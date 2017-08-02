@@ -17,7 +17,7 @@ const socket = io.connect('http://localhost:6277');
 class Tile {
 }
 exports.Tile = Tile;
-const undefindtag = ['undefind'];
+const undefinedtag = ['undefined'];
 const saveTileURL = 'http://localhost:6277/api/save_tile';
 let TILE = [];
 let clip_id = null;
@@ -237,7 +237,7 @@ let WriteNav = WriteNav_1 = class WriteNav {
         }
         else {
             socket.emit('update_cliptag', {
-                clip_tags: undefindtag,
+                clip_tags: undefinedtag,
                 cid: clip_id
             });
         }
@@ -321,7 +321,7 @@ let ClipView = ClipView_1 = class ClipView {
         }
         else {
             socket.emit('send_clipsearchdata', {
-                cliptags: undefindtag,
+                cliptags: undefinedtag,
                 startdate: Date.parse(moment(DATE.start._d).format('MM/DD/YYYY')),
                 enddate: Date.parse(moment(DATE.end._d).format('MM/DD/YYYY'))
             });
@@ -344,9 +344,9 @@ ClipView = ClipView_1 = __decorate([
         template: `
     <!-- サイドバー(クリップ) -->
     <article class="clip-bar col-sm-12">
-      <tag-input class="load-clip-tag col-sm-12" [(ngModel)]="find_tag" [theme]="'bootstrap'" (onBlur)="cliptagsubstitute(find_tag)"></tag-input>
-      <dp-date-picker [(ngModel)]="date.start" [config]="datePickerConfig"></dp-date-picker>
-      <dp-date-picker [(ngModel)]="date.end" [config]="datePickerConfig"></dp-date-picker>
+      <tag-input class="clip-view-content" [(ngModel)]="find_tag" [theme]="'bootstrap'" (onBlur)="cliptagsubstitute(find_tag)"></tag-input>
+      <dp-date-picker class="clip-view-content" [(ngModel)]="date.start" [config]="datePickerConfig"></dp-date-picker>
+      <dp-date-picker class="clip-view-content" [(ngModel)]="date.end" [config]="datePickerConfig"></dp-date-picker>
       <button (click)="search()">search</button>
       <div *ngFor="let clip of clips">
         <button (click)="load_tile(clip)">{{clip._id}}</button>
@@ -385,7 +385,7 @@ let AppComponent = class AppComponent {
                     cid: clip_id,
                     idx: tile.idx,
                     col: tile.col,
-                    tag: ['なし'],
+                    tag: undefinedtag,
                     sty: tile.sty,
                     con: tile.con
                 })
@@ -418,7 +418,7 @@ let AppComponent = class AppComponent {
                         }
                         else {
                             socket.emit('update_tiletag', {
-                                tag: undefindtag,
+                                tag: undefinedtag,
                                 cid: clip_id,
                                 tid: tile._id
                             });
@@ -455,7 +455,7 @@ let AppComponent = class AppComponent {
         };
     }
     ngAfterViewInit() {
-        socket.emit('save_clip', undefindtag);
+        socket.emit('save_clip', undefinedtag);
     }
     delete_clip() {
         //データベースのclip削除処理
