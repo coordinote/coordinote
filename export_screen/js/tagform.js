@@ -52,7 +52,7 @@ socket.on('res_allcliptags', (rec) => {
 $('#search-button').click(() => {
   $('.clip-form').css('overflow-y', 'scroll')
   cflag = true
-  $('.aleart-text').empty()
+  $('.aleart-text').css('display', 'none')
   incliptags = $('.clip-tags-form').tagsinput('items')
   //select dropdown item to array
   for(i = 0; i < $('.dropdown-menu li').length; i++){
@@ -65,7 +65,7 @@ $('#search-button').click(() => {
     incliptags = undefined
     stacktile = []
     $('.dropdown-menu').empty()
-    $('.aleart-text').append('<p>CLIP NOT FOUND</p>')
+    $('.aleart-text').css('display', 'inline')
   }
   if(intiletags.length == 0){
     intiletags = undefined

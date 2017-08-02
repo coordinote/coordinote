@@ -33,23 +33,24 @@
       </article>
     </nav>
 
-    <div class="form">
-      <div>
-        <input class="clip-tags-form"  type="text" placeholder="CLIP Tags"/>
+    <div class="content">
+      <div class="form">
+        <div>
+          <input class="clip-tags-form"  type="text" placeholder="CLIP Tags"/>
+        </div>
+        <div class="daterange">
+          <input type="text" class="form-inline start" placeholder="Start Date" />
+          <input type="text" class="form-inline end" placeholder="End Date" />
+        </div>
+        <div id="search-button">Search</div>
+        <div class="btn-group">
+          <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" data-placeholder="false" >TILE Tags<span class="caret"></span></button>
+          <ul class="dropdown-menu"></ul>
+        </div>
       </div>
-      <div class="daterange">
-        <input type="text" class="form-inline start" placeholder="Start Date" />
-        <input type="text" class="form-inline end" placeholder="End Date" />
-      </div>
-      <div id="search-button">Search</div>
-      <div class="btn-group">
-        <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" data-placeholder="false" >TILE Tags<span class="caret"></span></button>
-        <ul class="dropdown-menu"></ul>
-      </div>
+      <span class="aleart-text"><p>CLIP NOT FOUND</p></span>
+      <div class="clip-form"></div>
     </div>
-
-    <span class="aleart-text"></span>
-    <div class="clip-form"></div>
 
     <footer class="footer-bar">
       <span id="clip-val-text">0 clip</span>
