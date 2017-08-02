@@ -13,8 +13,9 @@
     "build:watch": "tsc -p ./ -w",
     "build:watch:allowJs": "tsc -p ./ -w -allowJs",
     "package": "electron-packager . --out ./dist/ --overwrite",
-    "package:win": "electron-packager . --out ./dist --icon=./resource/icon/icon.ico --overwrite",
-    "package:mac": "electron-packager . --out ./dist --icon=./resource/icon/icon.icns --overwrite",
+    "package:win": "electron-packager . --out ./dist --platform=win32 --icon=./resource/icon/icon.ico --overwrite",
+    "package:mac": "electron-packager . --out ./dist --platform=darwin --icon=./resource/icon/icon.icns --overwrite",
+    "package:linux": "electron-packager . --out ./dist --platform=linux --icon=./resource/icon/icon.ico --overwrite",
     "package:all": "electron-packager . --out ./dist --platform=linux,darwin,win32 --overwrite"
   },
   "keywords": [],
