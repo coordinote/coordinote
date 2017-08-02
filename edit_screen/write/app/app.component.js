@@ -144,7 +144,6 @@ let WriteClip = WriteClip_1 = class WriteClip {
     }
     delete_clip() {
         this.delete_clipedit.emit();
-        TILE.length = 0;
     }
     resize(textarea) {
         let scrollHeight = this.el.querySelector("#" + textarea.id).scrollHeight;
@@ -343,7 +342,7 @@ ClipView = ClipView_1 = __decorate([
         selector: 'clip-view',
         template: `
     <!-- サイドバー(クリップ) -->
-    <article class="clip-bar col-sm-12">
+    <article class="clip-bar">
       <tag-input class="clip-view-content" [(ngModel)]="find_tag" [theme]="'bootstrap'" (onBlur)="cliptagsubstitute(find_tag)"></tag-input>
       <dp-date-picker class="clip-view-content" [(ngModel)]="date.start" [config]="datePickerConfig"></dp-date-picker>
       <dp-date-picker class="clip-view-content" [(ngModel)]="date.end" [config]="datePickerConfig"></dp-date-picker>
@@ -459,7 +458,9 @@ let AppComponent = class AppComponent {
     }
     delete_clip() {
         //データベースのclip削除処理
+        TILE.length = 0;
         socket.emit('delete_clip', clip_id);
+        ipcRenderer.send(PATH_DATA.event, PATH_DATA.splash_path);
     }
 };
 AppComponent = __decorate([
