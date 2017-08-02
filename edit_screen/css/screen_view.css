@@ -38,6 +38,7 @@ body article {
 body article.clip-bar {
   width: 15vw;
   height: 95vh;
+  padding: 0;
   position: fixed;
   left: -15vw;
   z-index: 1000;
@@ -51,8 +52,15 @@ body article.clip-bar.active {
   left: 0vw;
   box-shadow: 3px 0px 1px rgba(0, 0, 0, 0.3);
 }
-body article.clip-bar .load-clip-tag {
-  width: 15vw;
+body article.clip-bar .clip-view-content {
+  width: 100%;
+  padding: 0;
+}
+body article.clip-bar .clip-view-content input {
+  width: 100%;
+}
+body article.clip-bar .clip-view-content div {
+  width: 100%;
 }
 body .write-nav {
   position: absolute;
@@ -61,8 +69,8 @@ body .write-nav {
   top: 10vh;
 }
 body .write-nav nav {
-  padding: 0;
   margin: 0;
+  padding: 0;
 }
 body .write-nav input {
   height: 20px;
