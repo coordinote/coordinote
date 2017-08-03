@@ -324,6 +324,7 @@ export class ClipView{
   load_tile(clip): void{
     initTile(clip, () => {
       Array.prototype.push.apply(TILE, clip.tile)
+      Array.prototype.push.apply(Clip_Tag, clip.tag)
       clip_id = clip._id
     })
   }
@@ -482,6 +483,7 @@ let tagsubstitute = (tag) => {
 
 let initTile = (clip, callback) => {
   TILE.length = 0
+  Clip_Tag.length = 0
   for(let i=0; i<clip.tile.length; i++){
     clip.tile[i].saved = true
     clip.tile[i].edited = false
