@@ -124,11 +124,6 @@ ipcMain.on(PATH_DATA.event, (event, req) => {
         slashes: true
     }))
     break
-    case PATH_DATA.splash_path:
-      win.close()
-      splashWindow()
-    break
-  }
 })
 
 ipcMain.on('move_from_splash', (event, path) => {

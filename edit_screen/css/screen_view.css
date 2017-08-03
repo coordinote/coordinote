@@ -53,33 +53,33 @@ body article.clip-bar.active {
   box-shadow: 3px 0px 1px rgba(0, 0, 0, 0.3);
 }
 body article.clip-bar .clip-view-content {
-  width: 100%;
+  width: 100% !important;
   padding: 0;
 }
 body article.clip-bar .clip-view-content input {
-  width: 100%;
+  width: 100% !important;
 }
 body article.clip-bar .clip-view-content div.dp-input-container {
   width: 100%;
-}
-body article.clip-bar .clip-view-content div.dp-input-container input {
-  width: 100% !important;
 }
 body article.clip-bar .error input::-webkit-input-placeholder {
   color: #a94442;
 }
 body .write-nav {
   position: absolute;
-  height: 5vh;
+  height: 40px;
   left: 38vw;
   top: 10vh;
 }
 body .write-nav nav {
+  height: 100%;
   margin: 0;
   padding: 0;
 }
-body .write-nav input {
-  height: 20px;
+body .write-nav button {
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 body .write-nav .tag-input {
   margin: 0;
