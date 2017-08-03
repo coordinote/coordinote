@@ -347,9 +347,9 @@ ClipView = ClipView_1 = __decorate([
         template: `
     <!-- サイドバー(クリップ) -->
     <article class="clip-bar">
-      <tag-input class="clip-view-tagsinput-content" [ngClass]="error ? 'error':''" [(ngModel)]="find_tag" [theme]="'bootstrap'" [placeholder]="tagsinput_placeholder" [secondaryPlaceholder]="tagsinput_placeholder" (change)="errorCancel($event)" (onBlur)="cliptagsubstitute(find_tag)"></tag-input>
-      <dp-date-picker class="clip-view-content" [(ngModel)]="date.start" theme="dp-material" [config]="datePickerConfig"></dp-date-picker>
-      <dp-date-picker class="clip-view-content" [(ngModel)]="date.end" theme="dp-material" [config]="datePickerConfig"></dp-date-picker>
+      <tag-input class="clip-view-content" [ngClass]="error ? 'error':''" [(ngModel)]="find_tag" [theme]="'bootstrap'" [placeholder]="tagsinput_placeholder" [secondaryPlaceholder]="tagsinput_placeholder" (change)="errorCancel($event)" (onBlur)="cliptagsubstitute(find_tag)"></tag-input>
+      <dp-date-picker [(ngModel)]="date.start" theme="dp-material clip-view-content" [config]="datePickerConfig"></dp-date-picker>
+      <dp-date-picker [(ngModel)]="date.end" theme="dp-material clip-view-content" [config]="datePickerConfig"></dp-date-picker>
       <button (click)="search()">search</button>
       <div *ngFor="let clip of clips">
         <button (click)="load_tile(clip)">{{clip._id}}</button>
