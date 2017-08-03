@@ -52,15 +52,18 @@ body article.clip-bar.active {
   left: 0vw;
   box-shadow: 3px 0px 1px rgba(0, 0, 0, 0.3);
 }
-body article.clip-bar .clip-view-content {
+body article.clip-bar .clip-view-tagsinput-content {
   width: 100%;
   padding: 0;
 }
-body article.clip-bar .clip-view-content input {
+body article.clip-bar .clip-view-tagsinput-content input {
   width: 100%;
 }
-body article.clip-bar .clip-view-content div {
+body article.clip-bar .clip-view-tagsinput-content div {
   width: 100%;
+}
+body article.clip-bar .error input::-webkit-input-placeholder {
+  color: #a94442;
 }
 body .write-nav {
   position: absolute;

@@ -270,7 +270,7 @@ export class WriteNav{
   template:`
     <!-- サイドバー(クリップ) -->
     <article class="clip-bar">
-      <tag-input class="clip-view-content" [(ngModel)]="find_tag" [theme]="'bootstrap'" (onBlur)="cliptagsubstitute(find_tag)"></tag-input>
+      <tag-input class="clip-view-tagsinput-content" [ngClass]="error ? 'error':''" [(ngModel)]="find_tag" [theme]="'bootstrap'" [placeholder]="tagsinput_placeholder" [secondaryPlaceholder]="tagsinput_placeholder" (onBlur)="cliptagsubstitute(find_tag)"></tag-input>
       <dp-date-picker class="clip-view-content" [(ngModel)]="date.start" [config]="datePickerConfig"></dp-date-picker>
       <dp-date-picker class="clip-view-content" [(ngModel)]="date.end" [config]="datePickerConfig"></dp-date-picker>
       <button (click)="search()">search</button>
@@ -286,6 +286,8 @@ export class ClipView{
   clips = CLIP
   find_tag = FindTag
   date = DATE
+  tagsinput_placeholder = "Enter a search tag"
+  error:boolean = false
   @ViewChild('dayPicker') dayPicker: DpDayPickerComponent;
 
   datePickerConfig = {
@@ -312,12 +314,11 @@ export class ClipView{
         startdate: Date.parse(moment(DATE.start._d).format('MM/DD/YYYY')),
         enddate: Date.parse(moment(DATE.end._d).format('MM/DD/YYYY'))
       })
+      this.tagsinput_placeholder = "Enter a search tag"
+      this.error = false
     }else{
-      socket.emit('send_clipsearchdata', {
-        cliptags: undefinedtag,
-        startdate: Date.parse(moment(DATE.start._d).format('MM/DD/YYYY')),
-        enddate: Date.parse(moment(DATE.end._d).format('MM/DD/YYYY'))
-      })
+      this.tagsinput_placeholder = "please input"
+      this.error = true
     }
   }
 
