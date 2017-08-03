@@ -311,6 +311,10 @@ let ClipView = ClipView_1 = class ClipView {
     cliptagsubstitute(find_tag) {
         FindTag = tagsubstitute(find_tag);
     }
+    errorCancel(event) {
+        this.tagsinput_placeholder = "Enter a search tag";
+        this.error = false;
+    }
     search() {
         CLIP.length = 0;
         if (FindTag.length > 0) {
@@ -319,8 +323,6 @@ let ClipView = ClipView_1 = class ClipView {
                 startdate: Date.parse(moment(DATE.start._d).format('MM/DD/YYYY')),
                 enddate: Date.parse(moment(DATE.end._d).format('MM/DD/YYYY'))
             });
-            this.tagsinput_placeholder = "Enter a search tag";
-            this.error = false;
         }
         else {
             this.tagsinput_placeholder = "please input";
@@ -345,7 +347,7 @@ ClipView = ClipView_1 = __decorate([
         template: `
     <!-- サイドバー(クリップ) -->
     <article class="clip-bar">
-      <tag-input class="clip-view-tagsinput-content" [ngClass]="error ? 'error':''" [(ngModel)]="find_tag" [theme]="'bootstrap'" [placeholder]="tagsinput_placeholder" [secondaryPlaceholder]="tagsinput_placeholder" (onBlur)="cliptagsubstitute(find_tag)"></tag-input>
+      <tag-input class="clip-view-tagsinput-content" [ngClass]="error ? 'error':''" [(ngModel)]="find_tag" [theme]="'bootstrap'" [placeholder]="tagsinput_placeholder" [secondaryPlaceholder]="tagsinput_placeholder" (change)="errorCancel($event)" (onBlur)="cliptagsubstitute(find_tag)"></tag-input>
       <dp-date-picker class="clip-view-content" [(ngModel)]="date.start" [config]="datePickerConfig"></dp-date-picker>
       <dp-date-picker class="clip-view-content" [(ngModel)]="date.end" [config]="datePickerConfig"></dp-date-picker>
       <button (click)="search()">search</button>
