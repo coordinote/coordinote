@@ -283,8 +283,12 @@ WriteNav = WriteNav_1 = __decorate([
       <select id="col-select" class="col-sm-1" [(ngModel)]="select_tile.col" (click)="getPreTile(select_tile)" (change)="save_tile(select_tile)">
         <option *ngFor="let number of [1,2,3,4,5,6,7,8,9,10,11,12]">{{number}}</option>
       </select>
-      <tag-input class="tag-input col-sm-5" [(ngModel)]="select_tile.tag" [theme]="'bootstrap'" [placeholder]="'Enter a tile tag'" [secondaryPlaceholder]="'Enter a tile tag'" (click)="getPreTile(select_tile)" (onBlur)="save_tile(select_tile)"></tag-input>
-      <tag-input class="tag-input col-sm-5" [(ngModel)]="clip_tag" [theme]="'bootstrap'" [placeholder]="'Enter a clip tag'" [secondaryPlaceholder]="'Enter a clip tag'" (onBlur)="update_cliptag(clip_tag)"></tag-input>
+      <tag-input class="tag-input col-sm-5" [(ngModel)]="select_tile.tag" [theme]="'bootstrap'"
+      [placeholder]="'Enter a tile tag'" [secondaryPlaceholder]="'Enter a tile tag'"
+      (click)="getPreTile(select_tile)" (onBlur)="save_tile(select_tile)"></tag-input>
+      <tag-input class="tag-input col-sm-5" [(ngModel)]="clip_tag"
+      [theme]="'bootstrap'" [placeholder]="'Enter a clip tag'" [secondaryPlaceholder]="'Enter a clip tag'"
+      (onBlur)="update_cliptag(clip_tag)"></tag-input>
     </nav>
   `,
         directives: WriteNav_1
@@ -373,6 +377,10 @@ exports.ClipView = ClipView;
 let MenuBar = MenuBar_1 = class MenuBar {
     constructor() {
         this.togglesidebar = new core_1.EventEmitter();
+        this.createnewclip = new core_1.EventEmitter();
+    }
+    createNewClip() {
+        this.createnewclip.emit();
     }
     toggle_sidebar() {
         this.sidebar_status = !this.sidebar_status;
@@ -390,6 +398,10 @@ __decorate([
     core_1.Output(),
     __metadata("design:type", Object)
 ], MenuBar.prototype, "togglesidebar", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", Object)
+], MenuBar.prototype, "createnewclip", void 0);
 MenuBar = MenuBar_1 = __decorate([
     core_1.Component({
         selector: 'menu-bar',
@@ -399,7 +411,7 @@ MenuBar = MenuBar_1 = __decorate([
       <article class="buttons">
         <button class="button" id="sidebar_toggle" (click)="toggle_sidebar()"><i class="fa fa-bars fa-2x"></i></button>
 
-        <button class="button" id="create_button" title="Create Note"><i class="fa fa-file-text-o fa-2x"></i></button>
+        <button class="button" id="create_button" title="Create Note" (click)="createNewClip()"><i class="fa fa-file-text-o fa-2x"></i></button>
         <button class="button" id="export_button" title="Export" (click)="toExport()"><i class="fa fa-file-pdf-o fa-2x"></i></button>
         <button class="button" id="setting_button" title="Settings"><i class="fa fa-cogs fa-2x"></i></button>
         <button class="button" title="Tools"><i class="fa fa-wrench fa-2x"></i></button>
@@ -528,7 +540,7 @@ AppComponent = __decorate([
     core_1.Component({
         selector: 'write-view',
         template: `
-    <menu-bar [sidebar_status]="sidebar_status" (togglesidebar)="toggle_sidebar($event)"></menu-bar>
+    <menu-bar [sidebar_status]="sidebar_status" (createnewclip)="create_clip()" (togglesidebar)="toggle_sidebar($event)"></menu-bar>
     <clip-view [sidebar_status]="sidebar_status" (BeEditing)="isEditing=$event"></clip-view>
     <div [style.visibility]="isEditing ? 'visible' : 'hidden'">
       <write-nav class="write-nav" [tiles]="tiles" [select_tile]="select_tile" (save_tilenav)="save_tile($event)" (getPreTilenav)="getPreTile($event)"></write-nav>

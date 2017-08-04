@@ -217,8 +217,12 @@ export class WriteClip{
       <select id="col-select" class="col-sm-1" [(ngModel)]="select_tile.col" (click)="getPreTile(select_tile)" (change)="save_tile(select_tile)">
         <option *ngFor="let number of [1,2,3,4,5,6,7,8,9,10,11,12]">{{number}}</option>
       </select>
-      <tag-input class="tag-input col-sm-5" [(ngModel)]="select_tile.tag" [theme]="'bootstrap'" [placeholder]="'Enter a tile tag'" [secondaryPlaceholder]="'Enter a tile tag'" (click)="getPreTile(select_tile)" (onBlur)="save_tile(select_tile)"></tag-input>
-      <tag-input class="tag-input col-sm-5" [(ngModel)]="clip_tag" [theme]="'bootstrap'" [placeholder]="'Enter a clip tag'" [secondaryPlaceholder]="'Enter a clip tag'" (onBlur)="update_cliptag(clip_tag)"></tag-input>
+      <tag-input class="tag-input col-sm-5" [(ngModel)]="select_tile.tag" [theme]="'bootstrap'"
+      [placeholder]="'Enter a tile tag'" [secondaryPlaceholder]="'Enter a tile tag'"
+      (click)="getPreTile(select_tile)" (onBlur)="save_tile(select_tile)"></tag-input>
+      <tag-input class="tag-input col-sm-5" [(ngModel)]="clip_tag"
+      [theme]="'bootstrap'" [placeholder]="'Enter a clip tag'" [secondaryPlaceholder]="'Enter a clip tag'"
+      (onBlur)="update_cliptag(clip_tag)"></tag-input>
     </nav>
   `,
   directives: WriteNav
@@ -345,7 +349,7 @@ export class ClipView{
       <article class="buttons">
         <button class="button" id="sidebar_toggle" (click)="toggle_sidebar()"><i class="fa fa-bars fa-2x"></i></button>
 
-        <button class="button" id="create_button" title="Create Note"><i class="fa fa-file-text-o fa-2x"></i></button>
+        <button class="button" id="create_button" title="Create Note" (click)="createNewClip()"><i class="fa fa-file-text-o fa-2x"></i></button>
         <button class="button" id="export_button" title="Export" (click)="toExport()"><i class="fa fa-file-pdf-o fa-2x"></i></button>
         <button class="button" id="setting_button" title="Settings"><i class="fa fa-cogs fa-2x"></i></button>
         <button class="button" title="Tools"><i class="fa fa-wrench fa-2x"></i></button>
@@ -360,6 +364,11 @@ export class ClipView{
 export class MenuBar{
   @Input() sidebar_status:boolean
   @Output() togglesidebar = new EventEmitter<sidebar_status>()
+  @Output() createnewclip = new EventEmitter()
+
+  createNewClip(): void{
+    this.createnewclip.emit()
+  }
 
   toggle_sidebar(): void{
     this.sidebar_status = !this.sidebar_status
@@ -374,7 +383,7 @@ export class MenuBar{
 @Component({
   selector: 'write-view',
   template: `
-    <menu-bar [sidebar_status]="sidebar_status" (togglesidebar)="toggle_sidebar($event)"></menu-bar>
+    <menu-bar [sidebar_status]="sidebar_status" (createnewclip)="create_clip()" (togglesidebar)="toggle_sidebar($event)"></menu-bar>
     <clip-view [sidebar_status]="sidebar_status" (BeEditing)="isEditing=$event"></clip-view>
     <div [style.visibility]="isEditing ? 'visible' : 'hidden'">
       <write-nav class="write-nav" [tiles]="tiles" [select_tile]="select_tile" (save_tilenav)="save_tile($event)" (getPreTilenav)="getPreTile($event)"></write-nav>
