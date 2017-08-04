@@ -1,6 +1,6 @@
 'use strict'
 // require
-const { app, BrowserWindow, protocol, ipcMain } = require('electron')
+const { app, BrowserWindow, protocol, ipcMain, globalShortcut } = require('electron')
 const path = require('path')
 const url = require('url')
 
@@ -8,7 +8,6 @@ const url = require('url')
 require('./server/app.js')
 
 // const
-const dirname = '__dirname'
 const PATH_DATA = require('./common.js').PATH_DATA
 
 // global
@@ -63,10 +62,11 @@ function createWindow(path){
 function splashWindow(){
   spwin = new BrowserWindow({
     'width': 510,
-    'height': 629,
-    'transparent': true,
+    'height': 670,
+    'icon': __dirname + '/resource/img/icon@128px.png',
+    'transparent': false,
     'frame': false,
-    "resizable": false
+    "resizable": true
   })
 
   spwin.loadURL(url.format({
@@ -83,9 +83,8 @@ function splashWindow(){
 app.on('ready', splashWindow)
 
 app.on('window-all-closed', () => {
-  if(process.platform !== 'darwin'){
-    app.quit()
-  }
+  // OSによらず終了
+  app.quit()
 })
 
 app.on('activate', () => {

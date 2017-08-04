@@ -15,3 +15,6 @@ $('.export').click(() => {
 // version 書き出し
 $('#version').text('ver ' + require('../package.json').version)
 
+// author 書き出し
+$('#author').text('Author: maturu, amataku, rikyuusima, Syaz0326')
+
