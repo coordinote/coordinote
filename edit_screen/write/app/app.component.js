@@ -298,6 +298,7 @@ let ClipView = ClipView_1 = class ClipView {
         this.date = DATE;
         this.tagsinput_placeholder = "Enter a search tag";
         this.error = false;
+        this.BeEditing = new core_1.EventEmitter();
         this.datePickerConfig = {
             format: "MM/DD/YYYY"
         };
@@ -330,6 +331,7 @@ let ClipView = ClipView_1 = class ClipView {
         }
     }
     load_tile(clip) {
+        this.BeEditing.emit(true);
         initTile(clip, () => {
             Array.prototype.push.apply(TILE, clip.tile);
             Array.prototype.push.apply(Clip_Tag, clip.tag);
@@ -341,6 +343,10 @@ __decorate([
     core_1.Input(),
     __metadata("design:type", Boolean)
 ], ClipView.prototype, "sidebar_status", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", Object)
+], ClipView.prototype, "BeEditing", void 0);
 __decorate([
     core_1.ViewChild('dayPicker'),
     __metadata("design:type", Object)
@@ -523,7 +529,7 @@ AppComponent = __decorate([
         selector: 'write-view',
         template: `
     <menu-bar [sidebar_status]="sidebar_status" (togglesidebar)="toggle_sidebar($event)"></menu-bar>
-    <clip-view [sidebar_status]="sidebar_status"></clip-view>
+    <clip-view [sidebar_status]="sidebar_status" (BeEditing)="isEditing=$event"></clip-view>
     <div [style.visibility]="isEditing ? 'visible' : 'hidden'">
       <write-nav class="write-nav" [tiles]="tiles" [select_tile]="select_tile" (save_tilenav)="save_tile($event)" (getPreTilenav)="getPreTile($event)"></write-nav>
       <article class="write-field">

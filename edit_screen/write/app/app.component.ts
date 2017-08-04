@@ -289,6 +289,7 @@ export class ClipView{
   tagsinput_placeholder = "Enter a search tag"
   error:boolean = false
   @Input() sidebar_status:boolean
+  @Output() BeEditing = new EventEmitter<boolean>()
   @ViewChild('dayPicker') dayPicker: DpDayPickerComponent;
 
   datePickerConfig = {
@@ -327,6 +328,7 @@ export class ClipView{
   }
 
   load_tile(clip): void{
+    this.BeEditing.emit(true)
     initTile(clip, () => {
       Array.prototype.push.apply(TILE, clip.tile)
       Array.prototype.push.apply(Clip_Tag, clip.tag)
@@ -373,7 +375,7 @@ export class MenuBar{
   selector: 'write-view',
   template: `
     <menu-bar [sidebar_status]="sidebar_status" (togglesidebar)="toggle_sidebar($event)"></menu-bar>
-    <clip-view [sidebar_status]="sidebar_status"></clip-view>
+    <clip-view [sidebar_status]="sidebar_status" (BeEditing)="isEditing=$event"></clip-view>
     <div [style.visibility]="isEditing ? 'visible' : 'hidden'">
       <write-nav class="write-nav" [tiles]="tiles" [select_tile]="select_tile" (save_tilenav)="save_tile($event)" (getPreTilenav)="getPreTile($event)"></write-nav>
       <article class="write-field">
