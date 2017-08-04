@@ -8,7 +8,7 @@ import { HttpModule } from '@angular/http'
 import { TagInputModule } from 'ng2-tag-input'
 import { DpDatePickerModule } from 'ng2-date-picker'
 
-import { AppComponent, WriteClip, WriteNav, ClipView, MathJaxDirective, SafePipe } from './app.component.js'
+import { AppComponent, WriteClip, WriteNav, ClipView, MenuBar, MathJaxDirective, SafePipe } from './app.component.js'
 
 @NgModule({
   imports:      [
@@ -24,6 +24,7 @@ import { AppComponent, WriteClip, WriteNav, ClipView, MathJaxDirective, SafePipe
     WriteClip,
     WriteNav,
     ClipView,
+    MenuBar,
     MathJaxDirective,
     SafePipe
   ],

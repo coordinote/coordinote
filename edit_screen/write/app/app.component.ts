@@ -178,12 +178,12 @@ export class WriteClip{
     // case of text
     if(tile.sty === "txt"){
       let div = this.el.querySelector("#tile" + tile.idx)
-    tile.edited = true
-    this.el.querySelector("#textarea" + tile.idx).style.visibility = "visible"
-    this.renderer.invokeElementMethod(this.el.querySelector("#textarea" + tile.idx), 'focus')
-    this.output.emit(tile)
-    this.el.querySelector("#textarea" + tile.idx).style.top = div.offsetTop + "px"
-    this.el.querySelector("#textarea" + tile.idx).style.left = div.offsetLeft + "px"
+      tile.edited = true
+      this.el.querySelector("#textarea" + tile.idx).style.visibility = "visible"
+      this.renderer.invokeElementMethod(this.el.querySelector("#textarea" + tile.idx), 'focus')
+      this.output.emit(tile)
+      this.el.querySelector("#textarea" + tile.idx).style.top = div.offsetTop + "px"
+      this.el.querySelector("#textarea" + tile.idx).style.left = div.offsetLeft + "px"
     }
     // case of canvas
     else if(tile.sty === "svg"){
@@ -336,8 +336,43 @@ export class ClipView{
 }
 
 @Component({
+  selector: 'menu-bar'
+  template: `
+    <!-- ナビゲーションバー(メニュー) -->
+    <nav class="menu-bar">
+      <article class="buttons">
+        <button class="button" id="sidebar_toggle" (click)="toggle_sidebar()"><i class="fa fa-bars fa-2x"></i></button>
+
+        <button class="button" id="create_button" title="Create Note"><i class="fa fa-file-text-o fa-2x"></i></button>
+        <button class="button" id="export_button" title="Export" (click)="toExport()"><i class="fa fa-file-pdf-o fa-2x"></i></button>
+        <button class="button" id="setting_button" title="Settings"><i class="fa fa-cogs fa-2x"></i></button>
+        <button class="button" title="Tools"><i class="fa fa-wrench fa-2x"></i></button>
+        <button class="button" id="debug_button" title="Debug"><i class="fa fa-bug fa-2x"></i></button>
+
+      </article>
+    </nav>`,
+  directives: MenuBar
+
+})
+
+export class MenuBar{
+  @Input() sidebar_status:boolean
+  @Output() togglesidebar = new EventEmitter<sidebar_status>()
+
+  toggle_sidebar(): void{
+    this.sidebar_status = !this.sidebar_status
+    this.togglesidebar.emit(this.sidebar_status)
+  }
+
+  toExport(): void{
+    ipcRenderer.send(PATH_DATA.event, PATH_DATA.export_path)
+  }
+}
+
+@Component({
   selector: 'write-view',
   template: `
+    <menu-bar [sidebar_status]="sidebar_status" (togglesidebar)="toggle_sidebar($event)"></menu-bar>
     <clip-view [sidebar_status]="sidebar_status"></clip-view>
     <div [style.visibility]="isEditing ? 'visible' : 'hidden'">
       <write-nav class="write-nav" [tiles]="tiles" [select_tile]="select_tile" (save_tilenav)="save_tile($event)" (getPreTilenav)="getPreTile($event)"></write-nav>
@@ -347,10 +382,10 @@ export class ClipView{
     </div>
     <div [style.visibility]="isEditing ? 'hidden' : 'visible'" class="menu_container">
       <button (click)="create_clip()">create clip</button>
-      <button (click)="toggle_sidebar()">load clip</button>
+      <button (click)="toggle_sidebar(true)">load clip</button>
     <div>
     `,
-    directives: [WriteClip, WriteNav, ClipView],
+    directives: [WriteClip, WriteNav, ClipView, MenuBar],
     inputs: ['tiles', 'select_tile', 'sidebar_status']
 })
 
@@ -464,8 +499,8 @@ export class AppComponent{
     socket.emit('save_clip', undefinedtag)
   }
 
-  toggle_sidebar():void{
-    this.sidebar_status = true
+  toggle_sidebar(stat): void{
+    this.sidebar_status = stat
   }
 }
 

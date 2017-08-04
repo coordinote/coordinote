@@ -364,6 +364,47 @@ ClipView = ClipView_1 = __decorate([
     })
 ], ClipView);
 exports.ClipView = ClipView;
+let MenuBar = MenuBar_1 = class MenuBar {
+    constructor() {
+        this.togglesidebar = new core_1.EventEmitter();
+    }
+    toggle_sidebar() {
+        this.sidebar_status = !this.sidebar_status;
+        this.togglesidebar.emit(this.sidebar_status);
+    }
+    toExport() {
+        ipcRenderer.send(PATH_DATA.event, PATH_DATA.export_path);
+    }
+};
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Boolean)
+], MenuBar.prototype, "sidebar_status", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", Object)
+], MenuBar.prototype, "togglesidebar", void 0);
+MenuBar = MenuBar_1 = __decorate([
+    core_1.Component({
+        selector: 'menu-bar',
+        template: `
+    <!-- ナビゲーションバー(メニュー) -->
+    <nav class="menu-bar">
+      <article class="buttons">
+        <button class="button" id="sidebar_toggle" (click)="toggle_sidebar()"><i class="fa fa-bars fa-2x"></i></button>
+
+        <button class="button" id="create_button" title="Create Note"><i class="fa fa-file-text-o fa-2x"></i></button>
+        <button class="button" id="export_button" title="Export" (click)="toExport()"><i class="fa fa-file-pdf-o fa-2x"></i></button>
+        <button class="button" id="setting_button" title="Settings"><i class="fa fa-cogs fa-2x"></i></button>
+        <button class="button" title="Tools"><i class="fa fa-wrench fa-2x"></i></button>
+        <button class="button" id="debug_button" title="Debug"><i class="fa fa-bug fa-2x"></i></button>
+
+      </article>
+    </nav>`,
+        directives: MenuBar_1
+    })
+], MenuBar);
+exports.MenuBar = MenuBar;
 let AppComponent = class AppComponent {
     constructor(http) {
         this.http = http;
@@ -473,14 +514,15 @@ let AppComponent = class AppComponent {
         this.isEditing = true;
         socket.emit('save_clip', undefinedtag);
     }
-    toggle_sidebar() {
-        this.sidebar_status = true;
+    toggle_sidebar(stat) {
+        this.sidebar_status = stat;
     }
 };
 AppComponent = __decorate([
     core_1.Component({
         selector: 'write-view',
         template: `
+    <menu-bar [sidebar_status]="sidebar_status" (togglesidebar)="toggle_sidebar($event)"></menu-bar>
     <clip-view [sidebar_status]="sidebar_status"></clip-view>
     <div [style.visibility]="isEditing ? 'visible' : 'hidden'">
       <write-nav class="write-nav" [tiles]="tiles" [select_tile]="select_tile" (save_tilenav)="save_tile($event)" (getPreTilenav)="getPreTile($event)"></write-nav>
@@ -490,10 +532,10 @@ AppComponent = __decorate([
     </div>
     <div [style.visibility]="isEditing ? 'hidden' : 'visible'" class="menu_container">
       <button (click)="create_clip()">create clip</button>
-      <button (click)="toggle_sidebar()">load clip</button>
+      <button (click)="toggle_sidebar(true)">load clip</button>
     <div>
     `,
-        directives: [WriteClip, WriteNav, ClipView],
+        directives: [WriteClip, WriteNav, ClipView, MenuBar],
         inputs: ['tiles', 'select_tile', 'sidebar_status']
     }),
     __metadata("design:paramtypes", [http_1.Http])
@@ -538,5 +580,5 @@ let initClip = (callback) => {
     CLIP.length = 0;
     callback();
 };
-var WriteClip_1, WriteNav_1, ClipView_1;
+var WriteClip_1, WriteNav_1, ClipView_1, MenuBar_1;
 //# sourceMappingURL=app.component.js.map
