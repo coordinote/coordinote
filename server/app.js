@@ -36,7 +36,7 @@ app.get('/api/rec_tilecon',(req,res) => {
 })
 
 app.get('/',(req,res) => {
-  res.sendfile('./server/index.html')
+  res.sendfile(__dirname + '/index.html')
 })
 
 app.get(/\/html\/*/,(req,res) => {

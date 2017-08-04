@@ -8,7 +8,6 @@ const url = require('url')
 require('./server/app.js')
 
 // const
-const dirname = '__dirname'
 const PATH_DATA = require('./common.js').PATH_DATA
 
 // global
@@ -63,7 +62,8 @@ function createWindow(path){
 function splashWindow(){
   spwin = new BrowserWindow({
     'width': 510,
-    'height': 629,
+    'height': 670,
+    'icon': __dirname + '/resource/img/icon@128px.png',
     'transparent': true,
     'frame': false,
     "resizable": false
@@ -83,9 +83,8 @@ function splashWindow(){
 app.on('ready', splashWindow)
 
 app.on('window-all-closed', () => {
-  if(process.platform !== 'darwin'){
-    app.quit()
-  }
+  // OSによらず終了
+  app.quit()
 })
 
 app.on('activate', () => {
