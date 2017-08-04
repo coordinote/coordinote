@@ -1,6 +1,6 @@
 'use strict'
 // require
-const { app, BrowserWindow, protocol, ipcMain, globalShortcut } = require('electron')
+const { app, BrowserWindow, protocol, ipcMain } = require('electron')
 const path = require('path')
 const url = require('url')
 
