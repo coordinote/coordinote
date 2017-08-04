@@ -15,12 +15,12 @@ body button:active {
   background-color: #ccc;
 }
 body nav.menu-bar {
-  width: 100vw;
-  height: 5vh;
   position: fixed;
+  width: 100%;
+  height: 45px;
   z-index: 2000;
   background-color: #fff;
-  box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.3);
+  box-shadow: 1px 1px 1px rgba(136, 134, 238, 0.4);
 }
 body .buttons {
   height: 100%;
@@ -54,12 +54,12 @@ body article {
 }
 body article.clip-bar {
   width: 15vw;
-  height: 95vh;
+  height: 100%;
   padding: 0;
   position: fixed;
   left: -15vw;
   z-index: 1000;
-  margin-top: 5vh;
+  margin-top: 45px;
   background-color: #333;
   transition-property: all;
   transition-timing-function: ease-in;
@@ -122,8 +122,9 @@ body .write-nav select:active {
 body article.write-field {
   background-color: #fff;
   position: absolute;
-  width: 40vw;
-  min-height: 56.56vw;
+  width: 630px;
+  min-height: 890.82px;
+  margin: 10px 0;
   left: 38vw;
   top: 15vh;
 }
@@ -134,7 +135,8 @@ body article.write-field .tile-contents {
   z-index: 10;
 }
 body article.write-field .tile-contents .tile {
-  min-height: 8vw;
+  min-height: 130px;
+  padding: 0 15px;
   overflow: hidden;
   word-wrap: break-word;
   white-space: pre-wrap;
@@ -149,7 +151,7 @@ body article.write-field .tile-contents img {
 }
 body article.write-field .tile-contents ul {
   list-style-type: none;
-  height: 10vh;
+  height: 130px;
   margin: 0;
   padding: 0;
 }
@@ -163,13 +165,13 @@ body article.write-field .tile-contents ul li .add {
   appearance: none;
   -webkit-appearance: none;
   display: block;
-  height: 8vh;
+  height: 65px;
   padding: 0;
   margin: 0;
   border: solid 2px #999;
   color: #666;
   vertical-align: middle;
-  font-size: 2vh;
+  font-size: 18px;
   box-shadow: none;
   text-decoration: none;
 }
@@ -193,7 +195,8 @@ body article.write-field .tile-input span textarea {
   appearance: none;
   -webkit-appearance: none;
   position: absolute;
-  min-height: 8vw;
+  min-height: 130px;
+  padding: 0 15px;
   overflow: hidden;
   resize: none;
   outline: 0;
