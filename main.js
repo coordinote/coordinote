@@ -64,9 +64,9 @@ function splashWindow(){
     'width': 510,
     'height': 670,
     'icon': __dirname + '/resource/img/icon@128px.png',
-    'transparent': false,
+    'transparent': true,
     'frame': false,
-    "resizable": true
+    "resizable": false
   })
 
   spwin.loadURL(url.format({
