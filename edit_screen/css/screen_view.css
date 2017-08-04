@@ -2,6 +2,18 @@ body {
   background-color: #eee;
   margin: 0px;
 }
+body button {
+  -webkit-appearance: none;
+  background-color: #eee;
+  border: solid 1px #999;
+  outline: none;
+}
+body button:hover {
+  background-color: #ddd;
+}
+body button:active {
+  background-color: #ccc;
+}
 body nav.menu-bar {
   width: 100vw;
   height: 5vh;
@@ -31,6 +43,11 @@ body .button:active {
 }
 body .button:focus {
   outline: none;
+}
+body .menu_container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
 }
 body article {
   display: inline-block;
@@ -150,19 +167,11 @@ body article.write-field .tile-contents ul li .add {
   padding: 0;
   margin: 0;
   border: solid 2px #999;
-  background-color: #eee;
   color: #666;
   vertical-align: middle;
   font-size: 2vh;
   box-shadow: none;
   text-decoration: none;
-  outline: none;
-}
-body article.write-field .tile-contents ul li .add:hover {
-  background-color: #ddd;
-}
-body article.write-field .tile-contents ul li .add:active {
-  background-color: #ccc;
 }
 body article.write-field .tile-contents ul li .add-tile {
   border-bottom-width: 0;

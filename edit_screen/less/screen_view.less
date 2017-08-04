@@ -24,6 +24,21 @@ body{
   background-color: @background-color;
   margin: 0px;
 
+  button{
+    -webkit-appearance: none;
+    background-color: @buttoncolor;
+    border: solid 1px @bordercolor;
+    outline: none;
+
+    &:hover{
+      background-color: @buttoncolor-hover;
+    }
+
+    &:active{
+      background-color: @buttoncolor-active;
+    }
+  }
+
   nav.menu-bar{
     width: 100vw;
     height: 5vh;
@@ -53,6 +68,12 @@ body{
     &:focus{
       outline: none; // overwrite user agent stylesheet
     }
+  }
+
+  .menu_container{
+    position: absolute;
+    top: 50%;
+    left: 50%;
   }
 
   article{
@@ -128,14 +149,14 @@ body{
       option{
         background-color: #eee;
       }
-    }
 
-    select:hover{
-      background-color: #ddd;
-    }
+      &:hover{
+        background-color: #ddd;
+      }
 
-    select:active{
-      background-color: #ccc;
+      &:active{
+        background-color: #ccc;
+      }
     }
   }
 
@@ -189,21 +210,11 @@ body{
             padding: 0;
             margin: 0;
             border: solid 2px @bordercolor;
-            background-color: @buttoncolor;
             color: #666;
             vertical-align: middle;
             font-size: 2vh;
             box-shadow: none;
             text-decoration: none;
-            outline: none;
-          }
-
-          .add:hover{
-            background-color: @buttoncolor-hover;
-          }
-
-          .add:active{
-            background-color: @buttoncolor-active;
           }
 
           .add-tile{

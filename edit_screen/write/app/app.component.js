@@ -338,6 +338,10 @@ let ClipView = ClipView_1 = class ClipView {
     }
 };
 __decorate([
+    core_1.Input(),
+    __metadata("design:type", Boolean)
+], ClipView.prototype, "sidebar_status", void 0);
+__decorate([
     core_1.ViewChild('dayPicker'),
     __metadata("design:type", Object)
 ], ClipView.prototype, "dayPicker", void 0);
@@ -346,7 +350,7 @@ ClipView = ClipView_1 = __decorate([
         selector: 'clip-view',
         template: `
     <!-- サイドバー(クリップ) -->
-    <article class="clip-bar">
+    <article [ngClass]="sidebar_status ? 'active' : ''" class="clip-bar">
       <tag-input class="clip-view-content" [ngClass]="error ? 'error':''" [(ngModel)]="find_tag" [theme]="'bootstrap'" [placeholder]="tagsinput_placeholder" [secondaryPlaceholder]="tagsinput_placeholder" (change)="errorCancel($event)" (onBlur)="cliptagsubstitute(find_tag)"></tag-input>
       <dp-date-picker [(ngModel)]="date.start" theme="dp-material clip-view-content" [config]="datePickerConfig"></dp-date-picker>
       <dp-date-picker [(ngModel)]="date.end" theme="dp-material clip-view-content" [config]="datePickerConfig"></dp-date-picker>
@@ -365,6 +369,8 @@ let AppComponent = class AppComponent {
         this.http = http;
         this.tiles = TILE;
         this.select_tile = Select_Tile;
+        this.isEditing = false;
+        this.sidebar_status = false;
     }
     save_tile(tile) {
         //tileの新規保存
@@ -457,28 +463,38 @@ let AppComponent = class AppComponent {
             _id: tile._id
         };
     }
-    ngAfterViewInit() {
-        socket.emit('save_clip', undefinedtag);
-    }
     delete_clip() {
         //データベースのclip削除処理
         TILE.length = 0;
         socket.emit('delete_clip', clip_id);
-        ipcRenderer.send(PATH_DATA.event, PATH_DATA.splash_path);
+        this.isEditing = false;
+    }
+    create_clip() {
+        this.isEditing = true;
+        socket.emit('save_clip', undefinedtag);
+    }
+    toggle_sidebar() {
+        this.sidebar_status = true;
     }
 };
 AppComponent = __decorate([
     core_1.Component({
         selector: 'write-view',
         template: `
-    <clip-view></clip-view>
-    <write-nav class="write-nav" [tiles]="tiles" [select_tile]="select_tile" (save_tilenav)="save_tile($event)" (getPreTilenav)="getPreTile($event)"></write-nav>
-    <article class="write-field">
-      <write-clip [tiles]="tiles" [select_tile]="select_tile" (output)="select_tile=$event" (save_tileedit)="save_tile($event)" (getPreTileedit)="getPreTile($event)" (delete_clipedit)="delete_clip()"></write-clip>
-    </article>
+    <clip-view [sidebar_status]="sidebar_status"></clip-view>
+    <div [style.visibility]="isEditing ? 'visible' : 'hidden'">
+      <write-nav class="write-nav" [tiles]="tiles" [select_tile]="select_tile" (save_tilenav)="save_tile($event)" (getPreTilenav)="getPreTile($event)"></write-nav>
+      <article class="write-field">
+        <write-clip [tiles]="tiles" [select_tile]="select_tile" (output)="select_tile=$event" (save_tileedit)="save_tile($event)" (getPreTileedit)="getPreTile($event)" (delete_clipedit)="delete_clip()"></write-clip>
+      </article>
+    </div>
+    <div [style.visibility]="isEditing ? 'hidden' : 'visible'" class="menu_container">
+      <button (click)="create_clip()">create clip</button>
+      <button (click)="toggle_sidebar()">load clip</button>
+    <div>
     `,
         directives: [WriteClip, WriteNav, ClipView],
-        inputs: ['tiles', 'select_tile']
+        inputs: ['tiles', 'select_tile', 'sidebar_status']
     }),
     __metadata("design:paramtypes", [http_1.Http])
 ], AppComponent);

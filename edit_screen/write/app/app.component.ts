@@ -269,7 +269,7 @@ export class WriteNav{
   selector: 'clip-view',
   template:`
     <!-- サイドバー(クリップ) -->
-    <article class="clip-bar">
+    <article [ngClass]="sidebar_status ? 'active' : ''" class="clip-bar">
       <tag-input class="clip-view-content" [ngClass]="error ? 'error':''" [(ngModel)]="find_tag" [theme]="'bootstrap'" [placeholder]="tagsinput_placeholder" [secondaryPlaceholder]="tagsinput_placeholder" (change)="errorCancel($event)" (onBlur)="cliptagsubstitute(find_tag)"></tag-input>
       <dp-date-picker [(ngModel)]="date.start" theme="dp-material clip-view-content" [config]="datePickerConfig"></dp-date-picker>
       <dp-date-picker [(ngModel)]="date.end" theme="dp-material clip-view-content" [config]="datePickerConfig"></dp-date-picker>
@@ -288,6 +288,7 @@ export class ClipView{
   date = DATE
   tagsinput_placeholder = "Enter a search tag"
   error:boolean = false
+  @Input() sidebar_status:boolean
   @ViewChild('dayPicker') dayPicker: DpDayPickerComponent;
 
   datePickerConfig = {
@@ -337,19 +338,27 @@ export class ClipView{
 @Component({
   selector: 'write-view',
   template: `
-    <clip-view></clip-view>
-    <write-nav class="write-nav" [tiles]="tiles" [select_tile]="select_tile" (save_tilenav)="save_tile($event)" (getPreTilenav)="getPreTile($event)"></write-nav>
-    <article class="write-field">
-      <write-clip [tiles]="tiles" [select_tile]="select_tile" (output)="select_tile=$event" (save_tileedit)="save_tile($event)" (getPreTileedit)="getPreTile($event)" (delete_clipedit)="delete_clip()"></write-clip>
-    </article>
+    <clip-view [sidebar_status]="sidebar_status"></clip-view>
+    <div [style.visibility]="isEditing ? 'visible' : 'hidden'">
+      <write-nav class="write-nav" [tiles]="tiles" [select_tile]="select_tile" (save_tilenav)="save_tile($event)" (getPreTilenav)="getPreTile($event)"></write-nav>
+      <article class="write-field">
+        <write-clip [tiles]="tiles" [select_tile]="select_tile" (output)="select_tile=$event" (save_tileedit)="save_tile($event)" (getPreTileedit)="getPreTile($event)" (delete_clipedit)="delete_clip()"></write-clip>
+      </article>
+    </div>
+    <div [style.visibility]="isEditing ? 'hidden' : 'visible'" class="menu_container">
+      <button (click)="create_clip()">create clip</button>
+      <button (click)="toggle_sidebar()">load clip</button>
+    <div>
     `,
     directives: [WriteClip, WriteNav, ClipView],
-    inputs: ['tiles', 'select_tile']
+    inputs: ['tiles', 'select_tile', 'sidebar_status']
 })
 
 export class AppComponent{
   public tiles = TILE
   public select_tile = Select_Tile
+  public isEditing:boolean = false
+  public sidebar_status:boolean = false
 
   constructor(private http: Http){}
 
@@ -443,15 +452,20 @@ export class AppComponent{
     }
   }
 
-  ngAfterViewInit(){
-    socket.emit('save_clip', undefinedtag)
-  }
-
   delete_clip(): void{
     //データベースのclip削除処理
     TILE.length = 0
     socket.emit('delete_clip', clip_id)
-    ipcRenderer.send(PATH_DATA.event, PATH_DATA.splash_path)
+    this.isEditing = false
+  }
+
+  create_clip(): void{
+    this.isEditing = true
+    socket.emit('save_clip', undefinedtag)
+  }
+
+  toggle_sidebar():void{
+    this.sidebar_status = true
   }
 }
 

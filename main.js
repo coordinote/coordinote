@@ -124,6 +124,7 @@ ipcMain.on(PATH_DATA.event, (event, req) => {
         slashes: true
     }))
     break
+  }
 })
 
 ipcMain.on('move_from_splash', (event, path) => {
