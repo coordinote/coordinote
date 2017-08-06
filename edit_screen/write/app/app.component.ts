@@ -210,25 +210,23 @@ export class WriteClip{
 @Component({
   selector: 'write-nav',
   template: `
-    <nav class="col-sm-12">
+    <nav>
       <ul>
-        <li>
-          <button class="col-sm-1" (ngModel)="select_tile" (click)="delete_tile(select_tile)">
+        <li class="row">
+          <button class="col-sm-3 col-xs-3" (ngModel)="select_tile" (click)="delete_tile(select_tile)">
             <i class="fa fa-times fa-2x" aria-hidden="true"></i>
           </button>
-        </li>
-        <li>
-          <select id="col-select" class="col-sm-1" [(ngModel)]="select_tile.col" (click)="getPreTile(select_tile)" (change)="save_tile(select_tile)">
+          <select id="col-select" class="col-sm-9 col-xs-9" [(ngModel)]="select_tile.col" (click)="getPreTile(select_tile)" (change)="save_tile(select_tile)">
             <option *ngFor="let number of [1,2,3,4,5,6,7,8,9,10,11,12]">{{number}}</option>
           </select>
         </li>
         <li>
-          <tag-input class="tag-input col-sm-5" [(ngModel)]="select_tile.tag" [theme]="'bootstrap'"
+          <tag-input class="tag-input" [(ngModel)]="select_tile.tag" [theme]="'bootstrap'"
           [placeholder]="'Enter a tile tag'" [secondaryPlaceholder]="'Enter a tile tag'"
           (click)="getPreTile(select_tile)" (onBlur)="save_tile(select_tile)"></tag-input>
         </li>
         <li>
-          <tag-input class="tag-input col-sm-5" [(ngModel)]="clip_tag"
+          <tag-input class="tag-input" [(ngModel)]="clip_tag"
           [theme]="'bootstrap'" [placeholder]="'Enter a clip tag'" [secondaryPlaceholder]="'Enter a clip tag'"
           (onBlur)="update_cliptag(clip_tag)"></tag-input>
         </li>
