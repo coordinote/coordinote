@@ -171,6 +171,7 @@ article.write-field {
   margin: 10px 0;
   left: 38vw;
   top: 15vh;
+  box-shadow: 1px 1px 1px rgba(136, 134, 238, 0.4);
 }
 article.write-field .tile-contents {
   position: relative;
