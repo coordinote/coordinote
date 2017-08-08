@@ -79,7 +79,6 @@ let WriteClip = WriteClip_1 = class WriteClip {
         this.output = new core_1.EventEmitter();
         this.save_tileedit = new core_1.EventEmitter();
         this.getPreTileedit = new core_1.EventEmitter();
-        this.delete_clipedit = new core_1.EventEmitter();
         this.CanvasURL = "http://localhost:6277/html/read/";
         this.el = this.elementRef.nativeElement;
         this.renderer = this.Renderer;
@@ -142,9 +141,6 @@ let WriteClip = WriteClip_1 = class WriteClip {
             tid: tile._id
         });
     }
-    delete_clip() {
-        this.delete_clipedit.emit();
-    }
     resize(textarea) {
         let scrollHeight = this.el.querySelector("#" + textarea.id).scrollHeight;
         let height = this.el.querySelector("#" + textarea.id).offsetHeight;
@@ -181,9 +177,6 @@ let WriteClip = WriteClip_1 = class WriteClip {
     getPreTile(tile) {
         this.getPreTileedit.emit(tile);
     }
-    test() {
-        console.log(TILE);
-    }
 };
 __decorate([
     core_1.Input(),
@@ -205,10 +198,6 @@ __decorate([
     core_1.Output(),
     __metadata("design:type", Object)
 ], WriteClip.prototype, "getPreTileedit", void 0);
-__decorate([
-    core_1.Output(),
-    __metadata("design:type", Object)
-], WriteClip.prototype, "delete_clipedit", void 0);
 WriteClip = WriteClip_1 = __decorate([
     core_1.Component({
         selector: 'write-clip',
@@ -223,6 +212,7 @@ let WriteNav = WriteNav_1 = class WriteNav {
     constructor() {
         this.getPreTilenav = new core_1.EventEmitter();
         this.save_tilenav = new core_1.EventEmitter();
+        this.delete_clipedit = new core_1.EventEmitter();
         this.clip_tag = Clip_Tag;
     }
     update_cliptag(clip_tag) {
@@ -255,6 +245,9 @@ let WriteNav = WriteNav_1 = class WriteNav {
             tid: tile._id
         });
     }
+    delete_clip() {
+        this.delete_clipedit.emit();
+    }
 };
 __decorate([
     core_1.Input(),
@@ -272,6 +265,10 @@ __decorate([
     core_1.Output(),
     __metadata("design:type", Object)
 ], WriteNav.prototype, "save_tilenav", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", Object)
+], WriteNav.prototype, "delete_clipedit", void 0);
 WriteNav = WriteNav_1 = __decorate([
     core_1.Component({
         selector: 'write-nav',
@@ -279,12 +276,20 @@ WriteNav = WriteNav_1 = __decorate([
     <nav>
       <ul>
         <li class="row">
-          <button class="col-sm-3 col-xs-3" (ngModel)="select_tile" (click)="delete_tile(select_tile)">
-            <i class="fa fa-times fa-2x" aria-hidden="true"></i>
+          <button class="col-sm-6 col-xs-6 delete-button" (ngModel)="select_tile" (click)="delete_clip(select_tile)">
+            <i class="fa fa-times" aria-hidden="true"></i><br>Delete Clip
           </button>
-          <select id="col-select" class="col-sm-9 col-xs-9" [(ngModel)]="select_tile.col" (click)="getPreTile(select_tile)" (change)="save_tile(select_tile)">
+          <button class="col-sm-6 col-xs-6 delete-button" (ngModel)="select_tile" (click)="delete_tile(select_tile)">
+            <i class="fa fa-times" aria-hidden="true"></i><br>Delete Tile
+          </button>
+        </li>
+        <li class="row select">
+          <select id="col-select" class="col-sm-12 col-xs-12" [(ngModel)]="select_tile.col" (click)="getPreTile(select_tile)" (change)="save_tile(select_tile)">
             <option *ngFor="let number of [1,2,3,4,5,6,7,8,9,10,11,12]">{{number}}</option>
           </select>
+          <span class="col-size-icon col-sm-3 col-xs-3">
+            <i class="fa fa-chevron-down fa-2x" aria-hidden="true"></i>
+          </span>
         </li>
         <li>
           <tag-input class="tag-input" [(ngModel)]="select_tile.tag" [theme]="'bootstrap'"
@@ -551,9 +556,9 @@ AppComponent = __decorate([
     <menu-bar [sidebar_status]="sidebar_status" (createnewclip)="create_clip()" (togglesidebar)="toggle_sidebar($event)"></menu-bar>
     <clip-view [sidebar_status]="sidebar_status" (BeEditing)="isEditing=$event"></clip-view>
     <div [style.visibility]="isEditing ? 'visible' : 'hidden'">
-      <write-nav class="write-nav" [tiles]="tiles" [select_tile]="select_tile" (save_tilenav)="save_tile($event)" (getPreTilenav)="getPreTile($event)"></write-nav>
+      <write-nav class="write-nav" [tiles]="tiles" [select_tile]="select_tile" (save_tilenav)="save_tile($event)" (getPreTilenav)="getPreTile($event)" (delete_clipedit)="delete_clip()"></write-nav>
       <article class="write-field">
-        <write-clip [tiles]="tiles" [select_tile]="select_tile" (output)="select_tile=$event" (save_tileedit)="save_tile($event)" (getPreTileedit)="getPreTile($event)" (delete_clipedit)="delete_clip()"></write-clip>
+        <write-clip [tiles]="tiles" [select_tile]="select_tile" (output)="select_tile=$event" (save_tileedit)="save_tile($event)" (getPreTileedit)="getPreTile($event)"></write-clip>
       </article>
     </div>
     <div [style.visibility]="isEditing ? 'hidden' : 'visible'" class="menu_container">

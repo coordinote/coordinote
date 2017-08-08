@@ -88,7 +88,6 @@ export class WriteClip{
   @Output() output = new EventEmitter<select_tile>()
   @Output() save_tileedit = new EventEmitter<tile>()
   @Output() getPreTileedit = new EventEmitter<tile>()
-  @Output() delete_clipedit = new EventEmitter()
   private CanvasURL: string = "http://localhost:6277/html/read/"
 
   constructor(private elementRef: ElementRef, private Renderer: Renderer, private http: Http){}
@@ -158,10 +157,6 @@ export class WriteClip{
     })
   }
 
-  delete_clip(): void {
-    this.delete_clipedit.emit()
-  }
-
   resize(textarea): void{
     let scrollHeight = this.el.querySelector("#" + textarea.id).scrollHeight
     let height = this.el.querySelector("#" + textarea.id).offsetHeight
@@ -201,10 +196,6 @@ export class WriteClip{
   getPreTile(tile): void{
     this.getPreTileedit.emit(tile)
   }
-
-  test() {
-    console.log(TILE)
-  }
 }
 
 @Component({
@@ -213,12 +204,20 @@ export class WriteClip{
     <nav>
       <ul>
         <li class="row">
-          <button class="col-sm-3 col-xs-3" (ngModel)="select_tile" (click)="delete_tile(select_tile)">
-            <i class="fa fa-times fa-2x" aria-hidden="true"></i>
+          <button class="col-sm-6 col-xs-6 delete-button" (ngModel)="select_tile" (click)="delete_clip(select_tile)">
+            <i class="fa fa-times" aria-hidden="true"></i><br>Delete Clip
           </button>
-          <select id="col-select" class="col-sm-9 col-xs-9" [(ngModel)]="select_tile.col" (click)="getPreTile(select_tile)" (change)="save_tile(select_tile)">
+          <button class="col-sm-6 col-xs-6 delete-button" (ngModel)="select_tile" (click)="delete_tile(select_tile)">
+            <i class="fa fa-times" aria-hidden="true"></i><br>Delete Tile
+          </button>
+        </li>
+        <li class="row select">
+          <select id="col-select" class="col-sm-12 col-xs-12" [(ngModel)]="select_tile.col" (click)="getPreTile(select_tile)" (change)="save_tile(select_tile)">
             <option *ngFor="let number of [1,2,3,4,5,6,7,8,9,10,11,12]">{{number}}</option>
           </select>
+          <span class="col-size-icon col-sm-3 col-xs-3">
+            <i class="fa fa-chevron-down fa-2x" aria-hidden="true"></i>
+          </span>
         </li>
         <li>
           <tag-input class="tag-input" [(ngModel)]="select_tile.tag" [theme]="'bootstrap'"
@@ -241,6 +240,7 @@ export class WriteNav{
   @Input() select_tile
   @Output() getPreTilenav = new EventEmitter<tile>()
   @Output() save_tilenav = new EventEmitter<tile>()
+  @Output() delete_clipedit = new EventEmitter()
   private clip_tag = Clip_Tag
 
   update_cliptag(clip_tag): void{
@@ -274,6 +274,10 @@ export class WriteNav{
       cid: clip_id,
       tid: tile._id
     })
+  }
+
+  delete_clip(): void {
+    this.delete_clipedit.emit()
   }
 }
 
@@ -394,9 +398,9 @@ export class MenuBar{
     <menu-bar [sidebar_status]="sidebar_status" (createnewclip)="create_clip()" (togglesidebar)="toggle_sidebar($event)"></menu-bar>
     <clip-view [sidebar_status]="sidebar_status" (BeEditing)="isEditing=$event"></clip-view>
     <div [style.visibility]="isEditing ? 'visible' : 'hidden'">
-      <write-nav class="write-nav" [tiles]="tiles" [select_tile]="select_tile" (save_tilenav)="save_tile($event)" (getPreTilenav)="getPreTile($event)"></write-nav>
+      <write-nav class="write-nav" [tiles]="tiles" [select_tile]="select_tile" (save_tilenav)="save_tile($event)" (getPreTilenav)="getPreTile($event)" (delete_clipedit)="delete_clip()"></write-nav>
       <article class="write-field">
-        <write-clip [tiles]="tiles" [select_tile]="select_tile" (output)="select_tile=$event" (save_tileedit)="save_tile($event)" (getPreTileedit)="getPreTile($event)" (delete_clipedit)="delete_clip()"></write-clip>
+        <write-clip [tiles]="tiles" [select_tile]="select_tile" (output)="select_tile=$event" (save_tileedit)="save_tile($event)" (getPreTileedit)="getPreTile($event)"></write-clip>
       </article>
     </div>
     <div [style.visibility]="isEditing ? 'hidden' : 'visible'" class="menu_container">

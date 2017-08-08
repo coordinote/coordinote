@@ -28,7 +28,7 @@ body{
   button{
     -webkit-appearance: none;
     background-color: @buttoncolor;
-    border: solid 1px @bordercolor;
+    border: solid 2px @bordercolor;
     outline: none;
 
     &:hover{
@@ -73,8 +73,16 @@ body{
 
   .menu_container{
     position: absolute;
-    top: 50%;
-    left: 50%;
+    top: 40vh;
+    left: 35vw;
+    width: 30vw;
+    height: 20vh;
+
+    button{
+      height: 45%;
+      width: 100%;
+      margin-bottom: 5%;
+    }
   }
 
   article{
@@ -139,10 +147,15 @@ body{
         height: 100%;
         list-style: none;
 
+        .select{
+          margin-bottom: 1px;
+        }
+
         li{
           width: 100%;
           min-height: 30px;
           margin: 0;
+          margin-bottom: 20px;
           padding: 0;
 
           button{
@@ -151,13 +164,18 @@ body{
             height: 50px;
           }
 
+          .delete-button{
+            font-size: 1vw;
+          }
+
           select{
             appearance: none;
             -webkit-appearance: none;
             height: 50px;
-            border: solid 1px @bordercolor;
+            border: solid 2px @bordercolor;
             background-color: #eee;
             outline: 0;
+            padding-left: 88%;
 
             option{
               background-color: #eee;
@@ -170,6 +188,12 @@ body{
             &:active{
               background-color: #ccc;
             }
+          }
+
+          .col-size-icon{
+            position: relative;
+            top: -40px;
+            pointer-events: none;
           }
 
           .tag-input{

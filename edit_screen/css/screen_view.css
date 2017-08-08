@@ -5,7 +5,7 @@ body {
 body button {
   -webkit-appearance: none;
   background-color: #eee;
-  border: solid 1px #999;
+  border: solid 2px #999;
   outline: none;
 }
 body button:hover {
@@ -46,8 +46,15 @@ body .button:focus {
 }
 body .menu_container {
   position: absolute;
-  top: 50%;
-  left: 50%;
+  top: 40vh;
+  left: 35vw;
+  width: 30vw;
+  height: 20vh;
+}
+body .menu_container button {
+  height: 45%;
+  width: 100%;
+  margin-bottom: 5%;
 }
 body article {
   display: inline-block;
@@ -105,10 +112,14 @@ body .write-nav nav ul {
   height: 100%;
   list-style: none;
 }
+body .write-nav nav ul .select {
+  margin-bottom: 1px;
+}
 body .write-nav nav ul li {
   width: 100%;
   min-height: 30px;
   margin: 0;
+  margin-bottom: 20px;
   padding: 0;
 }
 body .write-nav nav ul li button {
@@ -116,13 +127,17 @@ body .write-nav nav ul li button {
   padding: 0;
   height: 50px;
 }
+body .write-nav nav ul li .delete-button {
+  font-size: 1vw;
+}
 body .write-nav nav ul li select {
   appearance: none;
   -webkit-appearance: none;
   height: 50px;
-  border: solid 1px #999;
+  border: solid 2px #999;
   background-color: #eee;
   outline: 0;
+  padding-left: 88%;
 }
 body .write-nav nav ul li select option {
   background-color: #eee;
@@ -132,6 +147,11 @@ body .write-nav nav ul li select:hover {
 }
 body .write-nav nav ul li select:active {
   background-color: #ccc;
+}
+body .write-nav nav ul li .col-size-icon {
+  position: relative;
+  top: -40px;
+  pointer-events: none;
 }
 body .write-nav nav ul li .tag-input {
   position: relative;
