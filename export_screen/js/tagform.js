@@ -129,7 +129,7 @@ socket.on('res_clips', (rec) => {
         switch(rec[i].tile[j].sty){
           case "txt":
             let $div = $('<div></div>', {
-              class: 'col-sm-' + rec[i].tile[j].col + ' tile',
+              class: 'col-sm-' + rec[i].tile[j].col + ' col-xs-' + rec[i].title[j].col + ' tile',
               text: rec[i].tile[j].con
             })
             $('.'+i).append($div)
@@ -138,7 +138,7 @@ socket.on('res_clips', (rec) => {
             break
           case "svg":
             let $span = $('<span></span>', {
-              class: 'col-sm-' + rec[i].tile[j].col + ' iframe-wrap'
+              class: 'col-sm-' + rec[i].tile[j].col + ' col-xs-' + rec[i].tile[j].col + ' iframe-wrap'
             })
             let $iframe = $('<iframe></iframe>', {
               id: rec[i].tile[j]._id,
@@ -180,7 +180,7 @@ socket.on('res_tiles', (rec) => {
     switch(rec[i].sty){
       case "txt":
         let $div = $('<div></div>', {
-          class: 'col-sm-' + rec[i].col + ' tile',
+          class: 'col-sm-' + rec[i].col + ' col-xs-'+ rec[i].col +' tile',
           text: rec[i].con
         })
         $('.with_tile').append($div)
@@ -189,7 +189,7 @@ socket.on('res_tiles', (rec) => {
         break
       case "svg":
         let $span = $('<span></span>', {
-          class: 'col-sm-' + rec[i].col + ' iframe-wrap'
+          class: 'col-sm-' + rec[i].col + ' col-xs-'+ rec[i].col + ' iframe-wrap'
         })
         let $iframe = $('<iframe></iframe>', {
           id: rec[i]._id,
