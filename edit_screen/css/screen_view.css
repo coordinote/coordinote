@@ -77,7 +77,7 @@ body article.clip-bar.active {
   box-shadow: 3px 0px 1px rgba(0, 0, 0, 0.3);
 }
 body article.clip-bar .clip-view-content {
-  width: 100% !important;
+  width: 100%;
   padding: 0;
 }
 body article.clip-bar .clip-view-content input {
@@ -161,7 +161,7 @@ body .write-nav nav ul li .tag-input {
   height: 100%;
 }
 body .write-nav nav ul li input {
-  width: 100% !important;
+  width: 100%;
 }
 article.write-field {
   background-color: #fff;
