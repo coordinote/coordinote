@@ -26,11 +26,17 @@ p {
   border: 1px solid #999999;
 }
 
+.content {
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .form {
-  max-width: 260px;
-  position: absolute;
-  top: 120px;
-  left: 5vw;
+  display: block;
+  max-width: 244px;
+  z-index: 1;
+  margin-top: 10vw;
+  margin-left: 5vw;
 }
 
 .daterange input {
@@ -65,8 +71,14 @@ p {
 }
 
 .aleart-text {
+  display: none;
   text-align: center;
-  width: 50vw;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
 }
 .aleart-text p {
   margin-top: 30vh;
@@ -75,19 +87,18 @@ p {
 }
 
 .clip-form {
-  width: 42vw;
+  width: 650px;
   height: 90vh;
   overflow-x: hidden;
   overflow: hidden;
-  margin: 10px 0;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+  margin: 30px 0;
+  margin-left: 5.5vw;
 }
 .clip-field {
   background-color: #fff;
-  width: 40vw;
+  width: 630px;
   margin: 10px;
+  margin-bottom: 30px;
   box-shadow:0px 0px 4px rgba(136, 134, 238,0.4);
 }
 /*float clearfix of bootstrap grid system*/
@@ -99,7 +110,7 @@ p {
   content:".";
 }
 .clearfix {
-  min-height: 56.56vw;
+  min-height: 891px;
 }
 
 .tile {
