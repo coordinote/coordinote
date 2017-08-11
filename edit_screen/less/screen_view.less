@@ -7,11 +7,12 @@
 @clip-color: #333;
 @shadow-color: rgba(0, 0, 0, 0.3);
 @icon-color: #555;
-@write-field-width: 40vw;
+@write-field-width: 630px;
 @bordercolor: #999;
 @buttoncolor: #eee;
 @buttoncolor-hover: #ddd;
 @buttoncolor-active: #ccc;
+@tile-height: 130px;
 
 // mixin
 .all-transition(@time: 0.3s){ // transition for all property
@@ -24,13 +25,28 @@ body{
   background-color: @background-color;
   margin: 0px;
 
+  button{
+    -webkit-appearance: none;
+    background-color: @buttoncolor;
+    border: solid 2px @bordercolor;
+    outline: none;
+
+    &:hover{
+      background-color: @buttoncolor-hover;
+    }
+
+    &:active{
+      background-color: @buttoncolor-active;
+    }
+  }
+
   nav.menu-bar{
-    width: 100vw;
-    height: 5vh;
     position: fixed;
+    width: 100%;
+    height: 45px;
     z-index: 2000;
     background-color: @menu-color;
-    box-shadow: 0px 3px 3px @shadow-color;
+    box-shadow: 1px 1px 1px rgba(136, 134, 238, 0.4);
   }
 
   .buttons{
@@ -55,17 +71,32 @@ body{
     }
   }
 
+  .menu_container{
+    position: absolute;
+    top: 40vh;
+    left: 35vw;
+    width: 30vw;
+    height: 20vh;
+
+    button{
+      height: 45%;
+      width: 100%;
+      margin-bottom: 5%;
+    }
+  }
+
   article{
     display: inline-block;
   }
 
   article.clip-bar{
     width: 15vw;
-    height: 95vh;
+    height: 100%;
+    padding: 0;
     position: fixed;
     left: -15vw;
     z-index: 1000;
-    margin-top: 5vh;
+    margin-top: 45px;
     background-color: @clip-color;
     .all-transition();
     &.active{
@@ -73,50 +104,112 @@ body{
       box-shadow: 3px 0px 1px @shadow-color;
     }
 
-    .load-clip-tag{
-      width: 15vw;
+    .clip-view-content{
+      width: 100%;
+      padding: 0;
+
+      input{
+        width: 100% !important;
+      }
+
+      div.dp-input-container{
+        width: 100%;
+      }
+    }
+
+    .error{
+      input::-webkit-input-placeholder{
+        color: #a94442;
+      }
     }
   }
 
   .write-nav{
-    position: absolute;
-    height: 5vh;
-    left: 38vw;
-    top: 10vh;
+    position: fixed;
+    left: 20vw;
+    top: 15vh;
+    margin: 10px 0;
+    height: 100%;
+    width: 18vw;
+    z-index: 200;
 
     nav{
-      padding: 0;
-      margin: 0;
-    }
-
-    input{
-      height: 20px;
-    }
-
-    .tag-input{
       margin: 0;
       padding: 0;
-    }
+      height: 100%;
+      width: 100%;
+      float: left;
 
-    select{
-      appearance: none;
-      -webkit-appearance: none;
-      border: solid 1px @bordercolor;
-      background-color: #eee;
-      height: 5vh;
-      outline: 0;
+      ul{
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        list-style: none;
 
-      option{
-        background-color: #eee;
+        .select{
+          margin-bottom: 1px;
+        }
+
+        li{
+          width: 100%;
+          min-height: 30px;
+          margin: 0;
+          margin-bottom: 20px;
+          padding: 0;
+
+          button{
+            margin: 0;
+            padding: 0;
+            height: 50px;
+          }
+
+          .delete-button{
+            font-size: 1vw;
+          }
+
+          select{
+            appearance: none;
+            -webkit-appearance: none;
+            height: 50px;
+            border: solid 2px @bordercolor;
+            background-color: #eee;
+            outline: 0;
+            padding-left: 88%;
+
+            option{
+              background-color: #eee;
+            }
+
+            &:hover{
+              background-color: #ddd;
+            }
+
+            &:active{
+              background-color: #ccc;
+            }
+          }
+
+          .col-size-icon{
+            position: relative;
+            top: -40px;
+            pointer-events: none;
+          }
+
+          .tag-input{
+            position: relative;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+          }
+
+            input{
+              width: 100%;
+            }
+          }
+        }
       }
-    }
-
-    select:hover{
-      background-color: #ddd;
-    }
-
-    select:active{
-      background-color: #ccc;
     }
   }
 
@@ -125,8 +218,10 @@ body{
     position: absolute;
     width: @write-field-width;
     min-height: @write-field-width * 1.414;
+    margin: 10px 0;
     left: 38vw;
     top: 15vh;
+    box-shadow: 0 0 4px rgba(136, 134, 238, 0.4);
 
     .tile-contents{
       position: relative;
@@ -135,7 +230,8 @@ body{
       z-index: 10;
 
       .tile{
-        min-height: 8vw;
+        min-height: @tile-height;
+        padding: 0 15px;
         overflow: hidden;
         word-wrap: break-word;
         white-space: pre-wrap;
@@ -152,7 +248,7 @@ body{
 
       ul{
         list-style-type: none;
-        height: 10vh;
+        height: @tile-height;
         margin: 0;
         padding: 0;
 
@@ -166,25 +262,15 @@ body{
             appearance: none;
             -webkit-appearance: none;
             display: block;
-            height: 8vh;
+            height: @tile-height / 2;
             padding: 0;
             margin: 0;
             border: solid 2px @bordercolor;
-            background-color: @buttoncolor;
             color: #666;
             vertical-align: middle;
-            font-size: 2vh;
+            font-size: 18px;
             box-shadow: none;
             text-decoration: none;
-            outline: none;
-          }
-
-          .add:hover{
-            background-color: @buttoncolor-hover;
-          }
-
-          .add:active{
-            background-color: @buttoncolor-active;
           }
 
           .add-tile{
@@ -194,31 +280,31 @@ body{
       }
     }
 
-    .tile-input{
+  .tile-input{
+    padding: 0;
+    margin: 0;
+    z-index: 20;
+
+    span{
       padding: 0;
       margin: 0;
-      z-index: 20;
 
-      span{
+      label{
         padding: 0;
         margin: 0;
+      }
 
-        label{
-          padding: 0;
-          margin: 0;
-        }
+      textarea{
+        appearance: none;
+        -webkit-appearance: none;
+        position: absolute;
+        min-height: @tile-height;
+        padding: 0 15px;
+        overflow: hidden;
+        resize: none;
+        outline: 0;
 
-        textarea{
-          appearance: none;
-          -webkit-appearance: none;
-          position: absolute;
-          min-height: 8vw;
-          overflow: hidden;
-          resize: none;
-          outline: 0;
-        }
-
-        textarea:focus{
+        &:focus{
           border: solid 1px #aaa;
           outline: solid 1px #8886EE;
         }

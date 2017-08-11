@@ -17,7 +17,7 @@ const socket = io.connect('http://localhost:6277');
 class Tile {
 }
 exports.Tile = Tile;
-const undefindtag = ['undefind'];
+const undefinedtag = ['undefined'];
 const saveTileURL = 'http://localhost:6277/api/save_tile';
 let TILE = [];
 let clip_id = null;
@@ -79,7 +79,6 @@ let WriteClip = WriteClip_1 = class WriteClip {
         this.output = new core_1.EventEmitter();
         this.save_tileedit = new core_1.EventEmitter();
         this.getPreTileedit = new core_1.EventEmitter();
-        this.delete_clipedit = new core_1.EventEmitter();
         this.CanvasURL = "http://localhost:6277/html/read/";
         this.el = this.elementRef.nativeElement;
         this.renderer = this.Renderer;
@@ -142,10 +141,6 @@ let WriteClip = WriteClip_1 = class WriteClip {
             tid: tile._id
         });
     }
-    delete_clip() {
-        this.delete_clipedit.emit();
-        TILE.length = 0;
-    }
     resize(textarea) {
         let scrollHeight = this.el.querySelector("#" + textarea.id).scrollHeight;
         let height = this.el.querySelector("#" + textarea.id).offsetHeight;
@@ -182,9 +177,6 @@ let WriteClip = WriteClip_1 = class WriteClip {
     getPreTile(tile) {
         this.getPreTileedit.emit(tile);
     }
-    test() {
-        console.log(TILE);
-    }
 };
 __decorate([
     core_1.Input(),
@@ -206,10 +198,6 @@ __decorate([
     core_1.Output(),
     __metadata("design:type", Object)
 ], WriteClip.prototype, "getPreTileedit", void 0);
-__decorate([
-    core_1.Output(),
-    __metadata("design:type", Object)
-], WriteClip.prototype, "delete_clipedit", void 0);
 WriteClip = WriteClip_1 = __decorate([
     core_1.Component({
         selector: 'write-clip',
@@ -224,6 +212,7 @@ let WriteNav = WriteNav_1 = class WriteNav {
     constructor() {
         this.getPreTilenav = new core_1.EventEmitter();
         this.save_tilenav = new core_1.EventEmitter();
+        this.delete_clipedit = new core_1.EventEmitter();
         this.clip_tag = Clip_Tag;
     }
     update_cliptag(clip_tag) {
@@ -237,7 +226,7 @@ let WriteNav = WriteNav_1 = class WriteNav {
         }
         else {
             socket.emit('update_cliptag', {
-                clip_tags: undefindtag,
+                clip_tags: undefinedtag,
                 cid: clip_id
             });
         }
@@ -256,6 +245,9 @@ let WriteNav = WriteNav_1 = class WriteNav {
             tid: tile._id
         });
     }
+    delete_clip() {
+        this.delete_clipedit.emit();
+    }
 };
 __decorate([
     core_1.Input(),
@@ -273,19 +265,43 @@ __decorate([
     core_1.Output(),
     __metadata("design:type", Object)
 ], WriteNav.prototype, "save_tilenav", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", Object)
+], WriteNav.prototype, "delete_clipedit", void 0);
 WriteNav = WriteNav_1 = __decorate([
     core_1.Component({
         selector: 'write-nav',
         template: `
-    <nav class="col-sm-12">
-      <button class="col-sm-1" (ngModel)="select_tile" (click)="delete_tile(select_tile)">
-        <i class="fa fa-times" aria-hidden="true"></i>
-      </button>
-      <select id="col-select" class="col-sm-1" [(ngModel)]="select_tile.col" (click)="getPreTile(select_tile)" (change)="save_tile(select_tile)">
-        <option *ngFor="let number of [1,2,3,4,5,6,7,8,9,10,11,12]">{{number}}</option>
-      </select>
-      <tag-input class="tag-input col-sm-5" [(ngModel)]="select_tile.tag" [theme]="'bootstrap'" [placeholder]="'Enter a tile tag'" [secondaryPlaceholder]="'Enter a tile tag'" (click)="getPreTile(select_tile)" (onBlur)="save_tile(select_tile)"></tag-input>
-      <tag-input class="tag-input col-sm-5" [(ngModel)]="clip_tag" [theme]="'bootstrap'" [placeholder]="'Enter a clip tag'" [secondaryPlaceholder]="'Enter a clip tag'" (onBlur)="update_cliptag(clip_tag)"></tag-input>
+    <nav>
+      <ul>
+        <li class="row">
+          <button class="col-sm-6 col-xs-6 delete-button" (ngModel)="select_tile" (click)="delete_clip(select_tile)">
+            <i class="fa fa-times" aria-hidden="true"></i><br>Delete Clip
+          </button>
+          <button class="col-sm-6 col-xs-6 delete-button" (ngModel)="select_tile" (click)="delete_tile(select_tile)">
+            <i class="fa fa-times" aria-hidden="true"></i><br>Delete Tile
+          </button>
+        </li>
+        <li class="row select">
+          <select id="col-select" class="col-sm-12 col-xs-12" [(ngModel)]="select_tile.col" (click)="getPreTile(select_tile)" (change)="save_tile(select_tile)">
+            <option *ngFor="let number of [1,2,3,4,5,6,7,8,9,10,11,12]">{{number}}</option>
+          </select>
+          <span class="col-size-icon col-sm-3 col-xs-3">
+            <i class="fa fa-chevron-down fa-2x" aria-hidden="true"></i>
+          </span>
+        </li>
+        <li>
+          <tag-input class="tag-input" [(ngModel)]="select_tile.tag" [theme]="'bootstrap'"
+          [placeholder]="'Enter a tile tag'" [secondaryPlaceholder]="'Enter a tile tag'"
+          (click)="getPreTile(select_tile)" (onBlur)="save_tile(select_tile)"></tag-input>
+        </li>
+        <li>
+          <tag-input class="tag-input" [(ngModel)]="clip_tag"
+          [theme]="'bootstrap'" [placeholder]="'Enter a clip tag'" [secondaryPlaceholder]="'Enter a clip tag'"
+          (onBlur)="update_cliptag(clip_tag)"></tag-input>
+        </li>
+      </ul>
     </nav>
   `,
         directives: WriteNav_1
@@ -297,6 +313,9 @@ let ClipView = ClipView_1 = class ClipView {
         this.clips = CLIP;
         this.find_tag = FindTag;
         this.date = DATE;
+        this.tagsinput_placeholder = "Enter a search tag";
+        this.error = false;
+        this.BeEditing = new core_1.EventEmitter();
         this.datePickerConfig = {
             format: "MM/DD/YYYY"
         };
@@ -310,6 +329,10 @@ let ClipView = ClipView_1 = class ClipView {
     cliptagsubstitute(find_tag) {
         FindTag = tagsubstitute(find_tag);
     }
+    errorCancel(event) {
+        this.tagsinput_placeholder = "Enter a search tag";
+        this.error = false;
+    }
     search() {
         CLIP.length = 0;
         if (FindTag.length > 0) {
@@ -320,20 +343,27 @@ let ClipView = ClipView_1 = class ClipView {
             });
         }
         else {
-            socket.emit('send_clipsearchdata', {
-                cliptags: undefindtag,
-                startdate: Date.parse(moment(DATE.start._d).format('MM/DD/YYYY')),
-                enddate: Date.parse(moment(DATE.end._d).format('MM/DD/YYYY'))
-            });
+            this.tagsinput_placeholder = "please input";
+            this.error = true;
         }
     }
     load_tile(clip) {
+        this.BeEditing.emit(true);
         initTile(clip, () => {
             Array.prototype.push.apply(TILE, clip.tile);
+            Array.prototype.push.apply(Clip_Tag, clip.tag);
             clip_id = clip._id;
         });
     }
 };
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Boolean)
+], ClipView.prototype, "sidebar_status", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", Object)
+], ClipView.prototype, "BeEditing", void 0);
 __decorate([
     core_1.ViewChild('dayPicker'),
     __metadata("design:type", Object)
@@ -343,10 +373,10 @@ ClipView = ClipView_1 = __decorate([
         selector: 'clip-view',
         template: `
     <!-- サイドバー(クリップ) -->
-    <article class="clip-bar col-sm-12">
-      <tag-input class="load-clip-tag col-sm-12" [(ngModel)]="find_tag" [theme]="'bootstrap'" (onBlur)="cliptagsubstitute(find_tag)"></tag-input>
-      <dp-date-picker [(ngModel)]="date.start" [config]="datePickerConfig"></dp-date-picker>
-      <dp-date-picker [(ngModel)]="date.end" [config]="datePickerConfig"></dp-date-picker>
+    <article [ngClass]="sidebar_status ? 'active' : ''" class="clip-bar">
+      <tag-input class="clip-view-content" [ngClass]="error ? 'error':''" [(ngModel)]="find_tag" [theme]="'bootstrap'" [placeholder]="tagsinput_placeholder" [secondaryPlaceholder]="tagsinput_placeholder" (change)="errorCancel($event)" (onBlur)="cliptagsubstitute(find_tag)"></tag-input>
+      <dp-date-picker [(ngModel)]="date.start" theme="dp-material clip-view-content" [config]="datePickerConfig"></dp-date-picker>
+      <dp-date-picker [(ngModel)]="date.end" theme="dp-material clip-view-content" [config]="datePickerConfig"></dp-date-picker>
       <button (click)="search()">search</button>
       <div *ngFor="let clip of clips">
         <button (click)="load_tile(clip)">{{clip._id}}</button>
@@ -357,11 +387,62 @@ ClipView = ClipView_1 = __decorate([
     })
 ], ClipView);
 exports.ClipView = ClipView;
+let MenuBar = MenuBar_1 = class MenuBar {
+    constructor() {
+        this.togglesidebar = new core_1.EventEmitter();
+        this.createnewclip = new core_1.EventEmitter();
+    }
+    createNewClip() {
+        this.createnewclip.emit();
+    }
+    toggle_sidebar() {
+        this.sidebar_status = !this.sidebar_status;
+        this.togglesidebar.emit(this.sidebar_status);
+    }
+    toExport() {
+        ipcRenderer.send(PATH_DATA.event, PATH_DATA.export_path);
+    }
+};
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Boolean)
+], MenuBar.prototype, "sidebar_status", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", Object)
+], MenuBar.prototype, "togglesidebar", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", Object)
+], MenuBar.prototype, "createnewclip", void 0);
+MenuBar = MenuBar_1 = __decorate([
+    core_1.Component({
+        selector: 'menu-bar',
+        template: `
+    <!-- ナビゲーションバー(メニュー) -->
+    <nav class="menu-bar">
+      <article class="buttons">
+        <button class="button" id="sidebar_toggle" (click)="toggle_sidebar()"><i class="fa fa-bars fa-2x"></i></button>
+
+        <button class="button" id="create_button" title="Create Note" (click)="createNewClip()"><i class="fa fa-file-text-o fa-2x"></i></button>
+        <button class="button" id="export_button" title="Export" (click)="toExport()"><i class="fa fa-file-pdf-o fa-2x"></i></button>
+        <button class="button" id="setting_button" title="Settings"><i class="fa fa-cogs fa-2x"></i></button>
+        <button class="button" title="Tools"><i class="fa fa-wrench fa-2x"></i></button>
+        <button class="button" id="debug_button" title="Debug"><i class="fa fa-bug fa-2x"></i></button>
+
+      </article>
+    </nav>`,
+        directives: MenuBar_1
+    })
+], MenuBar);
+exports.MenuBar = MenuBar;
 let AppComponent = class AppComponent {
     constructor(http) {
         this.http = http;
         this.tiles = TILE;
         this.select_tile = Select_Tile;
+        this.isEditing = false;
+        this.sidebar_status = false;
     }
     save_tile(tile) {
         //tileの新規保存
@@ -385,7 +466,7 @@ let AppComponent = class AppComponent {
                     cid: clip_id,
                     idx: tile.idx,
                     col: tile.col,
-                    tag: ['なし'],
+                    tag: undefinedtag,
                     sty: tile.sty,
                     con: tile.con
                 })
@@ -418,7 +499,7 @@ let AppComponent = class AppComponent {
                         }
                         else {
                             socket.emit('update_tiletag', {
-                                tag: undefindtag,
+                                tag: undefinedtag,
                                 cid: clip_id,
                                 tid: tile._id
                             });
@@ -454,26 +535,39 @@ let AppComponent = class AppComponent {
             _id: tile._id
         };
     }
-    ngAfterViewInit() {
-        socket.emit('save_clip', undefindtag);
-    }
     delete_clip() {
         //データベースのclip削除処理
+        TILE.length = 0;
         socket.emit('delete_clip', clip_id);
+        this.isEditing = false;
+    }
+    create_clip() {
+        this.isEditing = true;
+        socket.emit('save_clip', undefinedtag);
+    }
+    toggle_sidebar(stat) {
+        this.sidebar_status = stat;
     }
 };
 AppComponent = __decorate([
     core_1.Component({
         selector: 'write-view',
         template: `
-    <clip-view></clip-view>
-    <write-nav class="write-nav" [tiles]="tiles" [select_tile]="select_tile" (save_tilenav)="save_tile($event)" (getPreTilenav)="getPreTile($event)"></write-nav>
-    <article class="write-field">
-      <write-clip [tiles]="tiles" [select_tile]="select_tile" (output)="select_tile=$event" (save_tileedit)="save_tile($event)" (getPreTileedit)="getPreTile($event)" (delete_clipedit)="delete_clip()"></write-clip>
-    </article>
+    <menu-bar [sidebar_status]="sidebar_status" (createnewclip)="create_clip()" (togglesidebar)="toggle_sidebar($event)"></menu-bar>
+    <clip-view [sidebar_status]="sidebar_status" (BeEditing)="isEditing=$event"></clip-view>
+    <div [style.visibility]="isEditing ? 'visible' : 'hidden'">
+      <write-nav class="write-nav" [tiles]="tiles" [select_tile]="select_tile" (save_tilenav)="save_tile($event)" (getPreTilenav)="getPreTile($event)" (delete_clipedit)="delete_clip()"></write-nav>
+      <article class="write-field">
+        <write-clip [tiles]="tiles" [select_tile]="select_tile" (output)="select_tile=$event" (save_tileedit)="save_tile($event)" (getPreTileedit)="getPreTile($event)"></write-clip>
+      </article>
+    </div>
+    <div [style.visibility]="isEditing ? 'hidden' : 'visible'" class="menu_container">
+      <button (click)="create_clip()">create clip</button>
+      <button (click)="toggle_sidebar(true)">load clip</button>
+    <div>
     `,
-        directives: [WriteClip, WriteNav, ClipView],
-        inputs: ['tiles', 'select_tile']
+        directives: [WriteClip, WriteNav, ClipView, MenuBar],
+        inputs: ['tiles', 'select_tile', 'sidebar_status']
     }),
     __metadata("design:paramtypes", [http_1.Http])
 ], AppComponent);
@@ -506,6 +600,7 @@ let tagsubstitute = (tag) => {
 };
 let initTile = (clip, callback) => {
     TILE.length = 0;
+    Clip_Tag.length = 0;
     for (let i = 0; i < clip.tile.length; i++) {
         clip.tile[i].saved = true;
         clip.tile[i].edited = false;
@@ -516,5 +611,5 @@ let initClip = (callback) => {
     CLIP.length = 0;
     callback();
 };
-var WriteClip_1, WriteNav_1, ClipView_1;
+var WriteClip_1, WriteNav_1, ClipView_1, MenuBar_1;
 //# sourceMappingURL=app.component.js.map

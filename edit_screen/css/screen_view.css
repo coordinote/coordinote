@@ -2,13 +2,25 @@ body {
   background-color: #eee;
   margin: 0px;
 }
+body button {
+  -webkit-appearance: none;
+  background-color: #eee;
+  border: solid 2px #999;
+  outline: none;
+}
+body button:hover {
+  background-color: #ddd;
+}
+body button:active {
+  background-color: #ccc;
+}
 body nav.menu-bar {
-  width: 100vw;
-  height: 5vh;
   position: fixed;
+  width: 100%;
+  height: 45px;
   z-index: 2000;
   background-color: #fff;
-  box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.3);
+  box-shadow: 1px 1px 1px rgba(136, 134, 238, 0.4);
 }
 body .buttons {
   height: 100%;
@@ -32,16 +44,29 @@ body .button:active {
 body .button:focus {
   outline: none;
 }
+body .menu_container {
+  position: absolute;
+  top: 40vh;
+  left: 35vw;
+  width: 30vw;
+  height: 20vh;
+}
+body .menu_container button {
+  height: 45%;
+  width: 100%;
+  margin-bottom: 5%;
+}
 body article {
   display: inline-block;
 }
 body article.clip-bar {
   width: 15vw;
-  height: 95vh;
+  height: 100%;
+  padding: 0;
   position: fixed;
   left: -15vw;
   z-index: 1000;
-  margin-top: 5vh;
+  margin-top: 45px;
   background-color: #333;
   transition-property: all;
   transition-timing-function: ease-in;
@@ -51,131 +76,177 @@ body article.clip-bar.active {
   left: 0vw;
   box-shadow: 3px 0px 1px rgba(0, 0, 0, 0.3);
 }
-body article.clip-bar .load-clip-tag {
-  width: 15vw;
+body article.clip-bar .clip-view-content {
+  width: 100%;
+  padding: 0;
+}
+body article.clip-bar .clip-view-content input {
+  width: 100% !important;
+}
+body article.clip-bar .clip-view-content div.dp-input-container {
+  width: 100%;
+}
+body article.clip-bar .error input::-webkit-input-placeholder {
+  color: #a94442;
 }
 body .write-nav {
-  position: absolute;
-  height: 5vh;
-  left: 38vw;
-  top: 10vh;
+  position: fixed;
+  left: 20vw;
+  top: 15vh;
+  margin: 10px 0;
+  height: 100%;
+  width: 18vw;
+  z-index: 200;
 }
 body .write-nav nav {
-  padding: 0;
-  margin: 0;
-}
-body .write-nav input {
-  height: 20px;
-}
-body .write-nav .tag-input {
   margin: 0;
   padding: 0;
+  height: 100%;
+  width: 100%;
+  float: left;
 }
-body .write-nav select {
+body .write-nav nav ul {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  list-style: none;
+}
+body .write-nav nav ul .select {
+  margin-bottom: 1px;
+}
+body .write-nav nav ul li {
+  width: 100%;
+  min-height: 30px;
+  margin: 0;
+  margin-bottom: 20px;
+  padding: 0;
+}
+body .write-nav nav ul li button {
+  margin: 0;
+  padding: 0;
+  height: 50px;
+}
+body .write-nav nav ul li .delete-button {
+  font-size: 1vw;
+}
+body .write-nav nav ul li select {
   appearance: none;
   -webkit-appearance: none;
-  border: solid 1px #999;
+  height: 50px;
+  border: solid 2px #999;
   background-color: #eee;
-  height: 5vh;
   outline: 0;
+  padding-left: 88%;
 }
-body .write-nav select option {
+body .write-nav nav ul li select option {
   background-color: #eee;
 }
-body .write-nav select:hover {
+body .write-nav nav ul li select:hover {
   background-color: #ddd;
 }
-body .write-nav select:active {
+body .write-nav nav ul li select:active {
   background-color: #ccc;
 }
-body article.write-field {
+body .write-nav nav ul li .col-size-icon {
+  position: relative;
+  top: -40px;
+  pointer-events: none;
+}
+body .write-nav nav ul li .tag-input {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+body .write-nav nav ul li input {
+  width: 100%;
+}
+article.write-field {
   background-color: #fff;
   position: absolute;
-  width: 40vw;
-  min-height: 56.56vw;
+  width: 630px;
+  min-height: 890.82px;
+  margin: 10px 0;
   left: 38vw;
   top: 15vh;
+  box-shadow: 0 0 4px rgba(136, 134, 238, 0.4);
 }
-body article.write-field .tile-contents {
+article.write-field .tile-contents {
   position: relative;
   padding: 0;
   margin: 0;
   z-index: 10;
 }
-body article.write-field .tile-contents .tile {
-  min-height: 8vw;
+article.write-field .tile-contents .tile {
+  min-height: 130px;
+  padding: 0 15px;
   overflow: hidden;
   word-wrap: break-word;
   white-space: pre-wrap;
   user-select: none;
   cursor: pointer;
 }
-body article.write-field .tile-contents img {
+article.write-field .tile-contents img {
   position: absolute;
   width: 100%;
   height: 100%;
   border-style: none;
 }
-body article.write-field .tile-contents ul {
+article.write-field .tile-contents ul {
   list-style-type: none;
-  height: 10vh;
+  height: 130px;
   margin: 0;
   padding: 0;
 }
-body article.write-field .tile-contents ul li {
+article.write-field .tile-contents ul li {
   display: inline;
   margin: 0;
   padding: 0;
   float: left;
 }
-body article.write-field .tile-contents ul li .add {
+article.write-field .tile-contents ul li .add {
   appearance: none;
   -webkit-appearance: none;
   display: block;
-  height: 8vh;
+  height: 65px;
   padding: 0;
   margin: 0;
   border: solid 2px #999;
-  background-color: #eee;
   color: #666;
   vertical-align: middle;
-  font-size: 2vh;
+  font-size: 18px;
   box-shadow: none;
   text-decoration: none;
-  outline: none;
 }
-body article.write-field .tile-contents ul li .add:hover {
-  background-color: #ddd;
-}
-body article.write-field .tile-contents ul li .add:active {
-  background-color: #ccc;
-}
-body article.write-field .tile-contents ul li .add-tile {
+article.write-field .tile-contents ul li .add-tile {
   border-bottom-width: 0;
 }
-body article.write-field .tile-input {
+article.write-field .tile-input {
   padding: 0;
   margin: 0;
   z-index: 20;
 }
-body article.write-field .tile-input span {
+article.write-field .tile-input span {
   padding: 0;
   margin: 0;
 }
-body article.write-field .tile-input span label {
+article.write-field .tile-input span label {
   padding: 0;
   margin: 0;
 }
-body article.write-field .tile-input span textarea {
+article.write-field .tile-input span textarea {
   appearance: none;
   -webkit-appearance: none;
   position: absolute;
-  min-height: 8vw;
+  min-height: 130px;
+  padding: 0 15px;
   overflow: hidden;
   resize: none;
   outline: 0;
 }
-body article.write-field .tile-input span textarea:focus {
+article.write-field .tile-input span textarea:focus {
   border: solid 1px #aaa;
   outline: solid 1px #8886EE;
 }
