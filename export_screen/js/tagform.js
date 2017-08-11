@@ -129,7 +129,7 @@ socket.on('res_clips', (rec) => {
         switch(rec[i].tile[j].sty){
           case "txt":
             let $div = $('<div></div>', {
-              class: 'col-sm-' + rec[i].tile[j].col + ' col-xs-' + rec[i].title[j].col + ' tile',
+              class: 'col-sm-' + rec[i].tile[j].col + ' col-xs-' + rec[i].tile[j].col + ' tile',
               text: rec[i].tile[j].con
             })
             $('.'+i).append($div)
