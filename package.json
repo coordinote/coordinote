@@ -1,6 +1,6 @@
 {
   "name": "coordinote",
-  "version": "0.9.1-beta",
+  "version": "0.9.2-beta",
   "description": "",
   "main": "main.js",
   "repository": {
@@ -15,8 +15,7 @@
     "package": "electron-packager . --out ./dist/ --overwrite",
     "package:win": "electron-packager . --out ./dist --platform=win32 --icon=./resource/icon/icon.ico --overwrite",
     "package:mac": "electron-packager . --out ./dist --platform=darwin --icon=./resource/icon/icon.icns --overwrite",
-    "package:linux": "electron-packager . --out ./dist --platform=linux --overwrite",
-    "package:all": "electron-packager . --out ./dist --platform=linux,darwin,win32 --overwrite"
+    "package:linux": "electron-packager . --out ./dist --platform=linux --overwrite"
   },
   "keywords": [],
   "author": "",
